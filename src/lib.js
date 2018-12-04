@@ -5,6 +5,7 @@ const {
 const getLinesToShow = function(processArgv) {
   let linesToshow = 10;
   
+
   //need to use switch case insted of if's
   if(processArgv[2][0] === "-"){
     if(processArgv[2][1] === "n"){
@@ -28,10 +29,17 @@ const trimContent = function(content, trimUpto){
   return content.slice(0, trimUpto);
 };
 
+const headFile = function(filename, reader) {
+  let totalContent = readFile(filename, reader);
+  return trimContent(totalContent, 10).join("\n");
+};
+
+/* ------ EXPORTS ------ */
 
 module.exports = {
   getLinesToShow,
-  trimContent
+  trimContent,
+  headFile
 };
 
 
