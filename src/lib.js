@@ -24,11 +24,15 @@ const getLinesToShow = function(processArgv) {
   return linesToshow; 
 };
 
+const trimContent = function(content, trimUpto){
+  return content.slice(0, trimUpto);
+};
 
 
 module.exports = {
-  getLinesToShow
-}
+  getLinesToShow,
+  trimContent
+};
 
 
 
