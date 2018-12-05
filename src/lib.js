@@ -1,5 +1,10 @@
 /*eslint-env node*/
+
 const { flat } = require("./protoLib.js");
+
+const generateHeader = function(filename) {
+  return "==> " + filename + " <==" + "\n"; 
+}
 
 const readFile = function(source, reader) {
   let filename = source;
@@ -36,19 +41,21 @@ const sliceElements = function(content, noOfElements) {
 
 const readLinesFromTop = function(filename, reader, noOfLines) {
   let totalContent = readFile(filename, reader);
-  return sliceElements(totalContent, noOfLines);
+  return sliceElements(totalContent, noOfLines).join("\n");
 };
 
 const head = function(userInput, reader) {
   let result = [];
   let { linesToShow, startingIndex } = extractCountAndStartingIndex(userInput);
+  let fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
+    if (fileCount > 1 ) { result.push(generateHeader(userInput[index])) }
     result.push(readLinesFromTop(userInput[index], reader, linesToShow));
     result.push("\n");
   }
 
-  return result.flat().slice(0, -1).join("\n");
+  return result.flat().slice(0, -1).join("");
 };
 
 
