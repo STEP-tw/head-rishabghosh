@@ -5,42 +5,41 @@ const readFile = function(filename, reader) {
   return contentOfFile;
 };
 
-const getLinesToShow = function(processArgv) {
-  let linesToshow = 10;
-
+const getLineCountRequired = function(userInput) {
+  let linesToShow = 10;       //default line count
 
   //need to use switch case insted of if's
-  if (processArgv[2][0] === "-") {
-    if (processArgv[2][1] === "n") {
+  if (userInput[2][0] === "-") {
+    if (userInput[2][1] === "n") {
 
-      if (processArgv[2].length === 3) {
-        linesToshow = processArgv[2][2];
+      if (userInput[2].length === 3) {
+        linesToShow = userInput[2][2];
       }
 
-      if (processArgv[2].length === 2) {
-        linesToshow = processArgv[3];
+      if (userInput[2].length === 2) {
+        linesToShow = userInput[3];
       }
     } else {
-      linesToshow = processArgv[2][1];
+      linesToShow = userInput[2][1];
     }
   }
 
-  return linesToshow;
+  return linesToShow;
 };
 
-const trimContent = function(content, trimUpto) {
-  return content.slice(0, trimUpto);
+const sliceElements = function(content, noOfElements) {
+  return content.slice(0, noOfElements);
 };
 
 const headFile = function(filename, reader) {
   let totalContent = readFile(filename, reader);
-  return trimContent(totalContent, 10).join("\n");
+  return sliceElements(totalContent, 10).join("\n");
 };
 
 /* ------ EXPORTS ------ */
 
 module.exports = {
-  getLinesToShow,
-  trimContent,
+  getLineCountRequired,
+  sliceElements,
   headFile
 };
