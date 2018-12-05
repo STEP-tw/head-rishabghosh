@@ -2,12 +2,12 @@
 
 const reader = require("fs").readFileSync;
 
-const { headFile } = require("./src/lib.js");
+const { headFile, head } = require("./src/lib.js");
 
-const main = function(filename) {
-  return headFile(filename, reader);
+const main = function(userInput) {
+  return head(userInput, reader);
 };
 
-console.log(main(process.argv[2]));
+console.log(main(process.argv));
 
 exports.main = main;

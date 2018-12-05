@@ -11,7 +11,10 @@ if userInput[2][0] is "-"
 then combinations are below 
 if not then userInput[2] is filename
 
-if(userInput[2][3] !== "-"){ file = userInput[2]}
+if(userInput[2][3] !== "-"){ 
+  run files by loop
+  and exit process after loop ends
+  
 
 
 userInput[2].length === 2
