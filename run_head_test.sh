@@ -60,6 +60,3 @@ node head.js -c 5 $input_file $input_file > .myHead
 echo "for format -> node head.js -c 5 file1 file2"
 node compareFiles.js
 
-
-rm .myHead
-rm .sysHead
