@@ -1,6 +1,7 @@
 /*eslint-env node*/
 
-const readFile = function(filename, reader) {
+const readFile = function(source, reader) {
+  let filename = source;
   let contentOfFile = reader(filename, "utf8").split("\n");
   return contentOfFile;
 };
@@ -39,6 +40,7 @@ const headFile = function(filename, reader) {
 /* ------ EXPORTS ------ */
 
 module.exports = {
+  readFile,
   getLineCountRequired,
   sliceElements,
   headFile

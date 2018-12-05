@@ -3,9 +3,37 @@
 const assert = require("assert");
 
 const {
+  readFile,
   getLineCountRequired,
   sliceElements
 } = require("../src/lib.js");
+
+const dummyReader = (content)=>content; 
+
+describe('readFile', function(){
+   
+  describe('for given a source and a reader', function() {
+    it('should return content/s of source in array splited by "\n" ', function() {
+      
+      let input = "abcdefgh\n";
+      input += "ijklmnop\n";
+      input += "qrstuvwxyz";
+      
+      let expectedOutput = [ "abcdefgh", "ijklmnop", "qrstuvwxyz" ];
+      assert.deepEqual(readFile(input, dummyReader), expectedOutput);
+    });
+  });
+
+});
+
+
+
+
+
+
+
+
+
 
 describe("getLineCountRequired", function() {
 
