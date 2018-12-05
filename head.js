@@ -8,7 +8,6 @@ const main = function(filename) {
   return headFile(filename, reader);
 };
 
-console.log( main(process.argv[2]) );
+console.log(main(process.argv[2]));
 
 exports.main = main;
-
