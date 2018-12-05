@@ -1,6 +1,8 @@
-const reader = require('fs').readFileSync;
+/*eslint-env node*/
 
-const { headFile } = require('./src/lib.js');
+const reader = require("fs").readFileSync;
+
+const { headFile } = require("./src/lib.js");
 
 const main = function(filename) {
   return headFile(filename, reader);

@@ -1,3 +1,5 @@
+/*eslint-env node*/
+
 const readFile = function(filename, reader) {
   let contentOfFile = reader(filename, "utf8").split("\n");
   return contentOfFile;
