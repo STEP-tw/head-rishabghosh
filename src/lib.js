@@ -8,22 +8,26 @@ const readFile = function(source, reader) {
 };
 
 const extractCountAndStartingIndex = function(userInput) {
-  let linesToShow = 10;       //default line count
+  let linesToShow = 10; //default line count
   let startingIndex = 0;
 
   if (userInput[2][0] !== "-") {
     startingIndex = 2;
-    return {linesToShow, startingIndex};
+    return { linesToShow, startingIndex };
   }
 
   switch (userInput[2].length) {
-  case 2: if(userInput[2][1] === "n") { linesToShow = userInput[3]; startingIndex = 4; }
+  case 2:
+    if (userInput[2][1] === "n") { linesToShow = userInput[3];
+      startingIndex = 4; }
     break;
-  case 3: if(userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); startingIndex=3; }
+  case 3:
+    if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2);
+      startingIndex = 3; }
     break;
   }
 
-  return {linesToShow, startingIndex};
+  return { linesToShow, startingIndex };
 };
 
 const sliceElements = function(content, noOfElements) {
@@ -37,9 +41,9 @@ const readLinesFromTop = function(filename, reader, noOfLines) {
 
 const head = function(userInput, reader) {
   let result = [];
-  let { linesToShow, startingIndex } = extractCountAndStartingIndex(userInput); 
+  let { linesToShow, startingIndex } = extractCountAndStartingIndex(userInput);
 
-  for(let index = startingIndex; index < userInput.length; index ++) {
+  for (let index = startingIndex; index < userInput.length; index++) {
     result.push(readLinesFromTop(userInput[index], reader, linesToShow));
     result.push("\n");
   }

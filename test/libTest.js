@@ -10,18 +10,18 @@ const {
   head
 } = require("../src/lib.js");
 
-const dummyReader = (content)=>content; 
+const dummyReader = (content) => content;
 
-describe("readFile", function(){
-   
+describe("readFile", function() {
+
   describe("for given a source and a reader", function() {
     it("should return content/s of source in array splited by \"\n\" ", function() {
-      
+
       let input = "abcdefgh\n";
       input += "ijklmnop\n";
       input += "qrstuvwxyz";
-      
-      let expectedOutput = [ "abcdefgh", "ijklmnop", "qrstuvwxyz" ];
+
+      let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
       assert.deepEqual(readFile(input, dummyReader), expectedOutput);
     });
   });
@@ -98,7 +98,7 @@ describe("sliceElements", function() {
 describe("readLinesFromTop", function() {
 
   let fileContents = "";
-  fileContents += "This is line 1\n"; 
+  fileContents += "This is line 1\n";
   fileContents += "This is line 2\n";
   fileContents += "This is line 3\n";
   fileContents += "This is line 4\n";
