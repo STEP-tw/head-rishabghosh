@@ -40,6 +40,7 @@ describe("getLineCountRequired", function() {
       let input = ["n", "h.js", "-n5", "file1"];
       assert.equal(getLineCountRequired(input), 5);
     });
+
   });
 
   describe("for input [,, \"-n4\", \"file1\"]", function() {
