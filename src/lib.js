@@ -1,6 +1,7 @@
-const {
-  readFile
-} = require('./util.js');
+const readFile = function(filename, reader) {
+  let contentOfFile = reader(filename, "utf8").split("\n");
+  return contentOfFile;
+};
 
 const getLinesToShow = function(processArgv) {
   let linesToshow = 10;

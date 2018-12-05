@@ -1,0 +1,19 @@
+refactor old code
+
+ -change names
+    getLinesToShow
+    case sensitive - linesToshow
+    trimContent
+
+
+
+apply logics 
+
+ -n5 file1
+
+ program should differtiate between 
+  -> n head.js file1
+  -> n head.js -n5 file1
+
+
+
