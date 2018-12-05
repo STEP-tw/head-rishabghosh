@@ -4,7 +4,7 @@ const { flat } = require("./protoLib.js");
 
 const generateHeader = function(filename) {
   return "==> " + filename + " <==" + "\n"; 
-}
+};
 
 const readFile = function(source, reader) {
   let filename = source;
@@ -50,9 +50,9 @@ const head = function(userInput, reader) {
   let fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
-    if (fileCount > 1 ) { result.push(generateHeader(userInput[index])) }
+    if (fileCount > 1 ) { result.push(generateHeader(userInput[index])); }
     result.push(readLinesFromTop(userInput[index], reader, linesToShow));
-    result.push("\n");
+    result.push("\n\n");
   }
 
   return result.flat().slice(0, -1).join("");

@@ -128,7 +128,7 @@ describe("readLinesFromTop", function() {
     expectedOutput += "This is line 9\n";
     expectedOutput += "This is line 10";
 
-      assert.deepEqual(readLinesFromTop(fileContents, dummyReader, 10), expectedOutput);
+    assert.deepEqual(readLinesFromTop(fileContents, dummyReader, 10), expectedOutput);
   });
 
 });
