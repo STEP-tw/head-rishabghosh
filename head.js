@@ -2,7 +2,7 @@
 
 const reader = require("fs").readFileSync;
 
-const { headFile, head } = require("./src/lib.js");
+const { head } = require("./src/lib.js");
 
 const main = function(userInput) {
   return head(userInput, reader);

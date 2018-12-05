@@ -30,15 +30,6 @@ const sliceElements = function(content, noOfElements) {
   return content.slice(0, noOfElements);
 };
 
-const headFile = function(filename, reader) {
-  let totalContent = readFile(filename, reader);
-  return sliceElements(totalContent, 10).join("\n");
-};
-
-/*
- * modifing copy of headFile function
- */
-
 const readLinesFromTop = function(filename, reader, noOfLines) {
   let totalContent = readFile(filename, reader);
   return sliceElements(totalContent, noOfLines);
@@ -64,7 +55,6 @@ module.exports = {
   readFile,
   extractCountAndStartingIndex,
   sliceElements,
-  headFile,
   readLinesFromTop,
   head
 };
