@@ -6,26 +6,23 @@ const readFile = function(source, reader) {
   return contentOfFile;
 };
 
-const getLineCountRequired = function(userInput) {
+const extractCountAndStartingIndex = function(userInput) {
   let linesToShow = 10;       //default line count
+  let startingIndex = 0;
 
-  //need to use switch case insted of if's
-  if (userInput[2][0] === "-") {
-    if (userInput[2][1] === "n") {
-
-      if (userInput[2].length === 3) {
-        linesToShow = userInput[2][2];
-      }
-
-      if (userInput[2].length === 2) {
-        linesToShow = userInput[3];
-      }
-    } else {
-      linesToShow = userInput[2][1];
-    }
+  if (userInput[2][0] !== "-") {
+    startingIndex = 2;
+    return {linesToShow, startingIndex};
   }
 
-  return linesToShow;
+  switch (userInput[2].length) {
+  case 2: if(userInput[2][1] === "n") { linesToShow = userInput[3]; startingIndex = 4; }
+    break;
+  case 3: if(userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); startingIndex=3; }
+    break;
+  }
+
+  return {linesToShow, startingIndex};
 };
 
 const sliceElements = function(content, noOfElements) {
@@ -37,11 +34,25 @@ const headFile = function(filename, reader) {
   return sliceElements(totalContent, 10).join("\n");
 };
 
+/*
+ * modifing copy of headFile function
+ */
+
+const readLinesFromTop = function(filename, reader, noOfLines) {
+  let totalContent = readFile(filename, reader);
+  return sliceElements(totalContent, noOfLines);
+};
+
+
+
+
+
 /* ------ EXPORTS ------ */
 
 module.exports = {
   readFile,
-  getLineCountRequired,
+  extractCountAndStartingIndex,
   sliceElements,
-  headFile
+  headFile,
+  readLinesFromTop
 };
