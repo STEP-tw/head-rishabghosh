@@ -13,7 +13,7 @@ const generateHeader = function(filename) {
 };
 
 const ifLines = function(userInput) {
-  return (userInput[2][1] === "n" || userInput[2][0] !== "-" || !isNaN(userInput[2])); 
+  return (userInput[2][1] === "n" || userInput[2][0] !== "-" || !isNaN(userInput[2]) || userInput[2] === "--"); 
 };
  
 const ifBytes = function(userInput) {
@@ -54,10 +54,11 @@ const readCharFromTop = function(filename, reader, noOfChar) {
   return sliceElements(totalContent, noOfChar);
 };
 
+
 const exitOnError = function(userInput){
   let option = userInput[2];
   if (option[0] === "-" ) {
-    if (option[1] !== "n" && option[1] !== "c" && isNaN(option) ){
+    if (!ifLines(userInput) && !ifBytes(userInput)) {
       console.error(errorMessage + option[1]);
       console.error(usageMessage);
       process.exit();
