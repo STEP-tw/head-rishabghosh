@@ -105,6 +105,31 @@ node head.js -c0 $input_file > .myHead
 echo "for format -> node head.js -c0 file1 (illegal option)"
 node compareFiles.js
 
+head -c 0 $input_file 2> .sysHead
+node head.js -c 0 $input_file > .myHead
+echo "for format -> node head.js -c 0 file1 (illegal option)"
+node compareFiles.js
+
+head -n0 $input_file 2> .sysHead
+node head.js -n0 $input_file > .myHead
+echo "for format -> node head.js -n0 file1 (illegal option)"
+node compareFiles.js
+
+head -n 0 $input_file 2> .sysHead
+node head.js -n 0 $input_file > .myHead
+echo "for format -> node head.js -n 0 file1 (illegal option)"
+node compareFiles.js
+
+head -n 2.5 $input_file 2> .sysHead
+node head.js -n 2.5 $input_file > .myHead
+echo "for format -> node head.js -n 2.5 file1 (illegal option)"
+node compareFiles.js
+
+head -c 2.5 $input_file 2> .sysHead
+node head.js -c 2.5 $input_file > .myHead
+echo "for format -> node head.js -c 2.5 file1 (illegal option)"
+node compareFiles.js
+
 
 #head -- 5 $input_file 2> .sysHead 1>> .sysHead
 #node head.js -- 5 $input_file > .myHead
