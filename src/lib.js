@@ -94,7 +94,6 @@ const extractCountAndStartingIndex = function(userInput) {
 const ifErrorOccurs = function(userInput) {
   let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
-  //console.log("lineToShow", linesToShow, "charToShow", charToShow);
   if (userInput[2][0] === "-" ) {
 
     if (!ifLines(userInput) && !ifBytes(userInput)) {
@@ -103,16 +102,18 @@ const ifErrorOccurs = function(userInput) {
 
     if(ifLines(userInput)) {
       if (linesToShow < 1) {
-        return invalidLineCount + userInput[2].slice(2);
+        return invalidLineCount + linesToShow;
       } else {
         return false; 
       }
     }
 
-    if (ifBytes(userInput) && charToShow < 1) {
-      return invalidByteCount + userInput[2].slice(2);
-    } else {
-      return 0;
+    if (ifBytes(userInput)) {
+      if (charToShow < 1) {
+        return invalidByteCount + charToShow;
+      } else {
+        return false;
+      }
     }
 
   }
@@ -144,8 +145,6 @@ const head = function(userInput, reader) {
 
   return result.flat().slice(0, -1).join("");
 };
-
-
 
 /* ------ EXPORTS ------ */
 
