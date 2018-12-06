@@ -73,12 +73,6 @@ node head.js -n16 $input_file > .myHead
 echo "for format -> node head.js -n16 file1 file2"
 node compareFiles.js
 
-
-#head -- 5 $input_file > .sysHead
-#node head.js -- 5 $input_file 2> .myHead
-#echo "for format -> node head.js -- 5 file1 (illegal option)"
-#node compareFiles.js
-
 echo  "\nIllegal Cases\n"
 
 head -x5 $input_file 2> .sysHead
@@ -96,4 +90,13 @@ node head.js --5 $input_file 2> .myHead
 echo "for format -> node head.js --5 file1 (illegal option)"
 node compareFiles.js
 
+head -- $input_file > .sysHead 
+node head.js -- $input_file > .myHead
+echo "for format -> node head.js -- file1" 
+node compareFiles.js
+
+head -- 5 $input_file 2> .sysHead 1>> .sysHead
+node head.js -- 5 $input_file 2> .myHead 1>> .myHead
+echo "for format -> node head.js -- 5 file1" 
+node compareFiles.js
 
