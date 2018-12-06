@@ -109,6 +109,7 @@ const head = function(userInput, reader) {
 
     if(ifBytes(userInput)) {
       result.push(readCharFromTop(userInput[index], reader, charToShow));
+      result.push("\n");
     }
   }
 
