@@ -3,7 +3,7 @@
 const assert = require("assert");
 
 const {
-  readFile,
+  splitLine,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
@@ -12,7 +12,7 @@ const {
 
 const dummyReader = (content) => content;
 
-describe("readFile", function() {
+describe("splitLine", function() {
 
   describe("for given a source and a reader", function() {
     it("should return content/s of source in array splited by \"\n\" ", function() {
@@ -22,7 +22,7 @@ describe("readFile", function() {
       input += "qrstuvwxyz";
 
       let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
-      assert.deepEqual(readFile(input, dummyReader), expectedOutput);
+      assert.deepEqual(splitLine(input, dummyReader), expectedOutput);
     });
   });
 

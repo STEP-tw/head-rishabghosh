@@ -12,15 +12,46 @@ const generateHeader = function(filename) {
   return "==> " + filename + " <==" + "\n"; 
 };
 
-const readFile = function(source, reader) {
+const ifLines = function(userInput) {
+  return (userInput[2][1] === "n" || userInput[2][0] !== "-"); 
+};
+ 
+const ifBytes = function(userInput) {
+  return (userInput[2][1] === "c");
+};
+
+const sliceElements = function(content, noOfElements) {
+  return content.slice(0, noOfElements);
+};
+
+/*
+ * splitLine and spltChar dublication can be avoided by using bind
+ */
+
+const splitLine = function(source, reader) {
   let filename = source;
   let contentOfFile = reader(filename, "utf8").split("\n");
   return contentOfFile;
 };
 
+const splitChar = function(source, reader) {
+  let filename = source;
+  let contentOfFile = reader(filename, "utf8").split("");
+  return contentOfFile;
+};
+
+/*
+ * dublication can be avoided by binding 
+ */
+
 const readLinesFromTop = function(filename, reader, noOfLines) {
-  let totalContent = readFile(filename, reader);
+  let totalContent = splitLine(filename, reader);
   return sliceElements(totalContent, noOfLines).join("\n");
+};
+
+const readCharFromTop = function(filename, reader, noOfChar) {
+  let totalContent = splitChar(filename, reader);
+  return sliceElements(totalContent, noOfChar);
 };
 
 const exitProcess = function(userInput){
@@ -63,12 +94,6 @@ const extractCountAndStartingIndex = function(userInput) {
   return { linesToShow, charToShow, startingIndex };
 };
 
-const sliceElements = function(content, noOfElements) {
-  return content.slice(0, noOfElements);
-};
-
-
-
 const head = function(userInput, reader) {
   let result = [];
   let { linesToShow, startingIndex } = extractCountAndStartingIndex(userInput);
@@ -76,8 +101,11 @@ const head = function(userInput, reader) {
 
   for (let index = startingIndex; index < userInput.length; index++) {
     if (fileCount > 1 ) { result.push(generateHeader(userInput[index])); }
-    result.push(readLinesFromTop(userInput[index], reader, linesToShow));
-    result.push("\n\n");
+
+    if (ifLines(userInput)) {
+      result.push(readLinesFromTop(userInput[index], reader, linesToShow));
+      result.push("\n\n");
+    }
   }
 
   return result.flat().slice(0, -1).join("");
@@ -88,7 +116,7 @@ const head = function(userInput, reader) {
 /* ------ EXPORTS ------ */
 
 module.exports = {
-  readFile,
+  splitLine,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
