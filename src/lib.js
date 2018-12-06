@@ -13,7 +13,7 @@ const generateHeader = function(filename) {
 };
 
 const ifLines = function(userInput) {
-  return (userInput[2][1] === "n" || userInput[2][0] !== "-"); 
+  return (userInput[2][1] === "n" || userInput[2][0] !== "-" || !isNaN(userInput[2])); 
 };
  
 const ifBytes = function(userInput) {
@@ -78,7 +78,13 @@ const extractCountAndStartingIndex = function(userInput) {
     return { linesToShow, charToShow, startingIndex };
   }
 
-  switch (userInput[2].slice(2).length) {
+  if(!isNaN(userInput[2])) { 
+    startingIndex = 3;
+    linesToShow = userInput[2].slice(1);
+    return { linesToShow, charToShow, startingIndex }; 
+  }
+
+  switch (userInput[2].slice(2).length) { //length of count value if present
 
     case 0: startingIndex = 4;
       if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
