@@ -7,6 +7,16 @@ NC='\033[0m'
 input_file=$1
 input_file2=$2
 
+head $input_file > .sysHead
+node head.js $input_file > .myHead
+echo "for format -> node head.js file1"
+node compareFiles.js
+
+head -- $input_file > .sysHead 
+node head.js -- $input_file > .myHead
+echo "for format -> node head.js -- file1" 
+node compareFiles.js
+
 head -n5 $input_file > .sysHead
 node head.js -n5 $input_file > .myHead
 echo "for format -> node head.js -n5 file1"
@@ -76,27 +86,28 @@ node compareFiles.js
 echo  "\nIllegal Cases\n"
 
 head -x5 $input_file 2> .sysHead
-node head.js -x5 $input_file 2> .myHead
+node head.js -x5 $input_file > .myHead
 echo "for format -> node head.js -x5 file1 (illegal option)"
 node compareFiles.js
 
 head -x 5 $input_file 2> .sysHead
-node head.js -x 5 $input_file 2> .myHead
+node head.js -x 5 $input_file > .myHead
 echo "for format -> node head.js -x 5 file1 (illegal option)"
 node compareFiles.js
 
 head --5 $input_file 2> .sysHead
-node head.js --5 $input_file 2> .myHead
+node head.js --5 $input_file > .myHead
 echo "for format -> node head.js --5 file1 (illegal option)"
 node compareFiles.js
 
-head -- $input_file > .sysHead 
-node head.js -- $input_file > .myHead
-echo "for format -> node head.js -- file1" 
+head -c0 $input_file 2> .sysHead
+node head.js -c0 $input_file > .myHead
+echo "for format -> node head.js -c0 file1 (illegal option)"
 node compareFiles.js
 
-head -- 5 $input_file 2> .sysHead 1>> .sysHead
-node head.js -- 5 $input_file 2> .myHead 1>> .myHead
-echo "for format -> node head.js -- 5 file1" 
-node compareFiles.js
+
+#head -- 5 $input_file 2> .sysHead 1>> .sysHead
+#node head.js -- 5 $input_file > .myHead
+#echo "for format -> node head.js -- 5 file1" 
+#node compareFiles.js
 
