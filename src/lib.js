@@ -54,7 +54,7 @@ const readCharFromTop = function(filename, reader, noOfChar) {
   return sliceElements(totalContent, noOfChar);
 };
 
-const exitProcess = function(userInput){
+const exitOnError = function(userInput){
   let option = userInput[2];
   if (option[0] === "-" ) {
     if (option[1] !== "n" && option[1] !== "c" && isNaN(option) ){
@@ -66,11 +66,11 @@ const exitProcess = function(userInput){
 };
 
 const extractCountAndStartingIndex = function(userInput) {
-  let linesToShow = 0; //default line count
+  exitOnError(userInput);
+
+  let linesToShow = 0;
   let charToShow = 0;
   let startingIndex = 0;
-
-  exitProcess(userInput);
 
   if (userInput[2][0] !== "-") {
     startingIndex = 2;
@@ -88,7 +88,6 @@ const extractCountAndStartingIndex = function(userInput) {
     default: startingIndex = 3; 
       if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
       if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
-      break;
   }
 
   return { linesToShow, charToShow, startingIndex };
