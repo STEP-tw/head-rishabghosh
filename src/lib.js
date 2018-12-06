@@ -2,10 +2,10 @@
 
 const { flat } = require("./protoLib.js");
 
-const errorMessage = 'head: illegal option -- ';
-const usageMessage = 'usage: head [-n lines | -c bytes] [file ...]';
-const invalidLineCount = 'head: illegal line count -- ';
-const invalidByteCount = 'head: illegal byte count -- ';
+const errorMessage = "head: illegal option -- ";
+const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
+const invalidLineCount = "head: illegal line count -- ";
+const invalidByteCount = "head: illegal byte count -- ";
 
 
 const generateHeader = function(filename) {
@@ -52,15 +52,14 @@ const readLinesFromTop = function(filename, reader, noOfLines) {
 
 const readCharFromTop = function(filename, reader, noOfChar) {
   let totalContent = splitChar(filename, reader);
-  return sliceElements(totalContent, noOfChar);
+  return sliceElements(totalContent, noOfChar).join("");
 };
 
 
-const exitOnError = function(userInput){
-  let option = userInput[2];
-  if (option[0] === "-" ) {
+const exitOnIllegalOption = function(userInput){
+  if (userInput[2][0] === "-" ) {
     if (!ifLines(userInput) && !ifBytes(userInput)) {
-      console.error(errorMessage + option[1]);
+      console.error(errorMessage + userInput[2][1]);
       console.error(usageMessage);
       process.exit();
     }
@@ -68,8 +67,6 @@ const exitOnError = function(userInput){
 };
 
 const extractCountAndStartingIndex = function(userInput) {
-  exitOnError(userInput);
-
   let linesToShow = 0;
   let charToShow = 0;
   let startingIndex = 0;
@@ -93,21 +90,58 @@ const extractCountAndStartingIndex = function(userInput) {
   }
 
   switch (userInput[2].slice(2).length) { //length of count value if present
-
-    case 0: startingIndex = 4;
-      if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
-      if (userInput[2][1] === "c") { charToShow = userInput[3]; }
-      break;
-
-    default: startingIndex = 3; 
-      if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
-      if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
+  case 0: startingIndex = 4;
+    if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
+    if (userInput[2][1] === "c") { charToShow = userInput[3]; }
+    break;
+  default: startingIndex = 3; 
+    if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
+    if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
   }
 
   return { linesToShow, charToShow, startingIndex };
 };
 
+const exitOnIllegalCount = function(userInput) {
+  let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+  if (linesToShow < 1 ) { console.error(invalidLineCount); }
+  if (charToShow < 1) { console.error(invalidByteCount); }
+  process.exit();
+};
+
+const ifErrorOccurs = function(userInput) {
+  let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+
+  //console.log("lineToShow", linesToShow, "charToShow", charToShow);
+  if (userInput[2][0] === "-" ) {
+
+    if (!ifLines(userInput) && !ifBytes(userInput)) {
+      return errorMessage + userInput[2][1] + "\n" + usageMessage;
+    }
+
+    if(ifLines(userInput)) {
+      if (linesToShow < 1) {
+        return invalidLineCount + userInput[2].slice(2);
+      } else {
+        return false; 
+      }
+    }
+
+    if (ifBytes(userInput) && charToShow < 1) {
+      return invalidByteCount + userInput[2].slice(2);
+    } else {
+      return 0;
+    }
+
+  }
+  return false;
+};
+
 const head = function(userInput, reader) {
+  if (ifErrorOccurs(userInput)) {
+    return ifErrorOccurs(userInput);
+  }
+
   let result = [];
   let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
   let fileCount = userInput.length - startingIndex;
@@ -138,5 +172,6 @@ module.exports = {
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
-  head
+  head,
+  ifErrorOccurs
 };
