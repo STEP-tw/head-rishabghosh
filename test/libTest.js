@@ -33,7 +33,7 @@ describe("extractCountAndStartingIndex", function() {
   describe("for no count value given", function() {
     it("should return a object containing linesToShow: 10, startingIndex: 2", function() {
       let input = ["n", "h.js", "file1"];
-      let expectedOutput = { linesToShow: 10, startingIndex: 2 };
+      let expectedOutput = { linesToShow: 10, charToShow: 0, startingIndex: 2 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
@@ -41,7 +41,7 @@ describe("extractCountAndStartingIndex", function() {
   describe("for multiple files and no count value given", function() {
     it("should return a object containing linesToShow: 10, startingIndex: 2", function() {
       let input = ["n", "h.js", "file1", "file2"];
-      let expectedOutput = { linesToShow: 10, startingIndex: 2 };
+      let expectedOutput = { linesToShow: 10, charToShow:0, startingIndex: 2 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
@@ -50,7 +50,7 @@ describe("extractCountAndStartingIndex", function() {
   describe("for input [, , \"-n5\", \"file1\"]", function() {
     it("should return a object containing linesToShow: 5, startingIndex: 3", function() {
       let input = ["n", "h.js", "-n5", "file1"];
-      let expectedOutput = { linesToShow: 5, startingIndex: 3 };
+      let expectedOutput = { linesToShow: 5, charToShow: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
 
@@ -59,7 +59,7 @@ describe("extractCountAndStartingIndex", function() {
   describe("for input [,, \"-n4\", \"file1\"]", function() {
     it("should return a object containing linesToShow: 4, startingIndex: 3", function() {
       let input = ["n", "h.js", "-n4", "file1"];
-      let expectedOutput = { linesToShow: 4, startingIndex: 3 };
+      let expectedOutput = { linesToShow: 4, charToShow: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
@@ -67,7 +67,7 @@ describe("extractCountAndStartingIndex", function() {
   describe("for count 7  provied in 3rd index", function() {
     it("should return a object containing linesToShow: 7, startingIndex: 4", function() {
       let input = ["n", "h.js", "-n", "7", "file1"];
-      let expectedOutput = { linesToShow: 7, startingIndex: 4 };
+      let expectedOutput = { linesToShow: 7, charToShow: 0, startingIndex: 4 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
