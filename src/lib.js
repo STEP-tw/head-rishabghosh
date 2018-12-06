@@ -55,17 +55,6 @@ const readCharFromTop = function(filename, reader, noOfChar) {
   return sliceElements(totalContent, noOfChar).join("");
 };
 
-
-const exitOnIllegalOption = function(userInput){
-  if (userInput[2][0] === "-" ) {
-    if (!ifLines(userInput) && !ifBytes(userInput)) {
-      console.error(errorMessage + userInput[2][1]);
-      console.error(usageMessage);
-      process.exit();
-    }
-  }
-};
-
 const extractCountAndStartingIndex = function(userInput) {
   let linesToShow = 0;
   let charToShow = 0;
@@ -100,13 +89,6 @@ const extractCountAndStartingIndex = function(userInput) {
   }
 
   return { linesToShow, charToShow, startingIndex };
-};
-
-const exitOnIllegalCount = function(userInput) {
-  let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
-  if (linesToShow < 1 ) { console.error(invalidLineCount); }
-  if (charToShow < 1) { console.error(invalidByteCount); }
-  process.exit();
 };
 
 const ifErrorOccurs = function(userInput) {
