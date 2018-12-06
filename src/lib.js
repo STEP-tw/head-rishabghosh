@@ -96,7 +96,7 @@ const extractCountAndStartingIndex = function(userInput) {
 
 const head = function(userInput, reader) {
   let result = [];
-  let { linesToShow, startingIndex } = extractCountAndStartingIndex(userInput);
+  let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
   let fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
@@ -105,6 +105,10 @@ const head = function(userInput, reader) {
     if (ifLines(userInput)) {
       result.push(readLinesFromTop(userInput[index], reader, linesToShow));
       result.push("\n\n");
+    }
+
+    if(ifBytes(userInput)) {
+      result.push(readCharFromTop(userInput[index], reader, charToShow));
     }
   }
 
