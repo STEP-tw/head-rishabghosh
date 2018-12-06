@@ -13,7 +13,8 @@ const generateHeader = function(filename) {
 };
 
 const ifLines = function(userInput) {
-  return (userInput[2][1] === "n" || userInput[2][0] !== "-" || !isNaN(userInput[2]) || userInput[2] === "--"); 
+  return (userInput[2][1] === "n" || userInput[2][0] !== "-" || 
+    !isNaN(userInput[2]) || userInput[2] === "--"); 
 };
  
 const ifBytes = function(userInput) {
@@ -75,6 +76,12 @@ const extractCountAndStartingIndex = function(userInput) {
 
   if (userInput[2][0] !== "-") {
     startingIndex = 2;
+    linesToShow = 10;
+    return { linesToShow, charToShow, startingIndex };
+  }
+
+  if (userInput[2] === "--") { 
+    startingIndex = 3; 
     linesToShow = 10;
     return { linesToShow, charToShow, startingIndex };
   }
