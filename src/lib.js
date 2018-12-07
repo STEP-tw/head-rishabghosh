@@ -8,9 +8,8 @@ const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
-
 const generateHeader = function(filename) {
-  return "==> " + filename + " <==" + "\n"; 
+  return "==> " + filename + " <==" + "\n";
 };
 
 /*
@@ -18,10 +17,10 @@ const generateHeader = function(filename) {
  */
 
 const ifLines = function(userInput) {
-  return (userInput[2][1] === "n" || userInput[2][0] !== "-" || 
-    !isNaN(userInput[2]) || userInput[2] === "--"); 
+  return (userInput[2][1] === "n" || userInput[2][0] !== "-" ||
+    !isNaN(userInput[2]) || userInput[2] === "--");
 };
- 
+
 const ifBytes = function(userInput) {
   return (userInput[2][1] === "c");
 };
@@ -69,36 +68,38 @@ const extractCountAndStartingIndex = function(userInput) {
   let charToShow = 0;
   let startingIndex = 0;
   /*
-   * should pull out to a function -> isDefaultChoice
-   */
+     * should pull out to a function -> isDefaultChoice
+     */
   if (userInput[2][0] !== "-") {
     startingIndex = 2;
     linesToShow = 10;
     return { linesToShow, charToShow, startingIndex };
   }
 
-  if (userInput[2] === "--") { 
-    startingIndex = 3; 
+  if (userInput[2] === "--") {
+    startingIndex = 3;
     linesToShow = 10;
     return { linesToShow, charToShow, startingIndex };
   }
   /*
-   * Number.isInteger should be used instead of isNaN
-   */
-  if(!isNaN(userInput[2])) { 
+     * Number.isInteger should be used instead of isNaN
+     */
+  if (!isNaN(userInput[2])) {
     startingIndex = 3;
     linesToShow = userInput[2].slice(1);
-    return { linesToShow, charToShow, startingIndex }; 
+    return { linesToShow, charToShow, startingIndex };
   }
   /*
-   * should use better logic to get rid of this switch-case blog
-   */
+     * should use better logic to get rid of this switch-case blog
+     */
   switch (userInput[2].slice(2).length) { //length of count value if present
-    case 0: startingIndex = 4;
+    case 0:
+      startingIndex = 4;
       if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
       if (userInput[2][1] === "c") { charToShow = userInput[3]; }
       break;
-    default: startingIndex = 3; 
+    default:
+      startingIndex = 3;
       if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
       if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
   }
@@ -109,17 +110,17 @@ const extractCountAndStartingIndex = function(userInput) {
 const ifErrorOccurs = function(userInput) {
   let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
-  if (userInput[2][0] === "-" ) {
+  if (userInput[2][0] === "-") {
 
     if (!ifLines(userInput) && !ifBytes(userInput)) {
       return errorMessage + userInput[2][1] + "\n" + usageMessage;
     }
 
-    if(ifLines(userInput)) {
+    if (ifLines(userInput)) {
       if (linesToShow < 1 || !Number.isInteger(+linesToShow)) {
         return invalidLineCount + linesToShow;
       } else {
-        return false; 
+        return false;
       }
     }
 
@@ -135,30 +136,42 @@ const ifErrorOccurs = function(userInput) {
   return false;
 };
 
-const head = function(userInput, reader) {
+const isFileInvalid = function(filename, fs) {
+  return !fs.existsSync(filename); 
+};
+
+const head = function(userInput, fs) {
   if (ifErrorOccurs(userInput)) {
     return ifErrorOccurs(userInput);
   }
-
+  
+  let reader = fs.readFileSync;
   let result = [];
   let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
   let fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
-    if (fileCount > 1 ) { result.push(generateHeader(userInput[index])); }
+    let filename = userInput[index];
 
-    if (ifLines(userInput)) {
-      result.push(readLinesFromTop(userInput[index], reader, linesToShow));
-      result.push("\n\n");
-    }
+    if(isFileInvalid(filename, fs)){
+      result.push("head: " + filename + ": No such file or directory\n");
+    } else { 
+      if (fileCount > 1) { result.push(generateHeader(filename)); }
 
-    if(ifBytes(userInput)) {
-      result.push(readCharFromTop(userInput[index], reader, charToShow));
-      result.push("\n");
+      if (ifLines(userInput)) {
+        result.push(readLinesFromTop(filename, reader, linesToShow));
+        result.push("\n\n");
+
+      }
+
+      if (ifBytes(userInput)) {
+        result.push(readCharFromTop(filename, reader, charToShow));
+        result.push("\n");
+      }
     }
   }
 
-  return result.flat().slice(0, -1).join("");
+  return result.flat().join("");
 };
 
 /* ------ EXPORTS ------ */
