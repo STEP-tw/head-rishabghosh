@@ -1,4 +1,5 @@
 /*eslint-env node*/
+/*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
 const { flat } = require("./protoLib.js");
 
@@ -11,6 +12,10 @@ const invalidByteCount = "head: illegal byte count -- ";
 const generateHeader = function(filename) {
   return "==> " + filename + " <==" + "\n"; 
 };
+
+/*
+ * ifLines -- should use Number.isInteger instead of !isNaN
+ */
 
 const ifLines = function(userInput) {
   return (userInput[2][1] === "n" || userInput[2][0] !== "-" || 
@@ -55,11 +60,17 @@ const readCharFromTop = function(filename, reader, noOfChar) {
   return sliceElements(totalContent, noOfChar).join("");
 };
 
+/*
+ * each if statement should be its own function
+ */
+
 const extractCountAndStartingIndex = function(userInput) {
   let linesToShow = 0;
   let charToShow = 0;
   let startingIndex = 0;
-
+  /*
+   * should pull out to a function -> isDefaultChoice
+   */
   if (userInput[2][0] !== "-") {
     startingIndex = 2;
     linesToShow = 10;
@@ -71,21 +82,25 @@ const extractCountAndStartingIndex = function(userInput) {
     linesToShow = 10;
     return { linesToShow, charToShow, startingIndex };
   }
-
+  /*
+   * Number.isInteger should be used instead of isNaN
+   */
   if(!isNaN(userInput[2])) { 
     startingIndex = 3;
     linesToShow = userInput[2].slice(1);
     return { linesToShow, charToShow, startingIndex }; 
   }
-
+  /*
+   * should use better logic to get rid of this switch-case blog
+   */
   switch (userInput[2].slice(2).length) { //length of count value if present
-  case 0: startingIndex = 4;
-    if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
-    if (userInput[2][1] === "c") { charToShow = userInput[3]; }
-    break;
-  default: startingIndex = 3; 
-    if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
-    if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
+    case 0: startingIndex = 4;
+      if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
+      if (userInput[2][1] === "c") { charToShow = userInput[3]; }
+      break;
+    default: startingIndex = 3; 
+      if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
+      if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
   }
 
   return { linesToShow, charToShow, startingIndex };
