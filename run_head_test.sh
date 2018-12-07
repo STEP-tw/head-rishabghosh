@@ -1,6 +1,7 @@
 #! /bin/sh
  
 echo "plz provide sample file, ignore if already provided \n"
+echo "make sure you dont have any unnecessary console.logs\n"
 
 LIGHTGRAY='\033[0;37m'
 NC='\033[0m'
@@ -120,6 +121,11 @@ node head.js -n 0 $input_file > .myHead
 echo "for format -> node head.js -n 0 file1 (illegal option)"
 node compareFiles.js
 
+head -n10x $input_file 2> .sysHead
+node head.js -n10x $input_file > .myHead
+echo "for format -> node head.js -n10x file1 (illegal option)"
+node compareFiles.js
+
 head -n 2.5 $input_file 2> .sysHead
 node head.js -n 2.5 $input_file > .myHead
 echo "for format -> node head.js -n 2.5 file1 (illegal option)"
@@ -146,8 +152,8 @@ node head.js invalidFile  $input_file > .myHead
 echo "for format -> node head.js invalidFile file1" 
 node compareFiles.js
 
-head $input_file invalidFile 1> .sysHead 2>> .sysHead
-node head.js $input_file invalidFile > .myHead
-echo "for format -> node head.js file1 invalidFile" 
-node compareFiles.js
+#head $input_file invalidFile 1> .sysHead 2>> .sysHead
+#node head.js $input_file invalidFile > .myHead
+#echo "for format -> node head.js file1 invalidFile" 
+#node compareFiles.js
 
