@@ -1,11 +1,11 @@
 /*eslint-env node*/
 
-const reader = require("fs").readFileSync;
+const fs = require("fs");
 
 const { head } = require("./src/lib.js");
 
 const main = function(userInput) {
-  return head(userInput, reader);
+  return head(userInput, fs);
 };
 
 console.log(main(process.argv));
