@@ -8,6 +8,10 @@ const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
+const genInvalidFileError = function(filename) {
+  return "head: " + filename + ": No such file or directory\n";
+};
+
 const generateHeader = function(filename) {
   return "==> " + filename + " <==" + "\n";
 };
@@ -158,7 +162,7 @@ const head = function(userInput, fs) {
      */
 
     if (isFileInvalid(filename, fs)) {
-      result.push("head: " + filename + ": No such file or directory\n");
+      result.push(genInvalidFileError(filename));
     } else {
       if (fileCount > 1) { result.push(generateHeader(filename)); }
 
