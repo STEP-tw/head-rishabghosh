@@ -17,8 +17,9 @@ const generateHeader = function(filename) {
  */
 
 const isLineCountValid = function(userInput) {
-  return (userInput[2][1] === "n" || userInput[2][0] !== "-" ||
-    !isNaN(userInput[2]) || userInput[2] === "--");
+  let firstArg = userInput[2];
+  return (firstArg[1] === "n" || firstArg[0] !== "-" ||
+    Number.isInteger(+firstArg) || firstArg === "--");
 };
 
 const isByteCountValid = function(userInput) {
@@ -184,10 +185,12 @@ const head = function(userInput, fs) {
 /* ------ EXPORTS ------ */
 
 module.exports = {
+  head,
+
+  isLineCountValid,
   splitLine,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
-  head,
   ifErrorOccurs
 };

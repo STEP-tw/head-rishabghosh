@@ -3,6 +3,7 @@
 const assert = require("assert");
 
 const {
+  isLineCountValid,
   splitLine,
   extractCountAndStartingIndex,
   sliceElements,
@@ -12,6 +13,49 @@ const {
 } = require("../src/lib.js");
 
 const dummyReader = (content) => content;
+
+describe("isLineCountValid", function() {
+
+  it("should return true for \"-n\" given as first argument", function() {
+    let userInput = ["n", "head.js", "-n", "5", "file1"];
+    assert.equal(isLineCountValid(userInput), true);
+
+    userInput = ["n", "head.js", "-n5", "file1"];
+    assert.equal(isLineCountValid(userInput), true);
+  });
+
+  it("should return true for \"--\" given as first argument", function() {
+    let userInput = ["n", "head.js", "--", "5", "file1"];
+    assert.equal(isLineCountValid(userInput), true);
+  });
+
+  it("should return true if first argument is a integer", function() {
+    let userInput = ["n", "head.js", "-5", "file1"];
+    assert.equal(isLineCountValid(userInput), true);
+  });
+
+  it("should reutrn true if first argument is a possible filename", function() {
+    let userInput = ["n", "head.js", "5"];
+    assert.equal(isLineCountValid(userInput), true);
+    
+    userInput = ["n", "head.js", "file1"];
+    assert.equal(isLineCountValid(userInput), true);
+  });
+
+  it("should return false if first  argument is invalid", function() {
+    let userInput = ["n", "head.js", "-a", "file1"];
+    assert.equal(isLineCountValid(userInput), false);
+
+    userInput = ["n", "head.js", "-r", "file1"];
+    assert.equal(isLineCountValid(userInput), false);
+  });
+
+  it("should return false for \"-c\" given as first argument", function() {
+    let userInput = ["n", "head.js", "-c", "file1"];
+    assert.equal(isLineCountValid(userInput), false);
+  });
+
+});
 
 describe("splitLine", function() {
 
