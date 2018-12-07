@@ -4,6 +4,7 @@ const assert = require("assert");
 
 const {
   isTypeLine,
+  isTypeChar,
   splitLine,
   extractCountAndStartingIndex,
   sliceElements,
@@ -57,6 +58,30 @@ describe("isTypeLine", function() {
 
 });
 
+describe("isTypeChar", function() {
+
+  it('should return true for "-c" as first argument', function() {
+    let userInput = ["n", "head.js", "-c", "file1"];
+    assert.equal(isTypeChar(userInput), true);
+  });
+  
+  it('should return false for "-n" as first argument', function() {
+    let userInput = ["n", "head.js", "-n", "file1"];
+    assert.equal(isTypeChar(userInput), false);
+  });
+
+  it('should return false for every other input than "-c"', function() {
+    let userInput = ["n", "head.js", "-a", "file1"];
+    assert.equal(isTypeChar(userInput), false);
+
+    userInput = ["n", "head.js", "-5", "file1"];
+    assert.equal(isTypeChar(userInput), false);
+
+    userInput = ["n", "head.js", "file1"];
+    assert.equal(isTypeChar(userInput), false);
+  });
+
+});
 
 describe("splitLine", function() {
 

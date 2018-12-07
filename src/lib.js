@@ -12,10 +12,6 @@ const generateHeader = function(filename) {
   return "==> " + filename + " <==" + "\n";
 };
 
-/*
- * isTypeLine -- should use Number.isInteger instead of !isNaN
- */
-
 const isTypeLine = function(userInput) {
   let firstArg = userInput[2];
   return (firstArg[1] === "n" || firstArg[0] !== "-" ||
@@ -188,6 +184,7 @@ module.exports = {
   head,
 
   isTypeLine,
+  isTypeChar,
   splitLine,
   extractCountAndStartingIndex,
   sliceElements,
