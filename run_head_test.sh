@@ -131,8 +131,23 @@ echo "for format -> node head.js -c 2.5 file1 (illegal option)"
 node compareFiles.js
 
 
-#head -- 5 $input_file 2> .sysHead 1>> .sysHead
-#node head.js -- 5 $input_file > .myHead
-#echo "for format -> node head.js -- 5 file1" 
-#node compareFiles.js
+head -- 5 $input_file 2> .sysHead 1>> .sysHead
+node head.js -- 5 $input_file > .myHead
+echo "for format -> node head.js -- 5 file1" 
+node compareFiles.js
+
+head invalidFile 2> .sysHead 1>> .sysHead
+node head.js invalidFile > .myHead
+echo "for format -> node head.js invalidFile" 
+node compareFiles.js
+
+head invalidFile $input_file 2> .sysHead 1>> .sysHead
+node head.js invalidFile  $input_file > .myHead
+echo "for format -> node head.js invalidFile file1" 
+node compareFiles.js
+
+head $input_file invalidFile 1> .sysHead 2>> .sysHead
+node head.js $input_file invalidFile > .myHead
+echo "for format -> node head.js file1 invalidFile" 
+node compareFiles.js
 
