@@ -13,15 +13,15 @@ const generateHeader = function(filename) {
 };
 
 /*
- * ifLines -- should use Number.isInteger instead of !isNaN
+ * isLineCountValid -- should use Number.isInteger instead of !isNaN
  */
 
-const ifLines = function(userInput) {
+const isLineCountValid = function(userInput) {
   return (userInput[2][1] === "n" || userInput[2][0] !== "-" ||
     !isNaN(userInput[2]) || userInput[2] === "--");
 };
 
-const ifBytes = function(userInput) {
+const isByteCountValid = function(userInput) {
   return (userInput[2][1] === "c");
 };
 
@@ -112,11 +112,11 @@ const ifErrorOccurs = function(userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (!ifLines(userInput) && !ifBytes(userInput)) {
+    if (!isLineCountValid(userInput) && !isByteCountValid(userInput)) {
       return errorMessage + userInput[2][1] + "\n" + usageMessage;
     }
 
-    if (ifLines(userInput)) {
+    if (isLineCountValid(userInput)) {
       if (linesToShow < 1 || !Number.isInteger(+linesToShow)) {
         return invalidLineCount + linesToShow;
       } else {
@@ -124,7 +124,7 @@ const ifErrorOccurs = function(userInput) {
       }
     }
 
-    if (ifBytes(userInput)) {
+    if (isByteCountValid(userInput)) {
       if (charToShow < 1 || !Number.isInteger(+charToShow)) {
         return invalidByteCount + charToShow;
       } else {
@@ -165,13 +165,13 @@ const head = function(userInput, fs) {
     } else {
       if (fileCount > 1) { result.push(generateHeader(filename)); }
 
-      if (ifLines(userInput)) {
+      if (isLineCountValid(userInput)) {
         result.push(readLinesFromTop(filename, reader, linesToShow));
         result.push("\n\n");
 
       }
 
-      if (ifBytes(userInput)) {
+      if (isByteCountValid(userInput)) {
         result.push(readCharFromTop(filename, reader, charToShow));
         result.push("\n");
       }
