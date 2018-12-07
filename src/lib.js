@@ -101,7 +101,7 @@ const ifErrorOccurs = function(userInput) {
     }
 
     if(ifLines(userInput)) {
-      if (linesToShow < 1) {
+      if (linesToShow < 1 || !Number.isInteger(+linesToShow)) {
         return invalidLineCount + linesToShow;
       } else {
         return false; 
@@ -109,7 +109,7 @@ const ifErrorOccurs = function(userInput) {
     }
 
     if (ifBytes(userInput)) {
-      if (charToShow < 1) {
+      if (charToShow < 1 || !Number.isInteger(+charToShow)) {
         return invalidByteCount + charToShow;
       } else {
         return false;
