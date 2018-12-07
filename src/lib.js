@@ -68,8 +68,8 @@ const extractCountAndStartingIndex = function(userInput) {
   let charToShow = 0;
   let startingIndex = 0;
   /*
-     * should pull out to a function -> isDefaultChoice
-     */
+   * should pull out to a function -> isDefaultChoice
+   */
   if (userInput[2][0] !== "-") {
     startingIndex = 2;
     linesToShow = 10;
@@ -82,16 +82,16 @@ const extractCountAndStartingIndex = function(userInput) {
     return { linesToShow, charToShow, startingIndex };
   }
   /*
-     * Number.isInteger should be used instead of isNaN
-     */
+   * Number.isInteger should be used instead of isNaN
+   */
   if (!isNaN(userInput[2])) {
     startingIndex = 3;
     linesToShow = userInput[2].slice(1);
     return { linesToShow, charToShow, startingIndex };
   }
   /*
-     * should use better logic to get rid of this switch-case blog
-     */
+   * should use better logic to get rid of this switch-case blog
+   */
   switch (userInput[2].slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 4;
@@ -137,14 +137,17 @@ const ifErrorOccurs = function(userInput) {
 };
 
 const isFileInvalid = function(filename, fs) {
-  return !fs.existsSync(filename); 
+  return !fs.existsSync(filename);
 };
+/*
+ * should be extracted to smaller function for testing
+ */
 
 const head = function(userInput, fs) {
   if (ifErrorOccurs(userInput)) {
     return ifErrorOccurs(userInput);
   }
-  
+
   let reader = fs.readFileSync;
   let result = [];
   let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
@@ -153,9 +156,13 @@ const head = function(userInput, fs) {
   for (let index = startingIndex; index < userInput.length; index++) {
     let filename = userInput[index];
 
-    if(isFileInvalid(filename, fs)){
+    /*
+     * implimented switch case
+     */
+
+    if (isFileInvalid(filename, fs)) {
       result.push("head: " + filename + ": No such file or directory\n");
-    } else { 
+    } else {
       if (fileCount > 1) { result.push(generateHeader(filename)); }
 
       if (ifLines(userInput)) {

@@ -143,7 +143,9 @@ describe.skip("head", function() {
       let file1 = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\nm\n";
       let userInput = ["n", "head.js", file1];
       let expectedOutput = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj";
-      const reader = {readFileSync : dummyReader};
+      const totalFiles = ["file1", "file2", "file3"];
+      
+      const reader = {readFileSync : dummyReader, existsSync: "file1"};
       assert.equal(head(userInput, reader), expectedOutput);
     });
   });
