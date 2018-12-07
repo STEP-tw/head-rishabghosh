@@ -13,16 +13,16 @@ const generateHeader = function(filename) {
 };
 
 /*
- * isLineCountValid -- should use Number.isInteger instead of !isNaN
+ * isTypeLine -- should use Number.isInteger instead of !isNaN
  */
 
-const isLineCountValid = function(userInput) {
+const isTypeLine = function(userInput) {
   let firstArg = userInput[2];
   return (firstArg[1] === "n" || firstArg[0] !== "-" ||
     Number.isInteger(+firstArg) || firstArg === "--");
 };
 
-const isByteCountValid = function(userInput) {
+const isTypeChar = function(userInput) {
   return (userInput[2][1] === "c");
 };
 
@@ -113,11 +113,11 @@ const ifErrorOccurs = function(userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (!isLineCountValid(userInput) && !isByteCountValid(userInput)) {
+    if (!isTypeLine(userInput) && !isTypeChar(userInput)) {
       return errorMessage + userInput[2][1] + "\n" + usageMessage;
     }
 
-    if (isLineCountValid(userInput)) {
+    if (isTypeLine(userInput)) {
       if (linesToShow < 1 || !Number.isInteger(+linesToShow)) {
         return invalidLineCount + linesToShow;
       } else {
@@ -125,7 +125,7 @@ const ifErrorOccurs = function(userInput) {
       }
     }
 
-    if (isByteCountValid(userInput)) {
+    if (isTypeChar(userInput)) {
       if (charToShow < 1 || !Number.isInteger(+charToShow)) {
         return invalidByteCount + charToShow;
       } else {
@@ -166,13 +166,13 @@ const head = function(userInput, fs) {
     } else {
       if (fileCount > 1) { result.push(generateHeader(filename)); }
 
-      if (isLineCountValid(userInput)) {
+      if (isTypeLine(userInput)) {
         result.push(readLinesFromTop(filename, reader, linesToShow));
         result.push("\n\n");
 
       }
 
-      if (isByteCountValid(userInput)) {
+      if (isTypeChar(userInput)) {
         result.push(readCharFromTop(filename, reader, charToShow));
         result.push("\n");
       }
@@ -187,7 +187,7 @@ const head = function(userInput, fs) {
 module.exports = {
   head,
 
-  isLineCountValid,
+  isTypeLine,
   splitLine,
   extractCountAndStartingIndex,
   sliceElements,
