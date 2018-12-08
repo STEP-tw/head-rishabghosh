@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/*jshint -W061 */
 
 const assert = require("assert");
 
@@ -236,6 +237,14 @@ describe("getContents", function() {
   it("should return fileContent if File exists", function() {
     let userInput = ["n", "head.js", "file1"];
     let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
+    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+
+    userInput = ["n", "head.js", "-n5", "file1"];
+    expectedOutput = "A\nB\nC\nD\nE";
+    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+
+    userInput = ["n", "head.js", "-c5", "file1"];
+    expectedOutput = "A\nB\nC";
     assert.equal(getContents(userInput, fs).trim(), expectedOutput);
   });
 
