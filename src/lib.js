@@ -30,8 +30,8 @@ const isTypeChar = function(userInput) {
   return (userInput[2][1] === "c");
 };
 
-const isTypeValid = function(userInput) {
-  return isTypeLine(userInput) || isTypeChar(userInput);
+const isTypeInvalid = function(userInput) {
+  return !isTypeLine(userInput) && !isTypeChar(userInput);
 };
 
 const sliceElements = function(content, noOfElements) {
@@ -126,7 +126,7 @@ const ifErrorOccurs = function(userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (!isTypeValid(userInput)) {
+    if (isTypeInvalid(userInput)) {
       return genIllegalOptionMsg(userInput[2][1]);
     }
 
