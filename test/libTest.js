@@ -5,11 +5,12 @@ const assert = require("assert");
 const {
   isTypeLine,
   isTypeChar,
+  isFileInvalid,
   splitLine,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
-  head,
+  getContents,
   ifErrorOccurs
 } = require("../src/lib.js");
 
@@ -204,20 +205,31 @@ describe("readLinesFromTop", function() {
 
 });
 
+describe("isFileInvalid", function() {
+  let input = ["file1", "file2", "filex"];
+  let fileChecker = {existsSync : (filename)=> input.includes(filename)};
 
+  it("should return false for valid files", function() {
+    assert.equal(isFileInvalid("file1", fileChecker), false);
+    assert.equal(isFileInvalid("filex", fileChecker), false);
+  });
 
-describe.skip("head", function() {
+  it("should return true for invalid files", function() {
+    assert.equal(isFileInvalid("fileY", fileChecker), true);
+  });
 
-  describe("for userInput ['n', 'head.js', 'file1']", function() {
-    it("should return first 10 of \"file1\" ", function() {
-      let file1 = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\nm\n";
-      let userInput = ["n", "head.js", file1];
-      let expectedOutput = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj";
-      const totalFiles = ["file1", "file2", "file3"];
-      
-      const reader = {readFileSync : dummyReader, existsSync: "file1"};
-      assert.equal(head(userInput, reader), expectedOutput);
-    });
+});
+
+describe("getContents", function() {
+
+  let listOfFiles = ["file1", "file2", "filex"];
+  const fs = {readFileSync : dummyReader,
+    existsSync: (filename)=> listOfFiles.includes(filename)};
+
+  it("should return invalidFileMsg if the file doesnot exists", function() {
+    let userInput = ["n", "head.js", "fileY"];
+    let expectedOutput = "head: fileY: No such file or directory\n"; 
+    assert.equal(getContents(userInput, fs), expectedOutput);
   });
 
 });

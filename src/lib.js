@@ -144,11 +144,7 @@ const isFileInvalid = function(filename, fs) {
  * should be extracted to smaller function for testing
  */
 
-const head = function(userInput, fs) {
-  if (ifErrorOccurs(userInput)) {
-    return ifErrorOccurs(userInput);
-  }
-
+const getContents = function(userInput, fs) {
   let reader = fs.readFileSync;
   let result = [];
   let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
@@ -180,13 +176,22 @@ const head = function(userInput, fs) {
   }
 
   return result.flat().join("");
+};  
+
+const head = function(userInput, fs) {
+  if (ifErrorOccurs(userInput)) {
+    return ifErrorOccurs(userInput);
+  } else {
+    return getContents(userInput, fs);
+  }
 };
 
 /* ------ EXPORTS ------ */
 
 module.exports = {
   head,
-
+  getContents,
+  isFileInvalid,
   isTypeLine,
   isTypeChar,
   splitLine,
