@@ -8,6 +8,10 @@ const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
+const genIllegalOptionMsg = function(option) {
+  return errorMessage + option + "\n" + usageMessage;
+};
+
 const genInvalidFileError = function(filename) {
   return "head: " + filename + ": No such file or directory\n";
 };
@@ -67,15 +71,16 @@ const readCharFromTop = function(filename, reader, noOfChar) {
 /*
  * each if statement should be its own function
  */
+const isDefaultChoice = function(userInput) {
+  return userInput[2][0] !== "-";
+};
 
 const extractCountAndStartingIndex = function(userInput) {
   let linesToShow = 0;
   let charToShow = 0;
   let startingIndex = 0;
-  /*
-   * should pull out to a function -> isDefaultChoice
-   */
-  if (userInput[2][0] !== "-") {
+
+  if (isDefaultChoice(userInput)) {
     startingIndex = 2;
     linesToShow = 10;
     return { linesToShow, charToShow, startingIndex };
@@ -112,17 +117,21 @@ const extractCountAndStartingIndex = function(userInput) {
   return { linesToShow, charToShow, startingIndex };
 };
 
+const isCountInvalid = function(count) {
+  return count < 1 || !Number.isInteger(+count);
+};
+
 const ifErrorOccurs = function(userInput) {
   let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
   if (userInput[2][0] === "-") {
 
     if (!isTypeValid(userInput)) {
-      return errorMessage + userInput[2][1] + "\n" + usageMessage;
+      return genIllegalOptionMsg(userInput[2][1]);
     }
 
     if (isTypeLine(userInput)) {
-      if (linesToShow < 1 || !Number.isInteger(+linesToShow)) {
+      if (isCountInvalid(linesToShow)) {
         return invalidLineCount + linesToShow;
       } else {
         return false;
@@ -130,7 +139,7 @@ const ifErrorOccurs = function(userInput) {
     }
 
     if (isTypeChar(userInput)) {
-      if (charToShow < 1 || !Number.isInteger(+charToShow)) {
+      if (isCountInvalid(charToShow)) {
         return invalidByteCount + charToShow;
       } else {
         return false;
