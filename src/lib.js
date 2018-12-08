@@ -26,6 +26,10 @@ const isTypeChar = function(userInput) {
   return (userInput[2][1] === "c");
 };
 
+const isTypeValid = function(userInput) {
+  return isTypeLine(userInput) || isTypeChar(userInput);
+};
+
 const sliceElements = function(content, noOfElements) {
   return content.slice(0, noOfElements);
 };
@@ -113,7 +117,7 @@ const ifErrorOccurs = function(userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (!isTypeLine(userInput) && !isTypeChar(userInput)) {
+    if (!isTypeValid(userInput)) {
       return errorMessage + userInput[2][1] + "\n" + usageMessage;
     }
 
