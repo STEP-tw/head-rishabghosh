@@ -222,14 +222,21 @@ describe("isFileInvalid", function() {
 
 describe("getContents", function() {
 
-  let listOfFiles = ["file1", "file2", "filex"];
-  const fs = {readFileSync : dummyReader,
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
+  const listOfFiles = [ "file1", "file2", "filex" ];
+  const fs = {readFileSync : (filename)=>eval(filename),
     existsSync: (filename)=> listOfFiles.includes(filename)};
 
   it("should return invalidFileMsg if the file doesnot exists", function() {
     let userInput = ["n", "head.js", "fileY"];
     let expectedOutput = "head: fileY: No such file or directory\n"; 
     assert.equal(getContents(userInput, fs), expectedOutput);
+  });
+
+  it("should return fileContent if File exists", function() {
+    let userInput = ["n", "head.js", "file1"];
+    let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
+    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
   });
 
 });
@@ -282,5 +289,5 @@ describe("ifErrorOccurs", function() {
     assert.equal(ifErrorOccurs(input), expectedOutput);
   });
 
-
 });
+
