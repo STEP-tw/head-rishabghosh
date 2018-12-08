@@ -40,7 +40,7 @@ describe("isTypeLine", function() {
   it("should reutrn true if first argument is a possible filename", function() {
     let userInput = ["n", "head.js", "5"];
     assert.equal(isTypeLine(userInput), true);
-    
+
     userInput = ["n", "head.js", "file1"];
     assert.equal(isTypeLine(userInput), true);
   });
@@ -66,7 +66,7 @@ describe("isTypeChar", function() {
     let userInput = ["n", "head.js", "-c", "file1"];
     assert.equal(isTypeChar(userInput), true);
   });
-  
+
   it("should return false for \"-n\" as first argument", function() {
     let userInput = ["n", "head.js", "-n", "file1"];
     assert.equal(isTypeChar(userInput), false);
@@ -208,7 +208,7 @@ describe("readLinesFromTop", function() {
 
 describe("isFileInvalid", function() {
   let input = ["file1", "file2", "filex"];
-  let fileChecker = {existsSync : (filename)=> input.includes(filename)};
+  let fileChecker = { existsSync: (filename) => input.includes(filename) };
 
   it("should return false for valid files", function() {
     assert.equal(isFileInvalid("file1", fileChecker), false);
@@ -224,13 +224,15 @@ describe("isFileInvalid", function() {
 describe("getContents", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
-  const listOfFiles = [ "file1", "file2", "filex" ];
-  const fs = {readFileSync : (filename)=>eval(filename),
-    existsSync: (filename)=> listOfFiles.includes(filename)};
+  const listOfFiles = ["file1", "file2", "filex"];
+  const fs = {
+    readFileSync: (filename) => eval(filename),
+    existsSync: (filename) => listOfFiles.includes(filename)
+  };
 
   it("should return invalidFileMsg if the file doesnot exists", function() {
     let userInput = ["n", "head.js", "fileY"];
-    let expectedOutput = "head: fileY: No such file or directory\n"; 
+    let expectedOutput = "head: fileY: No such file or directory\n";
     assert.equal(getContents(userInput, fs), expectedOutput);
   });
 
@@ -245,6 +247,14 @@ describe("getContents", function() {
 
     userInput = ["n", "head.js", "-c5", "file1"];
     expectedOutput = "A\nB\nC";
+    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+  });
+
+  it("should return invalidFileMsg and fileContent if one file exists but other doesnot", () => {
+    let userInput = ["n", "head.js", "-n5", "file1", "fileY"];
+    let expectedOutput = "==> file1 <==\n";
+    expectedOutput += "A\nB\nC\nD\nE\n\n";
+    expectedOutput += "head: fileY: No such file or directory";
     assert.equal(getContents(userInput, fs).trim(), expectedOutput);
   });
 
@@ -299,4 +309,3 @@ describe("ifErrorOccurs", function() {
   });
 
 });
-

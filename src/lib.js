@@ -176,14 +176,13 @@ const getContents = function(userInput, fs) {
   }
 
   return result.flat().join("");
-};  
+};
 
 const head = function(userInput, fs) {
   if (ifErrorOccurs(userInput)) {
     return ifErrorOccurs(userInput);
-  } else {
-    return getContents(userInput, fs);
   }
+  return getContents(userInput, fs);
 };
 
 /* ------ EXPORTS ------ */
