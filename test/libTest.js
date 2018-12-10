@@ -13,7 +13,8 @@ const {
   sliceElements,
   readLinesFromTop,
   getContents,
-  ifErrorOccurs
+  ifErrorOccurs,
+  head
 } = require("../src/lib.js");
 
 const dummyReader = (content) => content;
@@ -89,7 +90,7 @@ describe("isTypeChar", function() {
 describe("splitByLine", function() {
 
   describe("for given a source and a reader", function() {
-    it("should return content/s of source in array splited by \"\n\" ", function() {
+    it("should return each line of source in an array", function() {
 
       let input = "abcdefgh\n";
       input += "ijklmnop\n";
@@ -154,6 +155,14 @@ describe("extractCountAndStartingIndex", function() {
     it("should return a object containing linesToShow: 7, startingIndex: 4", function() {
       let input = ["n", "h.js", "-n", "7", "file1"];
       let expectedOutput = { linesToShow: 7, charToShow: 0, startingIndex: 4 };
+      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
+    });
+  });
+
+  describe("for count provided as firstArg", function() {
+    it("should return a object where linesToShow is the count provided", function() {
+      let input = ["n", "h.js", "-5", "file1"];
+      let expectedOutput = { linesToShow: 5, charToShow: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
@@ -321,4 +330,40 @@ describe("ifErrorOccurs", function() {
     assert.equal(ifErrorOccurs(input), expectedOutput);
   });
 
+});
+
+describe("head", function() {
+
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
+  const listOfFiles = ["file1", "file2", "filex"];
+  const fs = {
+    readFileSync: (filename) => eval(filename),
+    existsSync: (filename) => listOfFiles.includes(filename)
+  };
+  const errorMessage = "head: illegal option -- ";
+  const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
+  const invalidLineCount = "head: illegal line count -- ";
+  const invalidByteCount = "head: illegal byte count -- "; 
+
+  it("should return error message if illegal option is given", function() {
+    let userInput = ["n", "head.js", "-a", "file1"];
+    let expectedOutput = errorMessage + "a" + "\n" + usageMessage;
+    assert.equal(head(userInput, fs), expectedOutput);
+  });
+
+  it("should return illegal count message for invalid count given", function() {
+    let userInput = ["n", "head.js", "-n0", "file1"];
+    let expectedOutput = invalidLineCount + "0";
+    assert.equal(head(userInput, fs), expectedOutput);
+
+    userInput = ["n", "head.js", "-c0", "file1"];
+    expectedOutput = invalidByteCount + "0";
+    assert.equal(head(userInput, fs), expectedOutput);
+  });
+
+  it("should return contents of file if correct input is given", function() {
+    let userInput = ["n", "head.js", "-n5", "file1"];
+    let expectedOutput = "A\nB\nC\nD\nE";
+    assert.equal(head(userInput, fs).trim(), expectedOutput);
+   });
 });
