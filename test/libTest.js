@@ -12,7 +12,7 @@ const {
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
-  getContents,
+  getContentsOfHead,
   ifErrorOccurs,
   head
 } = require("../src/lib.js");
@@ -243,7 +243,7 @@ describe("isFileInvalid", function() {
 
 });
 
-describe("getContents", function() {
+describe("getContentsOfHead", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
   const listOfFiles = ["file1", "file2", "filex"];
@@ -255,21 +255,21 @@ describe("getContents", function() {
   it("should return invalidFileMsg if the file doesnot exists", function() {
     let userInput = ["n", "head.js", "fileY"];
     let expectedOutput = "head: fileY: No such file or directory\n";
-    assert.equal(getContents(userInput, fs), expectedOutput);
+    assert.equal(getContentsOfHead(userInput, fs), expectedOutput);
   });
 
   it("should return fileContent if File exists", function() {
     let userInput = ["n", "head.js", "file1"];
     let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
-    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+    assert.equal(getContentsOfHead(userInput, fs).trim(), expectedOutput);
 
     userInput = ["n", "head.js", "-n5", "file1"];
     expectedOutput = "A\nB\nC\nD\nE";
-    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+    assert.equal(getContentsOfHead(userInput, fs).trim(), expectedOutput);
 
     userInput = ["n", "head.js", "-c5", "file1"];
     expectedOutput = "A\nB\nC";
-    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+    assert.equal(getContentsOfHead(userInput, fs).trim(), expectedOutput);
   });
 
   it("should return invalidFileMsg and fileContent if one file exists but other doesnot", () => {
@@ -277,7 +277,7 @@ describe("getContents", function() {
     let expectedOutput = "==> file1 <==\n";
     expectedOutput += "A\nB\nC\nD\nE\n\n";
     expectedOutput += "head: fileY: No such file or directory";
-    assert.equal(getContents(userInput, fs).trim(), expectedOutput);
+    assert.equal(getContentsOfHead(userInput, fs).trim(), expectedOutput);
   });
 
 });
