@@ -10,4 +10,3 @@ const main = function(userInput) {
 
 console.log(main(process.argv));
 
-exports.main = main;
