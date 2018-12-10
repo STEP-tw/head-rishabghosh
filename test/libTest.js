@@ -365,5 +365,5 @@ describe("head", function() {
     let userInput = ["n", "head.js", "-n5", "file1"];
     let expectedOutput = "A\nB\nC\nD\nE";
     assert.equal(head(userInput, fs).trim(), expectedOutput);
-   });
+  });
 });

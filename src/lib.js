@@ -41,18 +41,12 @@ const sliceElements = function (content, noOfElements) {
 /*
  * splitByLine and spltChar dublication can be avoided by using bind
  */
-
-const splitByLine = function (source, reader) {
-  let filename = source;
-  let contentOfFile = reader(filename, "utf8").split("\n");
-  return contentOfFile;
+const splitSource = function(source, reader) {
+  return reader(source, "utf8").split(this);
 };
 
-const splitByChar = function (source, reader) {
-  let filename = source;
-  let contentOfFile = reader(filename, "utf8").split("");
-  return contentOfFile;
-};
+const splitByLine = splitSource.bind("\n");
+const splitByChar = splitSource.bind("");
 
 /*
  * dublication can be avoided by binding 
