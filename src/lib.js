@@ -188,7 +188,7 @@ const getContents = function (userInput, fs) {
     let filename = userInput[index];
 
     /*
-     * impliment switch case
+     * try to impliment switch case 
      */
 
     if (isFileInvalid(filename, fs)) {
