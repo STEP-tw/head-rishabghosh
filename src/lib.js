@@ -1,7 +1,9 @@
 /*eslint-env node*/
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
-const { flat } = require("./protoLib.js");
+const {
+  flat
+} = require("./protoLib.js");
 
 const errorMessage = "head: illegal option -- ";
 const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
@@ -38,19 +40,12 @@ const sliceElements = function (content, noOfElements) {
   return content.slice(0, noOfElements);
 };
 
-/*
- * splitByLine and spltChar dublication can be avoided by using bind
- */
-const splitSource = function(source, reader) {
+const splitSource = function (source, reader) {
   return reader(source, "utf8").split(this);
 };
 
 const splitByLine = splitSource.bind("\n");
 const splitByChar = splitSource.bind("");
-
-/*
- * dublication can be avoided by binding 
- */
 
 const readLinesFromTop = function (filename, reader, noOfLines) {
   let totalContent = splitByLine(filename, reader);
@@ -66,58 +61,73 @@ const readCharFromTop = function (filename, reader, noOfChar) {
  * each if statement should be its own function
  */
 
-const isDefaultChoice = function (userInput) {
-  return userInput[2][0] !== "-";
+const isDefaultChoice = function (firstArg) {
+  return firstArg[0] !== "-";
 };
 
 const extractCountAndStartingIndex = function (userInput) {
+  let firstArg = userInput[2];
   let linesToShow = 0;
   let charToShow = 0;
   let startingIndex = 0;
 
-  if (isDefaultChoice(userInput)) {
+  if (isDefaultChoice(firstArg)) {
     startingIndex = 2;
     linesToShow = 10;
-    return { linesToShow, charToShow, startingIndex };
+    return {
+      linesToShow,
+      charToShow,
+      startingIndex
+    };
   }
 
-  if (userInput[2] === "--") {
+  if (firstArg === "--") {
     startingIndex = 3;
     linesToShow = 10;
-    return { linesToShow, charToShow, startingIndex };
+    return {
+      linesToShow,
+      charToShow,
+      startingIndex
+    };
   }
-  /*
-   * Number.isInteger should be used instead of isNaN
-   */
-  if (!isNaN(userInput[2])) {
+   
+  if (Number(firstArg)) {
     startingIndex = 3;
-    linesToShow = userInput[2].slice(1);
-    return { linesToShow, charToShow, startingIndex };
+    linesToShow = firstArg.slice(1);
+    return {
+      linesToShow,
+      charToShow,
+      startingIndex
+    };
   }
   /*
    * should use better logic to get rid of this switch-case blog
    */
-  switch (userInput[2].slice(2).length) { //length of count value if present
+  switch (firstArg.slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 4;
-      if (userInput[2][1] === "n") {
+      if (firstArg[1] === "n") {
         linesToShow = userInput[3];
       }
-      if (userInput[2][1] === "c") {
+      if (firstArg[1] === "c") {
         charToShow = userInput[3];
       }
       break;
     default:
       startingIndex = 3;
-      if (userInput[2][1] === "n") {
-        linesToShow = userInput[2].slice(2);
+      if (firstArg[1] === "n") {
+        linesToShow = firstArg.slice(2);
       }
-      if (userInput[2][1] === "c") {
-        charToShow = userInput[2].slice(2);
+      if (firstArg[1] === "c") {
+        charToShow = firstArg.slice(2);
       }
   }
 
-  return { linesToShow, charToShow, startingIndex };
+  return {
+    linesToShow,
+    charToShow,
+    startingIndex
+  };
 };
 
 const isCountInvalid = function (count) {
@@ -125,7 +135,10 @@ const isCountInvalid = function (count) {
 };
 
 const ifErrorOccurs = function (userInput) {
-  let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+  let {
+    linesToShow,
+    charToShow
+  } = extractCountAndStartingIndex(userInput);
 
   if (userInput[2][0] === "-") {
 
@@ -164,7 +177,11 @@ const isFileInvalid = function (filename, fs) {
 const getContents = function (userInput, fs) {
   let reader = fs.readFileSync;
   let result = [];
-  let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
+  let {
+    linesToShow,
+    charToShow,
+    startingIndex
+  } = extractCountAndStartingIndex(userInput);
   let fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
