@@ -15,7 +15,8 @@ const {
   getContentsOfHead,
   ifErrorOccurs,
   head,
-  readLinesFromBottom
+  readLinesFromBottom,
+  readCharFromBottom
 } = require("../src/lib.js");
 
 const dummyReader = (content) => content;
@@ -403,6 +404,21 @@ describe("readLinesFromBottom", function() {
     expectedOutput += "This is line 11";
 
     assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 10), expectedOutput);
+  });
+
+});
+
+describe("readCharFromBottom", function() {
+
+  let fileContents = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
+
+  it("should return an empty array for noOfchar:0", function() {
+    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 0), "");
+  });
+
+  it("should return last 10 characters for noOfChar:10", function() {
+    let expectedOutput = "A\nB\nC\nD\nE\n";
+    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 10), expectedOutput);
   });
 
 });

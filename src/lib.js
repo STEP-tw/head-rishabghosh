@@ -225,12 +225,12 @@ const readLinesFromBottom = function (filename, reader, noOfLines) {
   let totalContent = splitByLine(filename, reader);
   return totalContent.slice(totalContent.length - noOfLines).join("\n");
 };
-/*
-const readCharFromTop = function (filename, reader, noOfChar) {
+
+const readCharFromBottom = function (filename, reader, noOfChar) {
   let totalContent = splitByChar(filename, reader);
   return sliceElements(totalContent, noOfChar).join("");
 };
-*/
+
 /* ------ EXPORTS ------ */
 
 module.exports = {
@@ -246,5 +246,6 @@ module.exports = {
   readLinesFromTop,
   readCharFromTop,
   ifErrorOccurs,
-  readLinesFromBottom
+  readLinesFromBottom,
+  readCharFromBottom,
 };
