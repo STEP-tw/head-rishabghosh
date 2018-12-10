@@ -5,3 +5,9 @@
 .eslintrc.*
 package.*
 .jshintignore
+
+.myHead
+.usrTail
+.sysTail
+.sysHead
+.vscode
