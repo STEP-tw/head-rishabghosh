@@ -7,7 +7,7 @@ const {
   isTypeLine,
   isTypeChar,
   isFileInvalid,
-  splitLine,
+  splitByLine,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
@@ -85,7 +85,7 @@ describe("isTypeChar", function() {
 
 });
 
-describe("splitLine", function() {
+describe("splitByLine", function() {
 
   describe("for given a source and a reader", function() {
     it("should return content/s of source in array splited by \"\n\" ", function() {
@@ -95,7 +95,7 @@ describe("splitLine", function() {
       input += "qrstuvwxyz";
 
       let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
-      assert.deepEqual(splitLine(input, dummyReader), expectedOutput);
+      assert.deepEqual(splitByLine(input, dummyReader), expectedOutput);
     });
   });
 

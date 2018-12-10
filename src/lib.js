@@ -8,47 +8,47 @@ const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
-const genIllegalOptionMsg = function(option) {
+const genIllegalOptionMsg = function (option) {
   return errorMessage + option + "\n" + usageMessage;
 };
 
-const genInvalidFileError = function(filename) {
+const genInvalidFileError = function (filename) {
   return "head: " + filename + ": No such file or directory\n";
 };
 
-const generateHeader = function(filename) {
+const generateHeader = function (filename) {
   return "==> " + filename + " <==" + "\n";
 };
 
-const isTypeLine = function(userInput) {
+const isTypeLine = function (userInput) {
   let firstArg = userInput[2];
   return (firstArg[1] === "n" || firstArg[0] !== "-" ||
     Number.isInteger(+firstArg) || firstArg === "--");
 };
 
-const isTypeChar = function(userInput) {
+const isTypeChar = function (userInput) {
   return (userInput[2][1] === "c");
 };
 
-const isTypeInvalid = function(userInput) {
+const isTypeInvalid = function (userInput) {
   return !isTypeLine(userInput) && !isTypeChar(userInput);
 };
 
-const sliceElements = function(content, noOfElements) {
+const sliceElements = function (content, noOfElements) {
   return content.slice(0, noOfElements);
 };
 
 /*
- * splitLine and spltChar dublication can be avoided by using bind
+ * splitByLine and spltChar dublication can be avoided by using bind
  */
 
-const splitLine = function(source, reader) {
+const splitByLine = function (source, reader) {
   let filename = source;
   let contentOfFile = reader(filename, "utf8").split("\n");
   return contentOfFile;
 };
 
-const splitChar = function(source, reader) {
+const splitChar = function (source, reader) {
   let filename = source;
   let contentOfFile = reader(filename, "utf8").split("");
   return contentOfFile;
@@ -58,12 +58,12 @@ const splitChar = function(source, reader) {
  * dublication can be avoided by binding 
  */
 
-const readLinesFromTop = function(filename, reader, noOfLines) {
-  let totalContent = splitLine(filename, reader);
+const readLinesFromTop = function (filename, reader, noOfLines) {
+  let totalContent = splitByLine(filename, reader);
   return sliceElements(totalContent, noOfLines).join("\n");
 };
 
-const readCharFromTop = function(filename, reader, noOfChar) {
+const readCharFromTop = function (filename, reader, noOfChar) {
   let totalContent = splitChar(filename, reader);
   return sliceElements(totalContent, noOfChar).join("");
 };
@@ -71,11 +71,12 @@ const readCharFromTop = function(filename, reader, noOfChar) {
 /*
  * each if statement should be its own function
  */
-const isDefaultChoice = function(userInput) {
+
+const isDefaultChoice = function (userInput) {
   return userInput[2][0] !== "-";
 };
 
-const extractCountAndStartingIndex = function(userInput) {
+const extractCountAndStartingIndex = function (userInput) {
   let linesToShow = 0;
   let charToShow = 0;
   let startingIndex = 0;
@@ -105,23 +106,31 @@ const extractCountAndStartingIndex = function(userInput) {
   switch (userInput[2].slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 4;
-      if (userInput[2][1] === "n") { linesToShow = userInput[3]; }
-      if (userInput[2][1] === "c") { charToShow = userInput[3]; }
+      if (userInput[2][1] === "n") {
+        linesToShow = userInput[3];
+      }
+      if (userInput[2][1] === "c") {
+        charToShow = userInput[3];
+      }
       break;
     default:
       startingIndex = 3;
-      if (userInput[2][1] === "n") { linesToShow = userInput[2].slice(2); }
-      if (userInput[2][1] === "c") { charToShow = userInput[2].slice(2); }
+      if (userInput[2][1] === "n") {
+        linesToShow = userInput[2].slice(2);
+      }
+      if (userInput[2][1] === "c") {
+        charToShow = userInput[2].slice(2);
+      }
   }
 
   return { linesToShow, charToShow, startingIndex };
 };
 
-const isCountInvalid = function(count) {
+const isCountInvalid = function (count) {
   return count < 1 || !Number.isInteger(+count);
 };
 
-const ifErrorOccurs = function(userInput) {
+const ifErrorOccurs = function (userInput) {
   let { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
   if (userInput[2][0] === "-") {
@@ -150,14 +159,15 @@ const ifErrorOccurs = function(userInput) {
   return false;
 };
 
-const isFileInvalid = function(filename, fs) {
+const isFileInvalid = function (filename, fs) {
   return !fs.existsSync(filename);
 };
+
 /*
  * should be extracted to smaller function for testing
  */
 
-const getContents = function(userInput, fs) {
+const getContents = function (userInput, fs) {
   let reader = fs.readFileSync;
   let result = [];
   let { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
@@ -167,13 +177,15 @@ const getContents = function(userInput, fs) {
     let filename = userInput[index];
 
     /*
-     * implimented switch case
+     * impliment switch case
      */
 
     if (isFileInvalid(filename, fs)) {
       result.push(genInvalidFileError(filename));
     } else {
-      if (fileCount > 1) { result.push(generateHeader(filename)); }
+      if (fileCount > 1) {
+        result.push(generateHeader(filename));
+      }
 
       if (isTypeLine(userInput)) {
         result.push(readLinesFromTop(filename, reader, linesToShow));
@@ -191,7 +203,7 @@ const getContents = function(userInput, fs) {
   return result.flat().join("");
 };
 
-const head = function(userInput, fs) {
+const head = function (userInput, fs) {
   if (ifErrorOccurs(userInput)) {
     return ifErrorOccurs(userInput);
   }
@@ -206,9 +218,10 @@ module.exports = {
   isFileInvalid,
   isTypeLine,
   isTypeChar,
-  splitLine,
+  splitByLine,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
+  readCharFromTop,
   ifErrorOccurs
 };
