@@ -16,7 +16,9 @@ const {
   ifErrorOccurs,
   head,
   readLinesFromBottom,
-  readCharFromBottom
+  readCharFromBottom,
+  getContentsOfTail,
+  tail
 } = require("../src/lib.js");
 
 const dummyReader = (content) => content;
@@ -417,8 +419,84 @@ describe("readCharFromBottom", function() {
   });
 
   it("should return last 10 characters for noOfChar:10", function() {
-    let expectedOutput = "A\nB\nC\nD\nE\n";
+    let expectedOutput = "H\nI\nJ\nK\nL\n";
     assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 10), expectedOutput);
   });
 
+});
+
+describe("getContentesOfTail", function() {
+
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+  const listOfFiles = ["file1", "file2", "filex"];
+  const fs = {
+    readFileSync: (filename) => eval(filename),
+    existsSync: (filename) => listOfFiles.includes(filename)
+  };
+
+  it("should return invalidFileMsg if the file doesnot exist", function() {
+    let userInput = ["n", "tail.js", "fileY"];
+    let expectedOutput = "tail: fileY: No such file or directory";
+    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+  });
+
+  it("should return fileContent if File exists", function() {
+    let userInput = ["n", "tail.js", "file1"];
+    let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+
+    userInput = ["n", "tail.js", "-n5", "file1"];
+    expectedOutput = "I\nJ\nK\nL\nM"; 
+    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+
+    userInput = ["n", "tail.js", "-c5", "file1"];
+    expectedOutput = "K\nL\nM";
+    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+
+  });
+
+  it("should return invalidFileMsg and fileContent if one file exists but other doesnot", () => {
+    let userInput = ["n", "tail.js", "-n5", "file1", "fileY"];
+    let expectedOutput = "==> file1 <==\n";
+    expectedOutput += "I\nJ\nK\nL\nM"; 
+    expectedOutput += "tail: fileY: No such file or directory";
+    assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
+  });
+
+});
+
+describe("tail", function() {
+
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
+  const listOfFiles = ["file1", "file2", "filex"];
+  const fs = {
+    readFileSync: (filename) => eval(filename),
+    existsSync: (filename) => listOfFiles.includes(filename)
+  };
+  const errorMessage = "tail: illegal option -- ";
+  const usageMessage = "usage: tail [-n lines | -c bytes] [file ...]";
+  const invalidLineCount = "tail: illegal line count -- ";
+  const invalidByteCount = "tail: illegal byte count -- "; 
+
+  it("should return error message if illegal option is given", function() {
+    let userInput = ["n", "tail.js", "-a", "file1"];
+    let expectedOutput = errorMessage + "a" + "\n" + usageMessage;
+    assert.equal(tail(userInput, fs), expectedOutput);
+  });
+
+  it("should return illegal count message for invalid count given", function() {
+    let userInput = ["n", "tail.js", "-n0", "file1"];
+    let expectedOutput = invalidLineCount + "0";
+    assert.equal(tail(userInput, fs), expectedOutput);
+
+    userInput = ["n", "tail.js", "-c0", "file1"];
+    expectedOutput = invalidByteCount + "0";
+    assert.equal(tail(userInput, fs), expectedOutput);
+  });
+
+  it("should return contents of file if correct input is given", function() {
+    let userInput = ["n", "tail.js", "-n5", "file1"];
+    let expectedOutput = "J\nK\nL\nM\n";
+    assert.equal(tail(userInput, fs), expectedOutput);
+  });
 });

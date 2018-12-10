@@ -71,7 +71,7 @@ const extractCountAndStartingIndex = function (userInput) {
   let charToShow = 0;
   let startingIndex = 0;
 
-  if (isDefaultChoice(firstArg)) {
+  if (firstArg[0] !== "-") {
     startingIndex = 2;
     linesToShow = 10;
     return {
@@ -228,7 +228,85 @@ const readLinesFromBottom = function (filename, reader, noOfLines) {
 
 const readCharFromBottom = function (filename, reader, noOfChar) {
   let totalContent = splitByChar(filename, reader);
-  return sliceElements(totalContent, noOfChar).join("");
+  return totalContent.slice(totalContent.length - noOfChar).join(""); 
+};
+
+const getContentsOfTail = function (userInput, fs) {
+  let reader = fs.readFileSync;
+  let result = [];
+  let {
+    linesToShow,
+    charToShow,
+    startingIndex
+  } = extractCountAndStartingIndex(userInput);
+  let fileCount = userInput.length - startingIndex;
+
+  for (let index = startingIndex; index < userInput.length; index++) {
+    let filename = userInput[index];
+
+    /*
+     * try to impliment switch case 
+     */
+
+    if (isFileInvalid(filename, fs)) {
+      result.push("tail: " + filename + ": No such file or directory");
+    } else {
+
+      if (fileCount > 1) {
+        result.push(generateHeader(filename));
+      }
+
+      if (isTypeLine(userInput)) {
+        result.push(readLinesFromBottom(filename, reader, linesToShow));
+      }
+
+      if (isTypeChar(userInput)) {
+        result.push(readCharFromBottom(filename, reader, charToShow));
+      }
+
+    }
+  }
+
+  return result.flat().join("");
+};
+
+const ifTailErrorOccurs = function (userInput) {
+  let {
+    linesToShow,
+    charToShow
+  } = extractCountAndStartingIndex(userInput);
+
+  if (userInput[2][0] === "-") {
+
+    if (isTypeInvalid(userInput)) {
+      return "tail: illegal option -- " +userInput[2][1]+"\n" +"usage: tail [-n lines | -c bytes] [file ...]"; 
+    }
+
+    if (isTypeLine(userInput)) {
+      if (isCountInvalid(linesToShow)) {
+        return "tail: illegal line count -- " + linesToShow;
+      } else {
+        return false;
+      }
+    }
+
+    if (isTypeChar(userInput)) {
+      if (isCountInvalid(charToShow)) {
+        return "tail: illegal byte count -- " + charToShow;
+      } else {
+        return false;
+      }
+    }
+
+  }
+  return false;
+};
+
+const tail = function (userInput, fs) {
+  if (ifTailErrorOccurs(userInput)) {
+    return ifTailErrorOccurs(userInput);
+  }
+  return getContentsOfTail(userInput, fs);
 };
 
 /* ------ EXPORTS ------ */
@@ -248,4 +326,6 @@ module.exports = {
   ifErrorOccurs,
   readLinesFromBottom,
   readCharFromBottom,
+  getContentsOfTail,
+  tail
 };
