@@ -221,6 +221,16 @@ const head = function (userInput, fs) {
   return getContentsOfHead(userInput, fs);
 };
 
+const readLinesFromBottom = function (filename, reader, noOfLines) {
+  let totalContent = splitByLine(filename, reader);
+  return totalContent.slice(totalContent.length - noOfLines).join("\n");
+};
+/*
+const readCharFromTop = function (filename, reader, noOfChar) {
+  let totalContent = splitByChar(filename, reader);
+  return sliceElements(totalContent, noOfChar).join("");
+};
+*/
 /* ------ EXPORTS ------ */
 
 module.exports = {
@@ -235,5 +245,6 @@ module.exports = {
   sliceElements,
   readLinesFromTop,
   readCharFromTop,
-  ifErrorOccurs
+  ifErrorOccurs,
+  readLinesFromBottom
 };

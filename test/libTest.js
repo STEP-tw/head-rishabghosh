@@ -14,7 +14,8 @@ const {
   readLinesFromTop,
   getContentsOfHead,
   ifErrorOccurs,
-  head
+  head,
+  readLinesFromBottom
 } = require("../src/lib.js");
 
 const dummyReader = (content) => content;
@@ -366,4 +367,42 @@ describe("head", function() {
     let expectedOutput = "A\nB\nC\nD\nE";
     assert.equal(head(userInput, fs).trim(), expectedOutput);
   });
+});
+
+describe("readLinesFromBottom", function() {
+
+  let fileContents = "";
+  fileContents += "This is line 1\n";
+  fileContents += "This is line 2\n";
+  fileContents += "This is line 3\n";
+  fileContents += "This is line 4\n";
+  fileContents += "This is line 5\n";
+  fileContents += "This is line 6\n";
+  fileContents += "This is line 7\n";
+  fileContents += "This is line 8\n";
+  fileContents += "This is line 9\n";
+  fileContents += "This is line 10\n";
+  fileContents += "This is line 11";
+
+  it("should return an empty array for noOfLines:0", function() {
+    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 0), "");
+  });
+
+  it("should return 10 lines in array for noOfLines:10 ", function() {
+
+    let expectedOutput = "";
+    expectedOutput += "This is line 2\n";
+    expectedOutput += "This is line 3\n";
+    expectedOutput += "This is line 4\n";
+    expectedOutput += "This is line 5\n";
+    expectedOutput += "This is line 6\n";
+    expectedOutput += "This is line 7\n";
+    expectedOutput += "This is line 8\n";
+    expectedOutput += "This is line 9\n";
+    expectedOutput += "This is line 10\n";
+    expectedOutput += "This is line 11";
+
+    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 10), expectedOutput);
+  });
+
 });
