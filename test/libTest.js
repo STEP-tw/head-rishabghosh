@@ -8,6 +8,7 @@ const {
   isTypeChar,
   isFileInvalid,
   splitByLine,
+  splitByChar,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
@@ -96,6 +97,18 @@ describe("splitByLine", function() {
 
       let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
       assert.deepEqual(splitByLine(input, dummyReader), expectedOutput);
+    });
+  });
+
+});
+
+describe("splitByChar", function() {
+
+  describe("for given a  source and reader", function() {
+    it("should return each character of source in an array", function() {
+      let input = "ABCD\nEFGH";
+      let expectedOutput = ["A", "B", "C", "D", "\n", "E", "F", "G", "H"];
+      assert.deepEqual(splitByChar(input,dummyReader), expectedOutput);
     });
   });
 

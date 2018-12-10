@@ -48,7 +48,7 @@ const splitByLine = function (source, reader) {
   return contentOfFile;
 };
 
-const splitChar = function (source, reader) {
+const splitByChar = function (source, reader) {
   let filename = source;
   let contentOfFile = reader(filename, "utf8").split("");
   return contentOfFile;
@@ -64,7 +64,7 @@ const readLinesFromTop = function (filename, reader, noOfLines) {
 };
 
 const readCharFromTop = function (filename, reader, noOfChar) {
-  let totalContent = splitChar(filename, reader);
+  let totalContent = splitByChar(filename, reader);
   return sliceElements(totalContent, noOfChar).join("");
 };
 
@@ -219,6 +219,7 @@ module.exports = {
   isTypeLine,
   isTypeChar,
   splitByLine,
+  splitByChar,
   extractCountAndStartingIndex,
   sliceElements,
   readLinesFromTop,
