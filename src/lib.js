@@ -258,6 +258,7 @@ const getContentsOfTail = function (userInput, fs) {
 
       if (isTypeLine(userInput)) {
         result.push(readLinesFromBottom(filename, reader, linesToShow));
+        result.push("\n");
       }
 
       if (isTypeChar(userInput)) {
