@@ -437,7 +437,7 @@ describe("getContentesOfTail", function() {
   it("should return invalidFileMsg if the file doesnot exist", function() {
     let userInput = ["n", "tail.js", "fileY"];
     let expectedOutput = "tail: fileY: No such file or directory";
-    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+    assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
   });
 
   it("should return fileContent if File exists", function() {

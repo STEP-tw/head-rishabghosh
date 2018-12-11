@@ -249,7 +249,7 @@ const getContentsOfTail = function (userInput, fs) {
      */
 
     if (isFileInvalid(filename, fs)) {
-      result.push("tail: " + filename + ": No such file or directory");
+      result.push("tail: " + filename + ": No such file or directory\n");
     } else {
 
       if (fileCount > 1) {
