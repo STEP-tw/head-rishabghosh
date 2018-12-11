@@ -223,12 +223,16 @@ const head = function (userInput, fs) {
 
 const readLinesFromBottom = function (filename, reader, noOfLines) {
   let totalContent = splitByLine(filename, reader);
-  return totalContent.slice(totalContent.length - noOfLines).join("\n");
+  let sliceFrom = totalContent.length - noOfLines;
+  if (sliceFrom < 0) { sliceFrom = 0; }
+  return totalContent.slice(sliceFrom).join("\n");
 };
 
 const readCharFromBottom = function (filename, reader, noOfChar) {
   let totalContent = splitByChar(filename, reader);
-  return totalContent.slice(totalContent.length - noOfChar).join(""); 
+  let sliceFrom = totalContent.length - noOfChar;
+  if (sliceFrom < 0) { sliceFrom = 0; }
+  return totalContent.slice(sliceFrom).join(""); 
 };
 
 const getContentsOfTail = function (userInput, fs) {
