@@ -263,6 +263,7 @@ const getContentsOfTail = function (userInput, fs) {
 
       if (isTypeChar(userInput)) {
         result.push(readCharFromBottom(filename, reader, charToShow));
+        result.push("\n");
       }
 
     }
@@ -276,16 +277,18 @@ const ifTailErrorOccurs = function (userInput) {
     linesToShow,
     charToShow
   } = extractCountAndStartingIndex(userInput);
+  let illegalCount;
+  if(!Number.isInteger(+linesToShow)){ illegalCount = linesToShow;}
+  if(!Number.isInteger(+charToShow)) { illegalCount = charToShow;}
 
   if (userInput[2][0] === "-") {
-
     if (isTypeInvalid(userInput)) {
       return "tail: illegal option -- " +userInput[2][1]+"\n" +"usage: tail [-n lines | -c bytes] [file ...]"; 
     }
 
-    if (!isTypeInvalid(userInput)) {
-      if (!Number.isInteger(+linesToShow)) {
-        return "tail: illegal offset -- " + linesToShow;
+    if (isTypeChar(userInput) || isTypeLine(userInput)) {
+      if (illegalCount !== undefined) {
+        return "tail: illegal offset -- " + illegalCount;
       } else {
         return false;
       }

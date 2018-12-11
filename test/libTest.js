@@ -451,7 +451,7 @@ describe("getContentesOfTail", function() {
 
     userInput = ["n", "tail.js", "-c5", "file1"];
     expectedOutput = "K\nL\nM";
-    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+    assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
 
   });
 
