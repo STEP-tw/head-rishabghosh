@@ -71,7 +71,7 @@ const extractCountAndStartingIndex = function (userInput) {
   let charToShow = 0;
   let startingIndex = 0;
 
-  if (firstArg[0] !== "-") {
+  if (isDefaultChoice(firstArg)) {
     startingIndex = 2;
     linesToShow = 10;
     return {
@@ -278,22 +278,19 @@ const ifTailErrorOccurs = function (userInput) {
     charToShow
   } = extractCountAndStartingIndex(userInput);
   let illegalCount;
-  if(!Number.isInteger(+linesToShow)){ illegalCount = linesToShow;}
-  if(!Number.isInteger(+charToShow)) { illegalCount = charToShow;}
+
+  if(!Number.isInteger(+linesToShow)) { illegalCount = linesToShow; }
+  if(!Number.isInteger(+charToShow)) { illegalCount = charToShow; }
 
   if (userInput[2][0] === "-") {
+
     if (isTypeInvalid(userInput)) {
       return "tail: illegal option -- " +userInput[2][1]+"\n" +"usage: tail [-n lines | -c bytes] [file ...]"; 
     }
 
-    if (isTypeChar(userInput) || isTypeLine(userInput)) {
-      if (illegalCount !== undefined) {
-        return "tail: illegal offset -- " + illegalCount;
-      } else {
-        return false;
-      }
-    }
-
+    if (!isTypeInvalid(userInput) && illegalCount !== undefined) {
+      return "tail: illegal offset -- " + illegalCount;
+    } 
   }
   return false;
 };
