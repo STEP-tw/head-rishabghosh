@@ -283,17 +283,9 @@ const ifTailErrorOccurs = function (userInput) {
       return "tail: illegal option -- " +userInput[2][1]+"\n" +"usage: tail [-n lines | -c bytes] [file ...]"; 
     }
 
-    if (isTypeLine(userInput)) {
-      if (isCountInvalid(linesToShow)) {
-        return "tail: illegal line count -- " + linesToShow;
-      } else {
-        return false;
-      }
-    }
-
-    if (isTypeChar(userInput)) {
-      if (isCountInvalid(charToShow)) {
-        return "tail: illegal byte count -- " + charToShow;
+    if (!isTypeInvalid(userInput)) {
+      if (!Number.isInteger(+linesToShow)) {
+        return "tail: illegal offset -- " + linesToShow;
       } else {
         return false;
       }

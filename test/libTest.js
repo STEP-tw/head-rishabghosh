@@ -475,8 +475,7 @@ describe("tail", function() {
   };
   const errorMessage = "tail: illegal option -- ";
   const usageMessage = "usage: tail [-n lines | -c bytes] [file ...]";
-  const invalidLineCount = "tail: illegal line count -- ";
-  const invalidByteCount = "tail: illegal byte count -- "; 
+  const invalidOffsetMsg = "tail: illegal offset -- ";
 
   it("should return error message if illegal option is given", function() {
     let userInput = ["n", "tail.js", "-a", "file1"];
@@ -484,14 +483,9 @@ describe("tail", function() {
     assert.equal(tail(userInput, fs), expectedOutput);
   });
 
-  it("should return illegal count message for invalid count given", function() {
+  it("should return empty string if count is 0", function() {
     let userInput = ["n", "tail.js", "-n0", "file1"];
-    let expectedOutput = invalidLineCount + "0";
-    assert.equal(tail(userInput, fs), expectedOutput);
-
-    userInput = ["n", "tail.js", "-c0", "file1"];
-    expectedOutput = invalidByteCount + "0";
-    assert.equal(tail(userInput, fs), expectedOutput);
+    assert.equal(tail(userInput, fs).trim(), "");
   });
 
   it("should return contents of file if correct input is given", function() {
@@ -499,4 +493,5 @@ describe("tail", function() {
     let expectedOutput = "J\nK\nL\nM\n\n";
     assert.equal(tail(userInput, fs), expectedOutput);
   });
+
 });
