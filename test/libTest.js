@@ -494,4 +494,14 @@ describe("tail", function() {
     assert.equal(tail(userInput, fs), expectedOutput);
   });
 
+  it("should return invalid offset if invalid count is given", function() {
+    let userInput =["n", "tail.js", "-n10x", "file1"];
+    let expectedOutput = invalidOffsetMsg + userInput[2].slice(2);
+    assert.equal(tail(userInput, fs), expectedOutput) ;
+
+    userInput =["n", "tail.js", "-n10x", "file1"];
+    expectedOutput = invalidOffsetMsg + userInput[2].slice(2);
+    assert.equal(tail(userInput, fs), expectedOutput) ;
+  });
+
 });
