@@ -6,15 +6,15 @@ const {
 } = require("./protoLib.js");
 
 const errorMsgForHead = "head: illegal option -- ";
-const usageMessageForHead = "usage: head [-n lines | -c bytes] [file ...]";
+const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
-const genIllegalOptionMsg = function (option) {
-  return errorMsgForHead + option + "\n" + usageMessageForHead;
+const genIllegalOptionMsgForHead = function (option) {
+  return errorMsgForHead + option + "\n" + usageMsgForHead;
 };
 
-const genInvalidFileError = function (filename) {
+const genFileErrorMsgForHead = function (filename) {
   return "head: " + filename + ": No such file or directory\n";
 };
 
@@ -143,7 +143,7 @@ const ifErrorOccurs = function (userInput) {
   if (userInput[2][0] === "-") {
 
     if (isOptionInvalid(userInput)) {
-      return genIllegalOptionMsg(userInput[2][1]);
+      return genIllegalOptionMsgForHead(userInput[2][1]);
     }
 
     if (isOptionLine(userInput)) {
@@ -192,7 +192,7 @@ const getContentsOfHead = function (userInput, fs) {
      */
 
     if (isFileInvalid(filename, fs)) {
-      result.push(genInvalidFileError(filename));
+      result.push(genFileErrorMsgForHead(filename));
     } else {
       if (fileCount > 1) {
         result.push(generateHeader(filename));
