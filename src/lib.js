@@ -1,9 +1,7 @@
 /*eslint-env node*/
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
-const {
-  flat
-} = require("./protoLib.js");
+const { flat } = require("./protoLib.js");
 
 const errorMsgForHead = "head: illegal option -- ";
 const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
@@ -52,12 +50,12 @@ const splitByLine = splitSource.bind("\n");
 const splitByChar = splitSource.bind("");
 
 const readLinesFromTop = function (filename, reader, noOfLines) {
-  let totalContent = splitByLine(filename, reader);
+  const totalContent = splitByLine(filename, reader);
   return totalContent.slice(0, noOfLines).join("\n");
 };
 
 const readCharFromTop = function (filename, reader, noOfChar) {
-  let totalContent = splitByChar(filename, reader);
+  const totalContent = splitByChar(filename, reader);
   return totalContent.slice(0, noOfChar).join("");
 };
 
@@ -78,60 +76,38 @@ const extractCountAndStartingIndex = function (userInput) {
   if (isDefaultChoice(firstArg)) {
     startingIndex = 2;
     linesToShow = 10;
-    return {
-      linesToShow,
-      charToShow,
-      startingIndex
-    };
+    return { linesToShow, charToShow, startingIndex };
   }
 
   if (firstArg === "--") {
     startingIndex = 3;
     linesToShow = 10;
-    return {
-      linesToShow,
-      charToShow,
-      startingIndex
-    };
+    return { linesToShow, charToShow, startingIndex };
   }
    
   if (Number(firstArg)) {
     startingIndex = 3;
     linesToShow = firstArg.slice(1);
-    return {
-      linesToShow,
-      charToShow,
-      startingIndex
-    };
+    return { linesToShow, charToShow, startingIndex };
   }
+
   /*
    * should use better logic to get rid of this switch-case blog
    */
+
   switch (firstArg.slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 4;
-      if (firstArg[1] === "n") {
-        linesToShow = userInput[3];
-      }
-      if (firstArg[1] === "c") {
-        charToShow = userInput[3];
-      }
+      if (firstArg[1] === "n") { linesToShow = userInput[3]; }
+      if (firstArg[1] === "c") { charToShow = userInput[3]; }
       break;
     default:
       startingIndex = 3;
-      if (firstArg[1] === "n") {
-        linesToShow = firstArg.slice(2);
-      }
-      if (firstArg[1] === "c") {
-        charToShow = firstArg.slice(2);
-      }
+      if (firstArg[1] === "n") { linesToShow = firstArg.slice(2); }
+      if (firstArg[1] === "c") { charToShow = firstArg.slice(2); }
   }
 
-  return {
-    linesToShow,
-    charToShow,
-    startingIndex
-  };
+  return { linesToShow, charToShow, startingIndex };
 };
 
 const isCountInvalid = function (count) {
@@ -139,10 +115,7 @@ const isCountInvalid = function (count) {
 };
 
 const ifErrorOccurs = function (userInput) {
-  let {
-    linesToShow,
-    charToShow
-  } = extractCountAndStartingIndex(userInput);
+  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
   if (userInput[2][0] === "-") {
 
@@ -179,14 +152,10 @@ const isFileInvalid = function (filename, fs) {
  */
 
 const getContentsOfHead = function (userInput, fs) {
-  let reader = fs.readFileSync;
+  const reader = fs.readFileSync;
   let result = [];
-  let {
-    linesToShow,
-    charToShow,
-    startingIndex
-  } = extractCountAndStartingIndex(userInput);
-  let fileCount = userInput.length - startingIndex;
+  const { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
+  const fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
     let filename = userInput[index];
@@ -198,14 +167,12 @@ const getContentsOfHead = function (userInput, fs) {
     if (isFileInvalid(filename, fs)) {
       result.push(genFileErrorMsgForHead(filename));
     } else {
-      if (fileCount > 1) {
-        result.push(generateHeader(filename));
-      }
+
+      if (fileCount > 1) { result.push(generateHeader(filename)); }
 
       if (isOptionLine(userInput)) {
         result.push(readLinesFromTop(filename, reader, linesToShow));
         result.push("\n\n");
-
       }
 
       if (isOptionChar(userInput)) {
@@ -226,14 +193,14 @@ const head = function (userInput, fs) {
 };
 
 const readLinesFromBottom = function (filename, reader, noOfLines) {
-  let totalContent = splitByLine(filename, reader);
+  const totalContent = splitByLine(filename, reader);
   let sliceFrom = totalContent.length - noOfLines;
   if (sliceFrom < 0) { sliceFrom = 0; }
   return totalContent.slice(sliceFrom).join("\n");
 };
 
 const readCharFromBottom = function (filename, reader, noOfChar) {
-  let totalContent = splitByChar(filename, reader);
+  const totalContent = splitByChar(filename, reader);
   let sliceFrom = totalContent.length - noOfChar;
   if (sliceFrom < 0) { sliceFrom = 0; }
   return totalContent.slice(sliceFrom).join(""); 
@@ -242,11 +209,7 @@ const readCharFromBottom = function (filename, reader, noOfChar) {
 const getContentsOfTail = function (userInput, fs) {
   const reader = fs.readFileSync;
   let result = [];
-  const {
-    linesToShow,
-    charToShow,
-    startingIndex
-  } = extractCountAndStartingIndex(userInput);
+  const { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
   const fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
