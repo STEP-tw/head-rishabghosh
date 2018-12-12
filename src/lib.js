@@ -12,6 +12,7 @@ const invalidByteCount = "head: illegal byte count -- ";
 
 const errorMsgForTail = "tail: illegal option -- "; 
 const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
+const illegaloffsetMsg = "tail: illegal offset -- "; 
 
 const genIllegalOptionMsgForHead = function (option) {
   return errorMsgForHead + option + "\n" + usageMsgForHead;
@@ -293,7 +294,7 @@ const ifTailErrorOccurs = function (userInput) {
     }
 
     if (!isOptionInvalid(userInput) && illegalCount !== undefined) {
-      return "tail: illegal offset -- " + illegalCount;
+      return illegaloffsetMsg + illegalCount;
     } 
   }
   return false;
