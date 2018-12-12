@@ -10,7 +10,6 @@ const {
   splitByLine,
   splitByChar,
   extractCountAndStartingIndex,
-  sliceElements,
   readLinesFromTop,
   getContentsOfHead,
   ifErrorOccurs,
@@ -172,27 +171,6 @@ describe("extractCountAndStartingIndex", function() {
   });
 
 });
-
-
-describe("sliceElements", function() {
-
-  describe("for noOfElements 0", function() {
-    it("should return blank array", function() {
-      let input = [1, 2, 3, "a", "b"];
-      assert.deepEqual(sliceElements(input, 0), []);
-    });
-  });
-
-  describe("for noOfElements 10", function() {
-    it("should return first 10 elements", function() {
-      let input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-      let expectedOutput = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      assert.deepEqual(sliceElements(input, 10), expectedOutput);
-    });
-  });
-
-});
-
 
 describe("readLinesFromTop", function() {
 

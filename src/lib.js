@@ -36,10 +36,6 @@ const isOptionInvalid = function (userInput) {
   return !isOptionLine(userInput) && !isOptionChar(userInput);
 };
 
-const sliceElements = function (content, noOfElements) {
-  return content.slice(0, noOfElements);
-};
-
 const splitSource = function (source, reader) {
   return reader(source, "utf8").split(this);
 };
@@ -318,7 +314,6 @@ module.exports = {
   splitByLine,
   splitByChar,
   extractCountAndStartingIndex,
-  sliceElements,
   readLinesFromTop,
   readCharFromTop,
   ifErrorOccurs,
