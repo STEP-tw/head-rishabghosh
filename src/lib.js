@@ -5,13 +5,13 @@ const {
   flat
 } = require("./protoLib.js");
 
-const errorMessage = "head: illegal option -- ";
-const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
+const errorMsgForHead = "head: illegal option -- ";
+const usageMessageForHead = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
 const genIllegalOptionMsg = function (option) {
-  return errorMessage + option + "\n" + usageMessage;
+  return errorMsgForHead + option + "\n" + usageMessageForHead;
 };
 
 const genInvalidFileError = function (filename) {
@@ -236,14 +236,14 @@ const readCharFromBottom = function (filename, reader, noOfChar) {
 };
 
 const getContentsOfTail = function (userInput, fs) {
-  let reader = fs.readFileSync;
+  const reader = fs.readFileSync;
   let result = [];
-  let {
+  const {
     linesToShow,
     charToShow,
     startingIndex
   } = extractCountAndStartingIndex(userInput);
-  let fileCount = userInput.length - startingIndex;
+  const fileCount = userInput.length - startingIndex;
 
   for (let index = startingIndex; index < userInput.length; index++) {
     let filename = userInput[index];
@@ -277,7 +277,7 @@ const getContentsOfTail = function (userInput, fs) {
 };
 
 const ifTailErrorOccurs = function (userInput) {
-  let {
+  const {
     linesToShow,
     charToShow
   } = extractCountAndStartingIndex(userInput);
