@@ -49,12 +49,12 @@ const splitByChar = splitSource.bind("");
 
 const readLinesFromTop = function (filename, reader, noOfLines) {
   let totalContent = splitByLine(filename, reader);
-  return sliceElements(totalContent, noOfLines).join("\n");
+  return totalContent.slice(0, noOfLines).join("\n");
 };
 
 const readCharFromTop = function (filename, reader, noOfChar) {
   let totalContent = splitByChar(filename, reader);
-  return sliceElements(totalContent, noOfChar).join("");
+  return totalContent.slice(0, noOfChar).join("");
 };
 
 /*
