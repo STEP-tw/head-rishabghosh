@@ -114,7 +114,7 @@ const isCountInvalid = function (count) {
   return count < 1 || !Number.isInteger(+count);
 };
 
-const ifErrorOccurs = function (userInput) {
+const handleHeadErrors = function (userInput) {
   const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
   if (userInput[2][0] === "-") {
@@ -186,8 +186,8 @@ const getContentsOfHead = function (userInput, fs) {
 };
 
 const head = function (userInput, fs) {
-  if (ifErrorOccurs(userInput)) {
-    return ifErrorOccurs(userInput);
+  if (handleHeadErrors(userInput)) {
+    return handleHeadErrors(userInput);
   }
   return getContentsOfHead(userInput, fs);
 };
@@ -283,7 +283,7 @@ module.exports = {
   extractCountAndStartingIndex,
   readLinesFromTop,
   readCharFromTop,
-  ifErrorOccurs,
+  handleHeadErrors,
   readLinesFromBottom,
   readCharFromBottom,
   getContentsOfTail,

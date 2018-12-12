@@ -12,7 +12,7 @@ const {
   extractCountAndStartingIndex,
   readLinesFromTop,
   getContentsOfHead,
-  ifErrorOccurs,
+  handleHeadErrors,
   head,
   readLinesFromBottom,
   readCharFromBottom,
@@ -264,52 +264,52 @@ describe("getContentsOfHead", function() {
 
 });
 
-describe("ifErrorOccurs", function() {
+describe("handleHeadErrors", function() {
   const errorMessage = "head: illegal option -- ";
   const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
   const invalidLineCount = "head: illegal line count -- ";
   const invalidByteCount = "head: illegal byte count -- ";
 
   it("should return false for input [,,\"file1\"]", function() {
-    assert.equal(ifErrorOccurs(["n", "head.js", "file1"]), false);
+    assert.equal(handleHeadErrors(["n", "head.js", "file1"]), false);
   });
 
   it("should return false for input [,,\"--\", \"file1\"]", function() {
-    assert.equal(ifErrorOccurs(["n", "head.js", "--", "file1"]), false);
+    assert.equal(handleHeadErrors(["n", "head.js", "--", "file1"]), false);
   });
 
   it("should return false for input [,,\"-n5\", \"file1\"]", function() {
-    assert.equal(ifErrorOccurs(["n", "head.js", "-n5", "file1"]), false);
+    assert.equal(handleHeadErrors(["n", "head.js", "-n5", "file1"]), false);
   });
 
   it("should return false for input [,, \"-n\", \"5\", \"file1\"]", function() {
-    assert.equal(ifErrorOccurs(["n", "head.js", "-n", "5", "file1"]), false);
+    assert.equal(handleHeadErrors(["n", "head.js", "-n", "5", "file1"]), false);
   });
 
   it("should return false for input [,, \"-c5\", \"file1\"]", function() {
-    assert.equal(ifErrorOccurs(["n", "head.js", "-c5", "file1"]), false);
+    assert.equal(handleHeadErrors(["n", "head.js", "-c5", "file1"]), false);
   });
 
   it("should return false for input [,, \"-c\" \"5\", \"file1\"]", function() {
-    assert.equal(ifErrorOccurs(["n", "head.js", "-c", "5", "file1"]), false);
+    assert.equal(handleHeadErrors(["n", "head.js", "-c", "5", "file1"]), false);
   });
 
   it("should return error & usage message for input [,, \"-x5\", \"file1\"]", function() {
     let input = ["n", "head.js", "-x5", "file1"];
     let expectedOutput = errorMessage + input[2][1] + "\n" + usageMessage;
-    assert.equal(ifErrorOccurs(input), expectedOutput);
+    assert.equal(handleHeadErrors(input), expectedOutput);
   });
 
   it("should return invalid line message for input [,,\"-n0\", \"file1\"]", function() {
     let input = ["n", "head.js", "-n0", "file1"];
     let expectedOutput = invalidLineCount + input[2].slice(2);
-    assert.equal(ifErrorOccurs(input), expectedOutput);
+    assert.equal(handleHeadErrors(input), expectedOutput);
   });
 
   it("should return invalid byte message for input [,,\"-c0\", \"file1\"]", function() {
     let input = ["n", "head.js", "-c0", "file1"];
     let expectedOutput = invalidByteCount + input[2].slice(2);
-    assert.equal(ifErrorOccurs(input), expectedOutput);
+    assert.equal(handleHeadErrors(input), expectedOutput);
   });
 
 });
