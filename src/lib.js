@@ -10,8 +10,15 @@ const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
 const invalidLineCount = "head: illegal line count -- ";
 const invalidByteCount = "head: illegal byte count -- ";
 
+const errorMsgForTail = "tail: illegal option -- "; 
+const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
+
 const genIllegalOptionMsgForHead = function (option) {
   return errorMsgForHead + option + "\n" + usageMsgForHead;
+};
+
+const genIllegalOptionMsgForTail = function(option) {
+  return errorMsgForTail + option + "\n" + usageMsgForTail;
 };
 
 const genFileErrorMsgForHead = function (filename) {
@@ -273,11 +280,8 @@ const getContentsOfTail = function (userInput, fs) {
 };
 
 const ifTailErrorOccurs = function (userInput) {
-  const {
-    linesToShow,
-    charToShow
-  } = extractCountAndStartingIndex(userInput);
   let illegalCount;
+  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
   if(!Number.isInteger(+linesToShow)) { illegalCount = linesToShow; }
   if(!Number.isInteger(+charToShow)) { illegalCount = charToShow; }
@@ -285,8 +289,7 @@ const ifTailErrorOccurs = function (userInput) {
   if (userInput[2][0] === "-") {
 
     if (isOptionInvalid(userInput)) {
-      return "tail: illegal option -- " + userInput[2][1] + "\n" + 
-      "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
+      return genIllegalOptionMsgForTail(userInput[2][1]);
     }
 
     if (!isOptionInvalid(userInput) && illegalCount !== undefined) {
