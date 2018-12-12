@@ -4,8 +4,8 @@
 const assert = require("assert");
 
 const {
-  isTypeLine,
-  isTypeChar,
+  isOptionLine,
+  isOptionChar,
   isFileInvalid,
   splitByLine,
   splitByChar,
@@ -23,70 +23,70 @@ const {
 
 const dummyReader = (content) => content;
 
-describe("isTypeLine", function() {
+describe("isOptionLine", function() {
 
   it("should return true for \"-n\" given as first argument", function() {
     let userInput = ["n", "head.js", "-n", "5", "file1"];
-    assert.equal(isTypeLine(userInput), true);
+    assert.equal(isOptionLine(userInput), true);
 
     userInput = ["n", "head.js", "-n5", "file1"];
-    assert.equal(isTypeLine(userInput), true);
+    assert.equal(isOptionLine(userInput), true);
   });
 
   it("should return true for \"--\" given as first argument", function() {
     let userInput = ["n", "head.js", "--", "5", "file1"];
-    assert.equal(isTypeLine(userInput), true);
+    assert.equal(isOptionLine(userInput), true);
   });
 
   it("should return true if first argument is a integer", function() {
     let userInput = ["n", "head.js", "-5", "file1"];
-    assert.equal(isTypeLine(userInput), true);
+    assert.equal(isOptionLine(userInput), true);
   });
 
   it("should reutrn true if first argument is a possible filename", function() {
     let userInput = ["n", "head.js", "5"];
-    assert.equal(isTypeLine(userInput), true);
+    assert.equal(isOptionLine(userInput), true);
 
     userInput = ["n", "head.js", "file1"];
-    assert.equal(isTypeLine(userInput), true);
+    assert.equal(isOptionLine(userInput), true);
   });
 
   it("should return false if first  argument is invalid", function() {
     let userInput = ["n", "head.js", "-a", "file1"];
-    assert.equal(isTypeLine(userInput), false);
+    assert.equal(isOptionLine(userInput), false);
 
     userInput = ["n", "head.js", "-r", "file1"];
-    assert.equal(isTypeLine(userInput), false);
+    assert.equal(isOptionLine(userInput), false);
   });
 
   it("should return false for \"-c\" given as first argument", function() {
     let userInput = ["n", "head.js", "-c", "file1"];
-    assert.equal(isTypeLine(userInput), false);
+    assert.equal(isOptionLine(userInput), false);
   });
 
 });
 
-describe("isTypeChar", function() {
+describe("isOptionChar", function() {
 
   it("should return true for \"-c\" as first argument", function() {
     let userInput = ["n", "head.js", "-c", "file1"];
-    assert.equal(isTypeChar(userInput), true);
+    assert.equal(isOptionChar(userInput), true);
   });
 
   it("should return false for \"-n\" as first argument", function() {
     let userInput = ["n", "head.js", "-n", "file1"];
-    assert.equal(isTypeChar(userInput), false);
+    assert.equal(isOptionChar(userInput), false);
   });
 
   it("should return false for every other input than \"-c\"", function() {
     let userInput = ["n", "head.js", "-a", "file1"];
-    assert.equal(isTypeChar(userInput), false);
+    assert.equal(isOptionChar(userInput), false);
 
     userInput = ["n", "head.js", "-5", "file1"];
-    assert.equal(isTypeChar(userInput), false);
+    assert.equal(isOptionChar(userInput), false);
 
     userInput = ["n", "head.js", "file1"];
-    assert.equal(isTypeChar(userInput), false);
+    assert.equal(isOptionChar(userInput), false);
   });
 
 });
@@ -474,7 +474,7 @@ describe("tail", function() {
     existsSync: (filename) => listOfFiles.includes(filename)
   };
   const errorMessage = "tail: illegal option -- ";
-  const usageMessage = "usage: tail [-n lines | -c bytes] [file ...]";
+  const usageMessage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
   const invalidOffsetMsg = "tail: illegal offset -- ";
 
   it("should return error message if illegal option is given", function() {

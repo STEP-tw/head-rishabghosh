@@ -22,18 +22,18 @@ const generateHeader = function (filename) {
   return "==> " + filename + " <==" + "\n";
 };
 
-const isTypeLine = function (userInput) {
+const isOptionLine = function (userInput) {
   let firstArg = userInput[2];
   return (firstArg[1] === "n" || firstArg[0] !== "-" ||
     Number.isInteger(+firstArg) || firstArg === "--");
 };
 
-const isTypeChar = function (userInput) {
+const isOptionChar = function (userInput) {
   return (userInput[2][1] === "c");
 };
 
-const isTypeInvalid = function (userInput) {
-  return !isTypeLine(userInput) && !isTypeChar(userInput);
+const isOptionInvalid = function (userInput) {
+  return !isOptionLine(userInput) && !isOptionChar(userInput);
 };
 
 const sliceElements = function (content, noOfElements) {
@@ -142,11 +142,11 @@ const ifErrorOccurs = function (userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (isTypeInvalid(userInput)) {
+    if (isOptionInvalid(userInput)) {
       return genIllegalOptionMsg(userInput[2][1]);
     }
 
-    if (isTypeLine(userInput)) {
+    if (isOptionLine(userInput)) {
       if (isCountInvalid(linesToShow)) {
         return invalidLineCount + linesToShow;
       } else {
@@ -154,7 +154,7 @@ const ifErrorOccurs = function (userInput) {
       }
     }
 
-    if (isTypeChar(userInput)) {
+    if (isOptionChar(userInput)) {
       if (isCountInvalid(charToShow)) {
         return invalidByteCount + charToShow;
       } else {
@@ -198,13 +198,13 @@ const getContentsOfHead = function (userInput, fs) {
         result.push(generateHeader(filename));
       }
 
-      if (isTypeLine(userInput)) {
+      if (isOptionLine(userInput)) {
         result.push(readLinesFromTop(filename, reader, linesToShow));
         result.push("\n\n");
 
       }
 
-      if (isTypeChar(userInput)) {
+      if (isOptionChar(userInput)) {
         result.push(readCharFromTop(filename, reader, charToShow));
         result.push("\n");
       }
@@ -260,12 +260,12 @@ const getContentsOfTail = function (userInput, fs) {
         result.push(generateHeader(filename));
       }
 
-      if (isTypeLine(userInput)) {
+      if (isOptionLine(userInput)) {
         result.push(readLinesFromBottom(filename, reader, linesToShow));
         result.push("\n");
       }
 
-      if (isTypeChar(userInput)) {
+      if (isOptionChar(userInput)) {
         result.push(readCharFromBottom(filename, reader, charToShow));
         result.push("\n");
       }
@@ -288,11 +288,12 @@ const ifTailErrorOccurs = function (userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (isTypeInvalid(userInput)) {
-      return "tail: illegal option -- " +userInput[2][1]+"\n" +"usage: tail [-n lines | -c bytes] [file ...]"; 
+    if (isOptionInvalid(userInput)) {
+      return "tail: illegal option -- " + userInput[2][1] + "\n" + 
+      "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
     }
 
-    if (!isTypeInvalid(userInput) && illegalCount !== undefined) {
+    if (!isOptionInvalid(userInput) && illegalCount !== undefined) {
       return "tail: illegal offset -- " + illegalCount;
     } 
   }
@@ -312,8 +313,8 @@ module.exports = {
   head,
   getContentsOfHead,
   isFileInvalid,
-  isTypeLine,
-  isTypeChar,
+  isOptionLine,
+  isOptionChar,
   splitByLine,
   splitByChar,
   extractCountAndStartingIndex,
