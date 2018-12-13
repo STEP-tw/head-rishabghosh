@@ -222,13 +222,9 @@ const getContentsOfTail = function (userInput, fs) {
   let result = [];
   const { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
   const fileCount = userInput.length - startingIndex;
+  const fileList = extractFilenames(userInput);
 
-  for (let index = startingIndex; index < userInput.length; index++) {
-    let filename = userInput[index];
-
-    /*
-     * try to impliment switch case 
-     */
+  fileList.map( function(filename) {
 
     if (isFileInvalid(filename, fs)) {
       result.push("tail: " + filename + ": No such file or directory\n");
@@ -249,7 +245,7 @@ const getContentsOfTail = function (userInput, fs) {
       }
 
     }
-  }
+  });
 
   return result.flat().join("");
 };

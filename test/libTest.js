@@ -406,6 +406,10 @@ describe("readCharFromBottom", function() {
 
 describe("extractFilenames", function() {
 
+  it("should return a blank array if no filename is provided", function() {
+    assert.deepEqual(extractFilenames(["n", "h", "-n", "5"]), []);
+  });
+
   it("should return an array of one filename for one file provided", function() {
     let userInput = ["n", "h", "file1"];
     assert.deepEqual(extractFilenames(userInput), ["file1"]);
