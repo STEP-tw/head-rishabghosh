@@ -243,7 +243,7 @@ const getContentsOfTail = function (userInput, fs) {
   return result.flat().join("");
 };
 
-const ifTailErrorOccurs = function (userInput) {
+const handleTailErrors = function (userInput) {
   let illegalCount;
   const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
 
@@ -264,8 +264,8 @@ const ifTailErrorOccurs = function (userInput) {
 };
 
 const tail = function (userInput, fs) {
-  if (ifTailErrorOccurs(userInput)) {
-    return ifTailErrorOccurs(userInput);
+  if (handleTailErrors(userInput)) {
+    return handleTailErrors(userInput);
   }
   return getContentsOfTail(userInput, fs);
 };
