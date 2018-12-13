@@ -161,18 +161,37 @@ const isFileInvalid = function (filename, fs) {
  * should be extracted to smaller function for testing
  */
 
+const arrangeContentsOfHead = function(userInput, filename, reader) {
+  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+  const fileList = extractFilenames(userInput);
+  let result = [];
+  if (fileList.length > 1) { result.push(generateHeader(filename)); }
+
+  if (isOptionLine(userInput)) {
+    result.push(readLinesFromTop(filename, reader, linesToShow));
+    result.push("\n\n");
+  }
+
+  if (isOptionChar(userInput)) {
+    result.push(readCharFromTop(filename, reader, charToShow));
+    result.push("\n");
+  }
+  return result;
+};
+
+
 const getContentsOfHead = function (userInput, fs) {
-  const { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userInput);
   let result = [];
 
-  fileList.map( function(filename){
+  result = fileList.map( function(filename){
 
     if (isFileInvalid(filename, fs)) {
-      result.push(genFileErrorMsgForHead(filename));
+      return genFileErrorMsgForHead(filename);
     } else {
-
+      return arrangeContentsOfHead(userInput, filename, reader);
+      /*
       if (fileList.length > 1) { result.push(generateHeader(filename)); }
 
       if (isOptionLine(userInput)) {
@@ -184,6 +203,7 @@ const getContentsOfHead = function (userInput, fs) {
         result.push(readCharFromTop(filename, reader, charToShow));
         result.push("\n");
       }
+*/
     }
   });
 
