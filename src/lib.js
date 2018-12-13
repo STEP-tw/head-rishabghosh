@@ -157,10 +157,6 @@ const isFileInvalid = function (filename, fs) {
   return !fs.existsSync(filename);
 };
 
-/*
- * should be extracted to smaller function for testing
- */
-
 const arrangeContentsOfHead = function(userInput, filename, reader) {
   const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
   const fileList = extractFilenames(userInput);
@@ -189,22 +185,8 @@ const getContentsOfHead = function (userInput, fs) {
 
     if (isFileInvalid(filename, fs)) {
       return genFileErrorMsgForHead(filename);
-    } else {
-      return arrangeContentsOfHead(userInput, filename, reader);
-      /*
-      if (fileList.length > 1) { result.push(generateHeader(filename)); }
-
-      if (isOptionLine(userInput)) {
-        result.push(readLinesFromTop(filename, reader, linesToShow));
-        result.push("\n\n");
-      }
-
-      if (isOptionChar(userInput)) {
-        result.push(readCharFromTop(filename, reader, charToShow));
-        result.push("\n");
-      }
-*/
-    }
+    } 
+    return arrangeContentsOfHead(userInput, filename, reader);
   });
 
   return result.flat().join("");
