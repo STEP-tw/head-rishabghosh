@@ -143,6 +143,16 @@ const handleHeadErrors = function (userInput) {
   return false;
 };
 
+const extractFilenames = function(userInput) {
+  const { startingIndex } = extractCountAndStartingIndex(userInput);
+  let result = [];
+  for (let index = startingIndex; index < userInput.length; index++) {
+    let filename = userInput[index];
+    result.push(filename);
+  }
+  return result;
+};
+
 const isFileInvalid = function (filename, fs) {
   return !fs.existsSync(filename);
 };
@@ -152,23 +162,18 @@ const isFileInvalid = function (filename, fs) {
  */
 
 const getContentsOfHead = function (userInput, fs) {
-  const reader = fs.readFileSync;
-  let result = [];
   const { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
-  const fileCount = userInput.length - startingIndex;
+  const reader = fs.readFileSync;
+  const fileList = extractFilenames(userInput);
+  let result = [];
 
-  for (let index = startingIndex; index < userInput.length; index++) {
-    let filename = userInput[index];
-
-    /*
-     * try to impliment switch case 
-     */
+  fileList.map( function(filename){
 
     if (isFileInvalid(filename, fs)) {
       result.push(genFileErrorMsgForHead(filename));
     } else {
 
-      if (fileCount > 1) { result.push(generateHeader(filename)); }
+      if (fileList.length > 1) { result.push(generateHeader(filename)); }
 
       if (isOptionLine(userInput)) {
         result.push(readLinesFromTop(filename, reader, linesToShow));
@@ -180,7 +185,7 @@ const getContentsOfHead = function (userInput, fs) {
         result.push("\n");
       }
     }
-  }
+  });
 
   return result.flat().join("");
 };
@@ -206,23 +211,13 @@ const readCharFromBottom = function (filename, reader, noOfChar) {
   return totalContent.slice(sliceFrom).join(""); 
 };
 
-const extractFilenames = function(userInput) {
-  const { startingIndex } = extractCountAndStartingIndex(userInput);
-  let result = [];
-  for (let index = startingIndex; index < userInput.length; index++) {
-    let filename = userInput[index];
-    result.push(filename);
-  }
-  return result;
-};
 
 
 const getContentsOfTail = function (userInput, fs) {
+  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
   const reader = fs.readFileSync;
-  let result = [];
-  const { linesToShow, charToShow, startingIndex } = extractCountAndStartingIndex(userInput);
-  const fileCount = userInput.length - startingIndex;
   const fileList = extractFilenames(userInput);
+  let result = [];
 
   fileList.map( function(filename) {
 
@@ -230,7 +225,7 @@ const getContentsOfTail = function (userInput, fs) {
       result.push("tail: " + filename + ": No such file or directory\n");
     } else {
 
-      if (fileCount > 1) {
+      if (fileList.length > 1) {
         result.push(generateHeader(filename));
       }
 
