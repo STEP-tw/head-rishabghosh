@@ -43,7 +43,7 @@ describe("isOptionLine", function() {
     assert.equal(isOptionLine(userInput), true);
   });
 
-  it("should reutrn true if first argument is a possible filename", function() {
+  it("should reutrn true if first argument is a possible filePath", function() {
     let userInput = ["n", "head.js", "5"];
     assert.equal(isOptionLine(userInput), true);
 
@@ -122,51 +122,51 @@ describe("splitByChar", function() {
 describe("extractCountAndStartingIndex", function() {
 
   describe("for no count value given", function() {
-    it("should return a object containing linesToShow: 10, startingIndex: 2", function() {
+    it("should return a object containing lineCount: 10, startingIndex: 2", function() {
       let input = ["n", "h.js", "file1"];
-      let expectedOutput = { linesToShow: 10, charToShow: 0, startingIndex: 2 };
+      let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 2 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
 
   describe("for multiple files and no count value given", function() {
-    it("should return a object containing linesToShow: 10, startingIndex: 2", function() {
+    it("should return a object containing lineCount: 10, startingIndex: 2", function() {
       let input = ["n", "h.js", "file1", "file2"];
-      let expectedOutput = { linesToShow: 10, charToShow: 0, startingIndex: 2 };
+      let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 2 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
 
 
   describe("for input ['n', 'head.js', \"-n5\", \"file1\"]", function() {
-    it("should return a object containing linesToShow: 5, startingIndex: 3", function() {
+    it("should return a object containing lineCount: 5, startingIndex: 3", function() {
       let input = ["n", "h.js", "-n5", "file1"];
-      let expectedOutput = { linesToShow: 5, charToShow: 0, startingIndex: 3 };
+      let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
 
   });
 
   describe("for input [,, \"-n4\", \"file1\"]", function() {
-    it("should return a object containing linesToShow: 4, startingIndex: 3", function() {
+    it("should return a object containing lineCount: 4, startingIndex: 3", function() {
       let input = ["n", "h.js", "-n4", "file1"];
-      let expectedOutput = { linesToShow: 4, charToShow: 0, startingIndex: 3 };
+      let expectedOutput = { lineCount: 4, charCount: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
 
   describe("for count 7  provied in 3rd index", function() {
-    it("should return a object containing linesToShow: 7, startingIndex: 4", function() {
+    it("should return a object containing lineCount: 7, startingIndex: 4", function() {
       let input = ["n", "h.js", "-n", "7", "file1"];
-      let expectedOutput = { linesToShow: 7, charToShow: 0, startingIndex: 4 };
+      let expectedOutput = { lineCount: 7, charCount: 0, startingIndex: 4 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
 
   describe("for count provided as firstArg", function() {
-    it("should return a object where linesToShow is the count provided", function() {
+    it("should return a object where lineCount is the count provided", function() {
       let input = ["n", "h.js", "-5", "file1"];
-      let expectedOutput = { linesToShow: 5, charToShow: 0, startingIndex: 3 };
+      let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
   });
@@ -213,7 +213,7 @@ describe("readLinesFromTop", function() {
 
 describe("isFileInvalid", function() {
   let input = ["file1", "file2", "filex"];
-  let fileChecker = { existsSync: (filename) => input.includes(filename) };
+  let fileChecker = { existsSync: (filePath) => input.includes(filePath) };
 
   it("should return false for valid files", function() {
     assert.equal(isFileInvalid("file1", fileChecker), false);
@@ -231,8 +231,8 @@ describe("getContentsOfHead", function() {
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
   const listOfFiles = ["file1", "file2", "filex"];
   const fs = {
-    readFileSync: (filename) => eval(filename),
-    existsSync: (filename) => listOfFiles.includes(filename)
+    readFileSync: (filePath) => eval(filePath),
+    existsSync: (filePath) => listOfFiles.includes(filePath)
   };
 
   it("should return invalidFileMsg if the file doesnot exists", function() {
@@ -320,8 +320,8 @@ describe("head", function() {
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
   const listOfFiles = ["file1", "file2", "filex"];
   const fs = {
-    readFileSync: (filename) => eval(filename),
-    existsSync: (filename) => listOfFiles.includes(filename)
+    readFileSync: (filePath) => eval(filePath),
+    existsSync: (filePath) => listOfFiles.includes(filePath)
   };
   const errorMessage = "head: illegal option -- ";
   const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
@@ -406,11 +406,11 @@ describe("readCharFromBottom", function() {
 
 describe("extractFilenames", function() {
 
-  it("should return a blank array if no filename is provided", function() {
+  it("should return a blank array if no filePath is provided", function() {
     assert.deepEqual(extractFilenames(["n", "h", "-n", "5"]), []);
   });
 
-  it("should return an array of one filename for one file provided", function() {
+  it("should return an array of one filePath for one file provided", function() {
     let userInput = ["n", "h", "file1"];
     assert.deepEqual(extractFilenames(userInput), ["file1"]);
     
@@ -421,7 +421,7 @@ describe("extractFilenames", function() {
     assert.deepEqual(extractFilenames(userInput), ["file1"]);
   });
 
-  it("should return an array of two filenames for two file provided", function() {
+  it("should return an array of two filePaths for two file provided", function() {
     let userInput = ["n", "h", "file1", "file2"];
     assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
 
@@ -436,8 +436,8 @@ describe("getContentesOfTail", function() {
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
   const listOfFiles = ["file1", "file2", "filex"];
   const fs = {
-    readFileSync: (filename) => eval(filename),
-    existsSync: (filename) => listOfFiles.includes(filename)
+    readFileSync: (filePath) => eval(filePath),
+    existsSync: (filePath) => listOfFiles.includes(filePath)
   };
 
   it("should return invalidFileMsg if the file doesnot exist", function() {
@@ -476,8 +476,8 @@ describe("tail", function() {
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
   const listOfFiles = ["file1", "file2", "filex"];
   const fs = {
-    readFileSync: (filename) => eval(filename),
-    existsSync: (filename) => listOfFiles.includes(filename)
+    readFileSync: (filePath) => eval(filePath),
+    existsSync: (filePath) => listOfFiles.includes(filePath)
   };
   const errorMessage = "tail: illegal option -- ";
   const usageMessage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";

@@ -20,12 +20,12 @@ const genIllegalOptionMsgForTail = function(option) {
   return errorMsgForTail + option + "\n" + usageMsgForTail;
 };
 
-const genFileErrorMsgForHead = function (filename) {
-  return "head: " + filename + ": No such file or directory\n";
+const genFileErrorMsgForHead = function (filePath) {
+  return "head: " + filePath + ": No such file or directory\n";
 };
 
-const generateHeader = function (filename) {
-  return "==> " + filename + " <==" + "\n";
+const generateHeader = function (filePath) {
+  return "==> " + filePath + " <==" + "\n";
 };
 
 const isOptionLine = function (userInput) {
@@ -49,13 +49,13 @@ const splitSource = function (source, reader) {
 const splitByLine = splitSource.bind("\n");
 const splitByChar = splitSource.bind("");
 
-const readLinesFromTop = function (filename, reader, noOfLines) {
-  const totalContent = splitByLine(filename, reader);
+const readLinesFromTop = function (filePath, reader, noOfLines) {
+  const totalContent = splitByLine(filePath, reader);
   return totalContent.slice(0, noOfLines).join("\n");
 };
 
-const readCharFromTop = function (filename, reader, noOfChar) {
-  const totalContent = splitByChar(filename, reader);
+const readCharFromTop = function (filePath, reader, noOfChar) {
+  const totalContent = splitByChar(filePath, reader);
   return totalContent.slice(0, noOfChar).join("");
 };
 
@@ -69,26 +69,26 @@ const isDefaultChoice = function (firstArg) {
 
 const extractCountAndStartingIndex = function (userInput) {
   let firstArg = userInput[2];
-  let linesToShow = 0;
-  let charToShow = 0;
+  let lineCount = 0;
+  let charCount = 0;
   let startingIndex = 0;
 
   if (isDefaultChoice(firstArg)) {
     startingIndex = 2;
-    linesToShow = 10;
-    return { linesToShow, charToShow, startingIndex };
+    lineCount = 10;
+    return { lineCount, charCount, startingIndex };
   }
 
   if (firstArg === "--") {
     startingIndex = 3;
-    linesToShow = 10;
-    return { linesToShow, charToShow, startingIndex };
+    lineCount = 10;
+    return { lineCount, charCount, startingIndex };
   }
    
   if (Number(firstArg)) {
     startingIndex = 3;
-    linesToShow = firstArg.slice(1);
-    return { linesToShow, charToShow, startingIndex };
+    lineCount = firstArg.slice(1);
+    return { lineCount, charCount, startingIndex };
   }
 
   /*
@@ -98,16 +98,16 @@ const extractCountAndStartingIndex = function (userInput) {
   switch (firstArg.slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 4;
-      if (firstArg[1] === "n") { linesToShow = userInput[3]; }
-      if (firstArg[1] === "c") { charToShow = userInput[3]; }
+      if (firstArg[1] === "n") { lineCount = userInput[3]; }
+      if (firstArg[1] === "c") { charCount = userInput[3]; }
       break;
     default:
       startingIndex = 3;
-      if (firstArg[1] === "n") { linesToShow = firstArg.slice(2); }
-      if (firstArg[1] === "c") { charToShow = firstArg.slice(2); }
+      if (firstArg[1] === "n") { lineCount = firstArg.slice(2); }
+      if (firstArg[1] === "c") { charCount = firstArg.slice(2); }
   }
 
-  return { linesToShow, charToShow, startingIndex };
+  return { lineCount, charCount, startingIndex };
 };
 
 const isCountInvalid = function (count) {
@@ -115,7 +115,7 @@ const isCountInvalid = function (count) {
 };
 
 const handleHeadErrors = function (userInput) {
-  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
 
   if (userInput[2][0] === "-") {
 
@@ -124,16 +124,16 @@ const handleHeadErrors = function (userInput) {
     }
 
     if (isOptionLine(userInput)) {
-      if (isCountInvalid(linesToShow)) {
-        return invalidLineCount + linesToShow;
+      if (isCountInvalid(lineCount)) {
+        return invalidLineCount + lineCount;
       } else {
         return false;
       }
     }
 
     if (isOptionChar(userInput)) {
-      if (isCountInvalid(charToShow)) {
-        return invalidByteCount + charToShow;
+      if (isCountInvalid(charCount)) {
+        return invalidByteCount + charCount;
       } else {
         return false;
       }
@@ -147,46 +147,51 @@ const extractFilenames = function(userInput) {
   const { startingIndex } = extractCountAndStartingIndex(userInput);
   let result = [];
   for (let index = startingIndex; index < userInput.length; index++) {
-    let filename = userInput[index];
-    result.push(filename);
+    let filePath = userInput[index];
+    result.push(filePath);
   }
   return result;
 };
 
-const isFileInvalid = function (filename, fs) {
-  return !fs.existsSync(filename);
+const isFileInvalid = function (filePath, fs) {
+  return !fs.existsSync(filePath);
 };
+//filePaths instead of filePaths
+//change name - starting index 
 
-const arrangeContentsOfHead = function(userInput, filename, reader) {
-  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
-  const fileList = extractFilenames(userInput);
+const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
   let result = [];
-  if (fileList.length > 1) { result.push(generateHeader(filename)); }
+  if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
   if (isOptionLine(userInput)) {
-    result.push(readLinesFromTop(filename, reader, linesToShow));
+    result.push(readLinesFromTop(filePath, reader, lineCount));
     result.push("\n\n");
   }
 
   if (isOptionChar(userInput)) {
-    result.push(readCharFromTop(filename, reader, charToShow));
+    result.push(readCharFromTop(filePath, reader, charCount));
     result.push("\n");
   }
   return result;
 };
 
-
+//getContentsOfHead should be the head function
 const getContentsOfHead = function (userInput, fs) {
+  if (handleHeadErrors(userInput)) {
+    return handleHeadErrors(userInput);
+  }
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userInput);
+  const noOfFiles = fileList.length;
   let result = [];
 
-  result = fileList.map( function(filename){
+  result = fileList.map( function(filePath){
 
-    if (isFileInvalid(filename, fs)) {
-      return genFileErrorMsgForHead(filename);
+    if (isFileInvalid(filePath, fs)) {
+      return genFileErrorMsgForHead(filePath);
     } 
-    return arrangeContentsOfHead(userInput, filename, reader);
+    return fetchContentsForHead(userInput, noOfFiles, filePath, reader);
   });
 
   return result.flat().join("");
@@ -199,45 +204,43 @@ const head = function (userInput, fs) {
   return getContentsOfHead(userInput, fs);
 };
 
-const readLinesFromBottom = function (filename, reader, noOfLines) {
-  const totalContent = splitByLine(filename, reader);
+const readLinesFromBottom = function (filePath, reader, noOfLines) {
+  const totalContent = splitByLine(filePath, reader);
   let sliceFrom = totalContent.length - noOfLines;
   if (sliceFrom < 0) { sliceFrom = 0; }
   return totalContent.slice(sliceFrom).join("\n");
 };
 
-const readCharFromBottom = function (filename, reader, noOfChar) {
-  const totalContent = splitByChar(filename, reader);
+const readCharFromBottom = function (filePath, reader, noOfChar) {
+  const totalContent = splitByChar(filePath, reader);
   let sliceFrom = totalContent.length - noOfChar;
   if (sliceFrom < 0) { sliceFrom = 0; }
   return totalContent.slice(sliceFrom).join(""); 
 };
 
-
-
 const getContentsOfTail = function (userInput, fs) {
-  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userInput);
   let result = [];
 
-  fileList.map( function(filename) {
+  fileList.map( function(filePath) {
 
-    if (isFileInvalid(filename, fs)) {
-      result.push("tail: " + filename + ": No such file or directory\n");
+    if (isFileInvalid(filePath, fs)) {
+      result.push("tail: " + filePath + ": No such file or directory\n");
     } else {
 
       if (fileList.length > 1) {
-        result.push(generateHeader(filename));
+        result.push(generateHeader(filePath));
       }
 
       if (isOptionLine(userInput)) {
-        result.push(readLinesFromBottom(filename, reader, linesToShow));
+        result.push(readLinesFromBottom(filePath, reader, lineCount));
         result.push("\n");
       }
 
       if (isOptionChar(userInput)) {
-        result.push(readCharFromBottom(filename, reader, charToShow));
+        result.push(readCharFromBottom(filePath, reader, charCount));
         result.push("\n");
       }
 
@@ -249,10 +252,10 @@ const getContentsOfTail = function (userInput, fs) {
 
 const handleTailErrors = function (userInput) {
   let illegalCount;
-  const { linesToShow, charToShow } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
 
-  if(!Number.isInteger(+linesToShow)) { illegalCount = linesToShow; }
-  if(!Number.isInteger(+charToShow)) { illegalCount = charToShow; }
+  if(!Number.isInteger(+lineCount)) { illegalCount = lineCount; }
+  if(!Number.isInteger(+charCount)) { illegalCount = charCount; }
 
   if (userInput[2][0] === "-") {
 
@@ -279,6 +282,7 @@ const tail = function (userInput, fs) {
 module.exports = {
   head,
   getContentsOfHead,
+  fetchContentsForHead,
   isFileInvalid,
   isOptionLine,
   isOptionChar,
