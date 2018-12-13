@@ -206,6 +206,17 @@ const readCharFromBottom = function (filename, reader, noOfChar) {
   return totalContent.slice(sliceFrom).join(""); 
 };
 
+const extractFilenames = function(userInput) {
+  const { startingIndex } = extractCountAndStartingIndex(userInput);
+  let result = [];
+  for (let index = startingIndex; index < userInput.length; index++) {
+    let filename = userInput[index];
+    result.push(filename);
+  }
+  return result;
+};
+
+
 const getContentsOfTail = function (userInput, fs) {
   const reader = fs.readFileSync;
   let result = [];
@@ -286,6 +297,7 @@ module.exports = {
   handleHeadErrors,
   readLinesFromBottom,
   readCharFromBottom,
+  extractFilenames,
   getContentsOfTail,
   tail
 };

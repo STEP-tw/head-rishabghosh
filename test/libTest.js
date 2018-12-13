@@ -11,6 +11,7 @@ const {
   splitByChar,
   extractCountAndStartingIndex,
   readLinesFromTop,
+  extractFilenames,
   getContentsOfHead,
   handleHeadErrors,
   head,
@@ -399,6 +400,29 @@ describe("readCharFromBottom", function() {
   it("should return last 10 characters for noOfChar:10", function() {
     let expectedOutput = "H\nI\nJ\nK\nL\n";
     assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 10), expectedOutput);
+  });
+
+});
+
+describe("extractFilenames", function() {
+
+  it("should return an array of one filename for one file provided", function() {
+    let userInput = ["n", "h", "file1"];
+    assert.deepEqual(extractFilenames(userInput), ["file1"]);
+    
+    userInput = ["n", "h", "-n5", "file1"];
+    assert.deepEqual(extractFilenames(userInput), ["file1"]);
+
+    userInput = ["n", "h", "-n", "5", "file1"];
+    assert.deepEqual(extractFilenames(userInput), ["file1"]);
+  });
+
+  it("should return an array of two filenames for two file provided", function() {
+    let userInput = ["n", "h", "file1", "file2"];
+    assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
+
+    userInput = ["n", "h", "-n", "5", "file1", "file2"];
+    assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
   });
 
 });
