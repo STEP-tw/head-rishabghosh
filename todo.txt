@@ -31,3 +31,9 @@ where the function extractCountAndStartingIndex is called
  - line 123 : head functions > fetchContentsOfHead
  - line 184 : tail functions > fetchContentsOfTail
  - line 220 : tail functions > handleTailErrors
+
+parsed arguments should be provided in each of those functions
+
+where the function extractFilenames is called - 
+ - line 184: arrangeContentsOfHead
+ - line 207: arrangeContentsOfTail
