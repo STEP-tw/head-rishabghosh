@@ -37,7 +37,7 @@ describe("extractCountAndStartingIndex", function() {
   });
 
 
-  describe("for input ['n', 'head.js', \"-n5\", \"file1\"]", function() {
+  describe("for given line count 5 in  0th index", function() {
     it("should return line count of 5 & starting index of 3 in a object", function() {
       let input = ["-n5", "file1"];
       let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 3 };
@@ -46,7 +46,7 @@ describe("extractCountAndStartingIndex", function() {
 
   });
 
-  describe("for input [,, \"-n4\", \"file1\"]", function() {
+  describe("for given line count 4 in 0th index", function() {
     it("should return line count of 4 & starting index of 3 in a object", function() {
       let input = ["-n4", "file1"];
       let expectedOutput = { lineCount: 4, charCount: 0, startingIndex: 3 };
@@ -54,7 +54,7 @@ describe("extractCountAndStartingIndex", function() {
     });
   });
 
-  describe("for count 7  provied in 3rd index", function() {
+  describe("for line count 7  provied in 1st index", function() {
     it("should return line count of 7 & starting index of 4 in a object", function() {
       let input = ["-n", "7", "file1"];
       let expectedOutput = { lineCount: 7, charCount: 0, startingIndex: 4 };
