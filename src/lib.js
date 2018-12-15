@@ -70,13 +70,11 @@ const extractCountAndStartingIndex = function (parsedArgs) {
   return { lineCount, charCount, startingIndex };
 };
 
-const extractFilenames = function(userInput) {
- // const parsedArgs = userInput.slice(2);
- const parsedArgs = userInput;
+const extractFilenames = function(parsedArgs) {
   const { startingIndex } = extractCountAndStartingIndex(parsedArgs);
   let result = [];
-  for (let index = startingIndex; index < userInput.length; index++) {
-    let filePath = userInput[index];
+  for (let index = startingIndex; index < parsedArgs.length; index++) {
+    let filePath = parsedArgs[index];
     result.push(filePath);
   }
   return result;
