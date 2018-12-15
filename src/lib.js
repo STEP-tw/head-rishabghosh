@@ -218,33 +218,36 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
   return totalContent.slice(sliceFrom).join(""); 
 };
 
-const getContentsOfTail = function (userInput, fs) {
+const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
   const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
-  const reader = fs.readFileSync;
-  const fileList = extractFilenames(userInput);
   let result = [];
 
-  fileList.map( function(filePath) {
+  if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
+  if (isOptionLine(userInput)) {
+    result.push(readLinesFromBottom(filePath, reader, lineCount));
+    result.push("\n");
+  }
+
+  if (isOptionChar(userInput)) {
+    result.push(readCharFromBottom(filePath, reader, charCount));
+    result.push("\n");
+  }
+
+  return result;
+};
+
+const getContentsOfTail = function (userInput, fs) {
+  const reader = fs.readFileSync;
+  const fileList = extractFilenames(userInput);
+  const noOfFiles = fileList.length;
+  let result = [];
+
+  result = fileList.map( function(filePath) {
     if (isFileInvalid(filePath, fs)) {
-      result.push("tail: " + filePath + ": No such file or directory\n");
-    } else {
-
-      if (fileList.length > 1) {
-        result.push(generateHeader(filePath));
-      }
-
-      if (isOptionLine(userInput)) {
-        result.push(readLinesFromBottom(filePath, reader, lineCount));
-        result.push("\n");
-      }
-
-      if (isOptionChar(userInput)) {
-        result.push(readCharFromBottom(filePath, reader, charCount));
-        result.push("\n");
-      }
-
+      return "tail: " + filePath + ": No such file or directory\n";
     }
+    return fetchContentsForTail(userInput, noOfFiles, filePath, reader);
   });
 
   return result.flat().join("");
