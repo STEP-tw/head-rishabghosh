@@ -229,11 +229,13 @@ describe("isFileInvalid", function() {
 
 describe("arrangeContentsOfHead", function() {
 
-  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
-  const listOfFiles = ["file1", "file2", "filex"];
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+  const file2 = "a\nb\n";
+  const filex = "x";
+  const listOfFiles = { file1, file2, filex };
   const fs = {
-    readFileSync: (filePath) => eval(filePath),
-    existsSync: (filePath) => listOfFiles.includes(filePath)
+    readFileSync: (filePath) => listOfFiles[filePath],
+    existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
   };
 
   it("should return invalidFileMsg if the file doesnot exists", function() {
