@@ -434,29 +434,29 @@ describe("tail", function() {
   const invalidOffsetMsg = "tail: illegal offset -- ";
 
   it("should return error message if illegal option is given", function() {
-    let userInput = ["n", "tail.js", "-a", "file1"];
+    let userInput = ["-a", "file1"];
     let expectedOutput = errorMessage + "a" + "\n" + usageMessage;
     assert.equal(tail(userInput, fs), expectedOutput);
   });
 
   it("should return empty string if count is 0", function() {
-    let userInput = ["n", "tail.js", "-n0", "file1"];
+    let userInput = ["-n0", "file1"];
     assert.equal(tail(userInput, fs).trim(), "");
   });
 
   it("should return contents of file if correct input is given", function() {
-    let userInput = ["n", "tail.js", "-n5", "file1"];
+    let userInput = ["-n5", "file1"];
     let expectedOutput = "I\nJ\nK\nL\nM\n";
     assert.equal(tail(userInput, fs), expectedOutput);
   });
 
   it("should return invalid offset if invalid count is given", function() {
-    let userInput =["n", "tail.js", "-n10x", "file1"];
-    let expectedOutput = invalidOffsetMsg + userInput[2].slice(2);
+    let userInput =["-n10x", "file1"];
+    let expectedOutput = invalidOffsetMsg + "10x";
     assert.equal(tail(userInput, fs), expectedOutput) ;
 
-    userInput =["n", "tail.js", "-n10x", "file1"];
-    expectedOutput = invalidOffsetMsg + userInput[2].slice(2);
+    userInput =["-n2.5", "file1"];
+    expectedOutput = invalidOffsetMsg + "2.5";
     assert.equal(tail(userInput, fs), expectedOutput) ;
   });
 

@@ -239,8 +239,7 @@ const hasTailErrors = function(parsedArgs) {
   return handleTailErrors(parsedArgs);
 };
 
-const tail = function (userInput, fs) {
-  const parsedArgs = userInput.slice(2);
+const tail = function (parsedArgs, fs) {
   if (hasTailErrors(parsedArgs)) { 
     return handleTailErrors(parsedArgs);
   }
