@@ -119,18 +119,17 @@ const handleHeadErrors = function (userInput) {
 };
 
 //change name - starting index 
-const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
-  const parsedArgs = userInput.slice(2);
+const fetchContentsForHead = function(parsedArgs, noOfFiles, filePath, reader) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
   let result = [];
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
-  if (isOptionLine(userInput[2])) {
+  if (isOptionLine(parsedArgs[0])) {
     result.push(readLinesFromTop(filePath, reader, lineCount));
     result.push("\n\n");
   }
 
-  if (isOptionChar(userInput[2])) {
+  if (isOptionChar(parsedArgs[0])) {
     result.push(readCharFromTop(filePath, reader, charCount));
     result.push("\n");
   }
@@ -143,16 +142,18 @@ const hasHeadError = function(userInput) {
 
 //arrangeContentsOfHead should be the head function
 const arrangeContentsOfHead = function (userInput, fs) {
+  const parsedArgs = userInput.slice(2);
   const reader = fs.readFileSync;
-  const fileList = extractFilenames(userInput.slice(2));
+  const fileList = extractFilenames(parsedArgs);
   const noOfFiles = fileList.length;
+  
   let result = [];
 
   result = fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
       return genFileErrorMsgForHead(filePath);
     } 
-    return fetchContentsForHead(userInput, noOfFiles, filePath, reader);
+    return fetchContentsForHead(parsedArgs, noOfFiles, filePath, reader);
   });
 
   return result.flat().join("");
