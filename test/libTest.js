@@ -275,43 +275,43 @@ describe("handleHeadErrors", function() {
   const invalidLineCount = "head: illegal line count -- ";
   const invalidByteCount = "head: illegal byte count -- ";
 
-  it("should return false for input [,,\"file1\"]", function() {
+  it("should return false for default option(no option)", function() {
     assert.equal(handleHeadErrors(["n", "head.js", "file1"]), false);
   });
 
-  it("should return false for input [,,\"--\", \"file1\"]", function() {
+  it("should return false for option \"--\"", function() {
     assert.equal(handleHeadErrors(["n", "head.js", "--", "file1"]), false);
   });
 
-  it("should return false for input [,,\"-n5\", \"file1\"]", function() {
+  it("should return false for option \"-n5\"", function() {
     assert.equal(handleHeadErrors(["n", "head.js", "-n5", "file1"]), false);
   });
 
-  it("should return false for input [,, \"-n\", \"5\", \"file1\"]", function() {
+  it("should return false for first option \"-n\", 2nd- \"5\"", function() {
     assert.equal(handleHeadErrors(["n", "head.js", "-n", "5", "file1"]), false);
   });
 
-  it("should return false for input [,, \"-c5\", \"file1\"]", function() {
+  it("should return false for option \"-c5\"", function() {
     assert.equal(handleHeadErrors(["n", "head.js", "-c5", "file1"]), false);
   });
 
-  it("should return false for input [,, \"-c\" \"5\", \"file1\"]", function() {
+  it("should return false for first option \"-c\", 2nd- \"5\"", function() {
     assert.equal(handleHeadErrors(["n", "head.js", "-c", "5", "file1"]), false);
   });
 
-  it("should return error & usage message for input [,, \"-x5\", \"file1\"]", function() {
+  it("should return error & usage message for given invalid option", function() {
     let input = ["n", "head.js", "-x5", "file1"];
     let expectedOutput = errorMessage + input[2][1] + "\n" + usageMessage;
     assert.equal(handleHeadErrors(input), expectedOutput);
   });
 
-  it("should return invalid line message for input [,,\"-n0\", \"file1\"]", function() {
+  it("should return invalid line message for given invalid line count", function() {
     let input = ["n", "head.js", "-n0", "file1"];
     let expectedOutput = invalidLineCount + input[2].slice(2);
     assert.equal(handleHeadErrors(input), expectedOutput);
   });
 
-  it("should return invalid byte message for input [,,\"-c0\", \"file1\"]", function() {
+  it("should return invalid byte message for given invalid byte count", function() {
     let input = ["n", "head.js", "-c0", "file1"];
     let expectedOutput = invalidByteCount + input[2].slice(2);
     assert.equal(handleHeadErrors(input), expectedOutput);
