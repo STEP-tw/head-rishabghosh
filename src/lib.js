@@ -96,21 +96,20 @@ const isCountInvalid = function (count) {
   return count < 1 || !Number.isInteger(+count);
 };
 
-const handleHeadErrors = function (userInput) {
-  const parsedArgs = userInput.slice(2);
+const handleHeadErrors = function (parsedArgs) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
 
-  if (!isDefaultChoice(userInput[2])) {//name it better
+  if (!isDefaultChoice(parsedArgs[0])) {//name it better
 
-    if (isOptionInvalid(userInput[2])) {
-      return genIllegalOptionMsgForHead(userInput[2][1]);
+    if (isOptionInvalid(parsedArgs[0])) {
+      return genIllegalOptionMsgForHead(parsedArgs[0][1]);
     }
 
-    if (isOptionLine(userInput[2]) && isCountInvalid(lineCount)) {
+    if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
       return invalidLineCount + lineCount;
     }
 
-    if (isOptionChar(userInput[2]) && isCountInvalid(charCount)) {
+    if (isOptionChar(parsedArgs[0]) && isCountInvalid(charCount)) {
       return invalidByteCount + charCount;
     }
 
@@ -136,13 +135,12 @@ const fetchContentsForHead = function(parsedArgs, noOfFiles, filePath, reader) {
   return result;
 };
 
-const hasHeadError = function(userInput) {
-  return handleHeadErrors(userInput);
+const hasHeadError = function(parsedArgs) {
+  return handleHeadErrors(parsedArgs);
 };
 
 //arrangeContentsOfHead should be the head function
 const arrangeContentsOfHead = function (parsedArgs, fs) {
-  //const parsedArgs = userInput.slice(2);
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
   const noOfFiles = fileList.length;
@@ -161,8 +159,8 @@ const arrangeContentsOfHead = function (parsedArgs, fs) {
 
 const head = function (userInput, fs) {
   const parsedArgs = userInput.slice(2);
-  if (hasHeadError(userInput)) {
-    return handleHeadErrors(userInput);
+  if (hasHeadError(parsedArgs)) {
+    return handleHeadErrors(parsedArgs);
   }
   return arrangeContentsOfHead(parsedArgs, fs);
 };
