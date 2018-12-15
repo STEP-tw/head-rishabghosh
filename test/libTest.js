@@ -1,5 +1,4 @@
 /* eslint-env mocha */
-/*jshint -W061 */
 
 const assert = require("assert");
 
