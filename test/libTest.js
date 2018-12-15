@@ -518,6 +518,11 @@ describe("handleTailErrors", function() {
     assert.equal(handleTailErrors(userInput), expectedOutput);
   });
 
+  it("should return false if first option doesnt start with '-'", function() {
+    let userInput = ["n", "tail.js", "file1"];
+    assert.equal(handleTailErrors(userInput), false);
+  });
+
 });
 
 describe("tail", function() {
