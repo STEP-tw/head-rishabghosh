@@ -2,18 +2,17 @@ const generateHeader = function (filePath) {
   return "==> " + filePath + " <==" + "\n";
 };
   
-const isOptionLine = function (userInput) {
-  let firstArg = userInput;
+const isOptionLine = function (firstArg) {
   return (firstArg[1] === "n" || firstArg[0] !== "-" ||
       Number.isInteger(+firstArg) || firstArg === "--");
 };
   
-const isOptionChar = function (userInput) {
-  return (userInput[2][1] === "c");
+const isOptionChar = function (firstArg) {
+  return (firstArg[1] === "c");
 };
   
 const isOptionInvalid = function (userInput) {
-  return !isOptionLine(userInput[2]) && !isOptionChar(userInput);
+  return !isOptionLine(userInput[2]) && !isOptionChar(userInput[2]);
 };
   
 const splitSource = function (source, reader) {

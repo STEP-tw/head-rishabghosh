@@ -57,23 +57,23 @@ describe("isOptionLine", function() {
 describe("isOptionChar", function() {
   
   it("should return true for \"-c\" as first argument", function() {
-    let userInput = ["n", "head.js", "-c", "file1"];
+    let userInput = "-c";
     assert.equal(isOptionChar(userInput), true);
   });
   
   it("should return false for \"-n\" as first argument", function() {
-    let userInput = ["n", "head.js", "-n", "file1"];
+    let userInput = "-n";
     assert.equal(isOptionChar(userInput), false);
   });
   
   it("should return false for every other input than \"-c\"", function() {
-    let userInput = ["n", "head.js", "-a", "file1"];
+    let userInput = "-a";
     assert.equal(isOptionChar(userInput), false);
   
-    userInput = ["n", "head.js", "-5", "file1"];
+    userInput = "-5";
     assert.equal(isOptionChar(userInput), false);
   
-    userInput = ["n", "head.js", "file1"];
+    userInput = "head.js";
     assert.equal(isOptionChar(userInput), false);
   });
   

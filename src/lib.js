@@ -109,7 +109,7 @@ const handleHeadErrors = function (userInput) {
       return invalidLineCount + lineCount;
     }
 
-    if (isOptionChar(userInput) && isCountInvalid(charCount)) {
+    if (isOptionChar(userInput[2]) && isCountInvalid(charCount)) {
       return invalidByteCount + charCount;
     }
 
@@ -128,7 +128,7 @@ const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
     result.push("\n\n");
   }
 
-  if (isOptionChar(userInput)) {
+  if (isOptionChar(userInput[2])) {
     result.push(readCharFromTop(filePath, reader, charCount));
     result.push("\n");
   }
@@ -190,7 +190,7 @@ const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
     result.push("\n");
   }
 
-  if (isOptionChar(userInput)) {
+  if (isOptionChar(userInput[2])) {
     result.push(readCharFromBottom(filePath, reader, charCount));
     result.push("\n");
   }
