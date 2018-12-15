@@ -4,11 +4,8 @@ const fs = require("fs");
 
 const { tail } = require("./src/lib.js");
 
-const main = function(userInput) {
-  return tail(userInput, fs);
+const main = function() {
+  console.log(tail(process.argv, fs));
 };
 
-console.log(main(process.argv));
-
-
-
+main();
