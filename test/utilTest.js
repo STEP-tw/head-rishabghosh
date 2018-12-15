@@ -14,41 +14,41 @@ const dummyReader = (content) => content;
 describe("isOptionLine", function() {
 
   it("should return true for \"-n\" given as first argument", function() {
-    let userInput = ["n", "head.js", "-n", "5", "file1"];
+    let userInput = "-n";
     assert.equal(isOptionLine(userInput), true);
   
-    userInput = ["n", "head.js", "-n5", "file1"];
+    userInput = "-n5";
     assert.equal(isOptionLine(userInput), true);
   });
   
   it("should return true for \"--\" given as first argument", function() {
-    let userInput = ["n", "head.js", "--", "5", "file1"];
+    let userInput = "--";
     assert.equal(isOptionLine(userInput), true);
   });
   
   it("should return true if first argument is a integer", function() {
-    let userInput = ["n", "head.js", "-5", "file1"];
+    let userInput = "-5";
     assert.equal(isOptionLine(userInput), true);
   });
   
   it("should reutrn true if first argument is a possible filePath", function() {
-    let userInput = ["n", "head.js", "5"];
+    let userInput = "5";
     assert.equal(isOptionLine(userInput), true);
   
-    userInput = ["n", "head.js", "file1"];
+    userInput = "file1";
     assert.equal(isOptionLine(userInput), true);
   });
   
   it("should return false if first  argument is invalid", function() {
-    let userInput = ["n", "head.js", "-a", "file1"];
+    let userInput = "-a";
     assert.equal(isOptionLine(userInput), false);
   
-    userInput = ["n", "head.js", "-r", "file1"];
+    userInput = "-r";
     assert.equal(isOptionLine(userInput), false);
   });
   
   it("should return false for \"-c\" given as first argument", function() {
-    let userInput = ["n", "head.js", "-c", "file1"];
+    let userInput = "-c";
     assert.equal(isOptionLine(userInput), false);
   });
   

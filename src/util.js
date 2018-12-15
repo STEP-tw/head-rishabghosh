@@ -3,7 +3,7 @@ const generateHeader = function (filePath) {
 };
   
 const isOptionLine = function (userInput) {
-  let firstArg = userInput[2];
+  let firstArg = userInput;
   return (firstArg[1] === "n" || firstArg[0] !== "-" ||
       Number.isInteger(+firstArg) || firstArg === "--");
 };
@@ -13,7 +13,7 @@ const isOptionChar = function (userInput) {
 };
   
 const isOptionInvalid = function (userInput) {
-  return !isOptionLine(userInput) && !isOptionChar(userInput);
+  return !isOptionLine(userInput[2]) && !isOptionChar(userInput);
 };
   
 const splitSource = function (source, reader) {

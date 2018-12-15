@@ -105,7 +105,7 @@ const handleHeadErrors = function (userInput) {
       return genIllegalOptionMsgForHead(userInput[2][1]);
     }
 
-    if (isOptionLine(userInput) && isCountInvalid(lineCount)) {
+    if (isOptionLine(userInput[2]) && isCountInvalid(lineCount)) {
       return invalidLineCount + lineCount;
     }
 
@@ -123,7 +123,7 @@ const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
   let result = [];
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
-  if (isOptionLine(userInput)) {
+  if (isOptionLine(userInput[2])) {
     result.push(readLinesFromTop(filePath, reader, lineCount));
     result.push("\n\n");
   }
@@ -185,7 +185,7 @@ const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
 
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
-  if (isOptionLine(userInput)) {
+  if (isOptionLine(userInput[2])) {
     result.push(readLinesFromBottom(filePath, reader, lineCount));
     result.push("\n");
   }
