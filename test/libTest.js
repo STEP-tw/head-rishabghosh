@@ -394,25 +394,25 @@ describe("handleTailErrors", function() {
   const illegalOffsetMessage = "tail: illegal offset -- ";
 
   it("should return illegal option message for illegal option", function() {
-    let userInput = ["n", "tail.js", "-a0", "file1"];
+    let userInput = ["-a0", "file1"];
     let expectedOutput = illegalOptionMessage + "a" + "\n" + usageMessage;
     assert.equal(handleTailErrors(userInput), expectedOutput);
   });
 
   it("should return illegal offset message for illegal byte count", function() {
-    let userInput = ["n", "tail.js", "-c10x", "file1"];
+    let userInput = ["-c10x", "file1"];
     let expectedOutput = illegalOffsetMessage + "10x";
     assert.equal(handleTailErrors(userInput), expectedOutput);
   });
 
   it("should return illegal offset message for illegal line count", function() {
-    let userInput = ["n", "tail.js", "-n10x", "file1"];
+    let userInput = ["-n10x", "file1"];
     let expectedOutput = illegalOffsetMessage + "10x";
     assert.equal(handleTailErrors(userInput), expectedOutput);
   });
 
   it("should return false if first option doesnt start with '-'", function() {
-    let userInput = ["n", "tail.js", "file1"];
+    let userInput = ["file1"];
     assert.equal(handleTailErrors(userInput), false);
   });
 

@@ -215,35 +215,34 @@ const arrangeContentsOfTail = function (parsedArgs, fs) {
   return result.flat().join("");
 };
 
-const handleTailErrors = function (userInput) {
-  const parsedArgs = userInput.slice(2);
+const handleTailErrors = function (parsedArgs) {
   let illegalCount;
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
 
   if(!Number.isInteger(+lineCount)) { illegalCount = lineCount; }
   if(!Number.isInteger(+charCount)) { illegalCount = charCount; }
 
-  if (userInput[2][0] === "-") {
+  if (parsedArgs[0][0] === "-") {
 
-    if (isOptionInvalid(userInput[2])) {
-      return genIllegalOptionMsgForTail(userInput[2][1]);
+    if (isOptionInvalid(parsedArgs[0])) {
+      return genIllegalOptionMsgForTail(parsedArgs[0][1]);
     }
 
-    if (!isOptionInvalid(userInput[2]) && illegalCount !== undefined) {
+    if (!isOptionInvalid(parsedArgs[0]) && illegalCount !== undefined) {
       return illegaloffsetMsg + illegalCount;
     } 
   }
   return false;
 };
 
-const hasTailErrors = function(userInput) {
-  return handleTailErrors(userInput);
+const hasTailErrors = function(parsedArgs) {
+  return handleTailErrors(parsedArgs);
 };
 
 const tail = function (userInput, fs) {
   const parsedArgs = userInput.slice(2);
-  if (hasTailErrors(userInput)) { 
-    return handleTailErrors(userInput);
+  if (hasTailErrors(parsedArgs)) { 
+    return handleTailErrors(parsedArgs);
   }
   return arrangeContentsOfTail(parsedArgs, fs);
 };
