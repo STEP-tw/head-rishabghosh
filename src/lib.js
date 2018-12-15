@@ -180,19 +180,18 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
   return totalContent.slice(sliceFrom).join(""); 
 };
 
-const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
-  const parsedArgs = userInput.slice(2);
+const fetchContentsForTail = function(parsedArgs, noOfFiles, filePath, reader) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
   let result = [];
 
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
-  if (isOptionLine(userInput[2])) {
+  if (isOptionLine(parsedArgs[0])) {
     result.push(readLinesFromBottom(filePath, reader, lineCount));
     result.push("\n");
   }
 
-  if (isOptionChar(userInput[2])) {
+  if (isOptionChar(parsedArgs[0])) {
     result.push(readCharFromBottom(filePath, reader, charCount));
     result.push("\n");
   }
@@ -202,7 +201,8 @@ const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
 
 const arrangeContentsOfTail = function (userInput, fs) {
   const reader = fs.readFileSync;
-  const fileList = extractFilenames(userInput.slice(2));
+  const parsedArgs = userInput.slice(2);
+  const fileList = extractFilenames(parsedArgs);
   const noOfFiles = fileList.length;
   let result = [];
 
@@ -210,7 +210,7 @@ const arrangeContentsOfTail = function (userInput, fs) {
     if (isFileInvalid(filePath, fs)) {
       return "tail: " + filePath + ": No such file or directory\n";
     }
-    return fetchContentsForTail(userInput, noOfFiles, filePath, reader);
+    return fetchContentsForTail(parsedArgs, noOfFiles, filePath, reader);
   });
 
   return result.flat().join("");
@@ -242,7 +242,7 @@ const hasTailErrors = function(userInput) {
 };
 
 const tail = function (userInput, fs) {
-  if (hasTailErrors(userInput)) {
+  if (hasTailErrors(userInput)) { 
     return handleTailErrors(userInput);
   }
   return arrangeContentsOfTail(userInput, fs);
