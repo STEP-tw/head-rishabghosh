@@ -328,7 +328,7 @@ describe("head", function() {
     readFileSync: (filePath) => listOfFiles[filePath],
     existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
   };
-  
+
   const errorMessage = "head: illegal option -- ";
   const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
   const invalidLineCount = "head: illegal line count -- ";
@@ -535,12 +535,15 @@ describe("handleTailErrors", function() {
 
 describe("tail", function() {
 
-  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
-  const listOfFiles = ["file1", "file2", "filex"];
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+  const file2 = "a\nb\n";
+  const filex = "x";
+  const listOfFiles = { file1, file2, filex };
   const fs = {
-    readFileSync: (filePath) => eval(filePath),
-    existsSync: (filePath) => listOfFiles.includes(filePath)
+    readFileSync: (filePath) => listOfFiles[filePath],
+    existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
   };
+
   const errorMessage = "tail: illegal option -- ";
   const usageMessage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
   const invalidOffsetMsg = "tail: illegal offset -- ";
@@ -558,7 +561,7 @@ describe("tail", function() {
 
   it("should return contents of file if correct input is given", function() {
     let userInput = ["n", "tail.js", "-n5", "file1"];
-    let expectedOutput = "J\nK\nL\nM\n\n";
+    let expectedOutput = "I\nJ\nK\nL\nM\n";
     assert.equal(tail(userInput, fs), expectedOutput);
   });
 
