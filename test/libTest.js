@@ -122,28 +122,28 @@ describe("arrangeContentsOfHead", function() {
   };
 
   it("should return invalid file message if the file doesnot exists", function() {
-    let userInput = ["n", "head.js", "fileY"];
+    let userInput = ["fileY"];
     let expectedOutput = "head: fileY: No such file or directory\n";
     assert.equal(arrangeContentsOfHead(userInput, fs), expectedOutput);
   });
 
   it("should return file content if File exists", function() {
-    let userInput = ["n", "head.js", "file1"];
+    let userInput = ["file1"];
     let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
     assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
 
-    userInput = ["n", "head.js", "-n5", "file1"];
+    userInput = ["-n5", "file1"];
     expectedOutput = "A\nB\nC\nD\nE";
     assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
 
-    userInput = ["n", "head.js", "-c5", "file1"];
+    userInput = ["-c5", "file1"];
     expectedOutput = "A\nB\nC";
     assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
   });
 
   describe("if one file exists but other doesnot", function() {
     it("should return invalid file message and file content", () => {
-      let userInput = ["n", "head.js", "-n5", "file1", "fileY"];
+      let userInput = ["-n5", "file1", "fileY"];
       let expectedOutput = "==> file1 <==\n";
       expectedOutput += "A\nB\nC\nD\nE\n\n";
       expectedOutput += "head: fileY: No such file or directory";

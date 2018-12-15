@@ -141,8 +141,8 @@ const hasHeadError = function(userInput) {
 };
 
 //arrangeContentsOfHead should be the head function
-const arrangeContentsOfHead = function (userInput, fs) {
-  const parsedArgs = userInput.slice(2);
+const arrangeContentsOfHead = function (parsedArgs, fs) {
+  //const parsedArgs = userInput.slice(2);
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
   const noOfFiles = fileList.length;
@@ -160,10 +160,11 @@ const arrangeContentsOfHead = function (userInput, fs) {
 };
 
 const head = function (userInput, fs) {
+  const parsedArgs = userInput.slice(2);
   if (hasHeadError(userInput)) {
     return handleHeadErrors(userInput);
   }
-  return arrangeContentsOfHead(userInput, fs);
+  return arrangeContentsOfHead(parsedArgs, fs);
 };
 
 /* ========= TAIL ========= */
