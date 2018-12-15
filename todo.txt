@@ -37,3 +37,17 @@ parsed arguments should be provided in each of those functions
 where the function extractFilenames is called - 
  - line 184: arrangeContentsOfHead
  - line 207: arrangeContentsOfTail
+
+where the function handleHeadErrors is called -
+ - line 142: hasHeadError
+ - line 164: head
+
+where the function fetchContentsForHead is called - 
+ - line 156: arrangeContentsOfHead
+
+where the function fetchContentsOfTail is called - 
+- line 215: arrangeContentsOfTail
+
+where the function handleTailErrors is called - 
+ - line 243: hasTailError
+ - line 248: tail
