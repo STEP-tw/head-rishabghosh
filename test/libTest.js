@@ -188,11 +188,11 @@ describe("readLinesFromTop", function() {
   fileContents += "This is line 10\n";
   fileContents += "This is line 11";
 
-  it("should return an empty array for noOfLines:0", function() {
+  it("should return an empty array for no of lines is 0", function() {
     assert.deepEqual(readLinesFromTop(fileContents, dummyReader, 0), "");
   });
 
-  it("should return 10 lines in array for noOfLines:10 ", function() {
+  it("should return 10 lines in array for no of lines is 10 ", function() {
 
     let expectedOutput = "";
     expectedOutput += "This is line 1\n";
@@ -237,13 +237,13 @@ describe("arrangeContentsOfHead", function() {
     existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
   };
 
-  it("should return invalidFileMsg if the file doesnot exists", function() {
+  it("should return invalid file message if the file doesnot exists", function() {
     let userInput = ["n", "head.js", "fileY"];
     let expectedOutput = "head: fileY: No such file or directory\n";
     assert.equal(arrangeContentsOfHead(userInput, fs), expectedOutput);
   });
 
-  it("should return fileContent if File exists", function() {
+  it("should return file content if File exists", function() {
     let userInput = ["n", "head.js", "file1"];
     let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
     assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
@@ -257,12 +257,14 @@ describe("arrangeContentsOfHead", function() {
     assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
   });
 
-  it("should return invalidFileMsg and fileContent if one file exists but other doesnot", () => {
-    let userInput = ["n", "head.js", "-n5", "file1", "fileY"];
-    let expectedOutput = "==> file1 <==\n";
-    expectedOutput += "A\nB\nC\nD\nE\n\n";
-    expectedOutput += "head: fileY: No such file or directory";
-    assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
+  describe("if one file exists but other doesnot", function() {
+    it("should return invalid file message and file content", () => {
+      let userInput = ["n", "head.js", "-n5", "file1", "fileY"];
+      let expectedOutput = "==> file1 <==\n";
+      expectedOutput += "A\nB\nC\nD\nE\n\n";
+      expectedOutput += "head: fileY: No such file or directory";
+      assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
+    });
   });
 
 });
