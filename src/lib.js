@@ -21,21 +21,7 @@ const {
   isFileInvalid,  
 } = require("./util.js");
 
-/* ========== HEAD =========== */
-
-const readLinesFromTop = function (filePath, reader, noOfLines) {
-  const totalContent = splitByLine(filePath, reader);
-  return totalContent.slice(0, noOfLines).join("\n");
-};
-
-const readCharFromTop = function (filePath, reader, noOfChar) {
-  const totalContent = splitByChar(filePath, reader);
-  return totalContent.slice(0, noOfChar).join("");
-};
-
-/*
- * each if statement should be its own function
- */
+/* ======= PRIMARY FUNCTIONS ======== */
 
 const isDefaultChoice = function (firstArg) {
   return firstArg[0] !== "-";
@@ -92,6 +78,18 @@ const extractFilenames = function(userInput) {
     result.push(filePath);
   }
   return result;
+};
+
+/* ========== HEAD =========== */
+
+const readLinesFromTop = function (filePath, reader, noOfLines) {
+  const totalContent = splitByLine(filePath, reader);
+  return totalContent.slice(0, noOfLines).join("\n");
+};
+
+const readCharFromTop = function (filePath, reader, noOfChar) {
+  const totalContent = splitByChar(filePath, reader);
+  return totalContent.slice(0, noOfChar).join("");
 };
 
 const isCountInvalid = function (count) {
