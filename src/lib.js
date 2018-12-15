@@ -11,22 +11,8 @@ const {
   illegaloffsetMsg,
 }=require("./error.js");
 
-
-
 /* ========== PRIMARY FUNCTIONS ============ */
-/*
-const genIllegalOptionMsgForHead = function (option) {
-  return errorMsgForHead + option + "\n" + usageMsgForHead;
-};
 
-const genIllegalOptionMsgForTail = function(option) {
-  return errorMsgForTail + option + "\n" + usageMsgForTail;
-};
-
-const genFileErrorMsgForHead = function (filePath) {
-  return "head: " + filePath + ": No such file or directory\n";
-};
-*/
 const generateHeader = function (filePath) {
   return "==> " + filePath + " <==" + "\n";
 };
