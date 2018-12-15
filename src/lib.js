@@ -199,9 +199,8 @@ const fetchContentsForTail = function(parsedArgs, noOfFiles, filePath, reader) {
   return result;
 };
 
-const arrangeContentsOfTail = function (userInput, fs) {
+const arrangeContentsOfTail = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
-  const parsedArgs = userInput.slice(2);
   const fileList = extractFilenames(parsedArgs);
   const noOfFiles = fileList.length;
   let result = [];
@@ -242,10 +241,11 @@ const hasTailErrors = function(userInput) {
 };
 
 const tail = function (userInput, fs) {
+  const parsedArgs = userInput.slice(2);
   if (hasTailErrors(userInput)) { 
     return handleTailErrors(userInput);
   }
-  return arrangeContentsOfTail(userInput, fs);
+  return arrangeContentsOfTail(parsedArgs, fs);
 };
 
 /* ------ EXPORTS ------ */

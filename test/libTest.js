@@ -345,7 +345,7 @@ describe("extractFilenames", function() {
 
 });
 
-describe("getContentesOfTail", function() {
+describe("arrangeContentsOfTail", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
   const file2 = "a\nb\n";
@@ -357,28 +357,28 @@ describe("getContentesOfTail", function() {
   };
 
   it("should return invalid file message if the file doesnot exist", function() {
-    let userInput = ["n", "tail.js", "fileY"];
+    let userInput = ["fileY"];
     let expectedOutput = "tail: fileY: No such file or directory";
     assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
   });
 
   it("should return content of file if File exists", function() {
-    let userInput = ["n", "tail.js", "file1"];
+    let userInput = ["file1"];
     let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
     assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
 
-    userInput = ["n", "tail.js", "-n5", "file1"];
+    userInput = ["-n5", "file1"];
     expectedOutput = "I\nJ\nK\nL\nM\n"; 
     assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
 
-    userInput = ["n", "tail.js", "-c5", "file1"];
+    userInput = ["-c5", "file1"];
     expectedOutput = "K\nL\nM";
     assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
-
   });
+  
   describe("if one file exists but other doesnot", function () {
     it("should return invalid file message and content of file", function() {
-      let userInput = ["n", "tail.js", "-n5", "file1", "fileY"];
+      let userInput = ["-n5", "file1", "fileY"];
       let expectedOutput = "==> file1 <==\n";
       expectedOutput += "I\nJ\nK\nL\nM\n"; 
       expectedOutput += "tail: fileY: No such file or directory";
