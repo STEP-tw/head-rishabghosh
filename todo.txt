@@ -1,0 +1,9 @@
+update readme
+parse arguments
+  -slice from main 
+  -or call a parser from util.js
+
+remove switch case
+remove prototype functions
+put illegal count /  offset messages in a function
+remove dublication

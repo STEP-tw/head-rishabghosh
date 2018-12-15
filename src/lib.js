@@ -21,7 +21,7 @@ const {
   isFileInvalid,  
 } = require("./util.js");
 
-/* ======= PRIMARY FUNCTIONS ======== */
+/* ======= PRIMARY FUNCTIONS ======= */
 
 const isDefaultChoice = function (firstArg) {
   return firstArg[0] !== "-";
