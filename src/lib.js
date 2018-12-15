@@ -123,20 +123,12 @@ const handleHeadErrors = function (userInput) {
       return genIllegalOptionMsgForHead(userInput[2][1]);
     }
 
-    if (isOptionLine(userInput)) {
-      if (isCountInvalid(lineCount)) {
-        return invalidLineCount + lineCount;
-      } else {
-        return false;
-      }
+    if (isOptionLine(userInput) && isCountInvalid(lineCount)) {
+      return invalidLineCount + lineCount;
     }
 
-    if (isOptionChar(userInput)) {
-      if (isCountInvalid(charCount)) {
-        return invalidByteCount + charCount;
-      } else {
-        return false;
-      }
+    if (isOptionChar(userInput) && isCountInvalid(charCount)) {
+      return invalidByteCount + charCount;
     }
 
   }
