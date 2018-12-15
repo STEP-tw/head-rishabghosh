@@ -6,15 +6,15 @@ echo "make sure you dont have any unnecessary console.logs\n"
 input_file=$1
 input_file2=$2
 
-#tail $input_file > .sysTail
-#node ./tail.js $input_file > .usrTail
-#echo "for format -> node ./tail.js file1"
-#node scripts/compareTail.js
-#
-#tail -- $input_file > .sysTail 
-#node ./tail.js -- $input_file > .usrTail
-#echo "for format -> node ./tail.js -- file1" 
-#node scripts/compareTail.js
+tail $input_file > .sysTail
+node ./tail.js $input_file > .usrTail
+echo "for format -> node ./tail.js file1"
+node scripts/compareTail.js
+
+tail -- $input_file > .sysTail 
+node ./tail.js -- $input_file > .usrTail
+echo "for format -> node ./tail.js -- file1" 
+node scripts/compareTail.js
 
 tail -n5 $input_file > .sysTail
 node ./tail.js -n5 $input_file > .usrTail
@@ -26,22 +26,21 @@ node ./tail.js -n 5 $input_file > .usrTail
 echo "for format -> node ./tail.js -n 5 file1"
 node scripts/compareTail.js
 
-
 tail -5 $input_file > .sysTail
 node ./tail.js -5 $input_file > .usrTail
 echo "for format -> node ./tail.js -5 file1"
 node scripts/compareTail.js
 
-#tail $input_file $input_file2 > .sysTail
-#node ./tail.js $input_file $input_file2 > .usrTail
-#echo "for format -> node ./tail.js file1 file2"
-#node scripts/compareTail.js
-#
-#tail -n 5 $input_file $input_file2 > .sysTail
-#node ./tail.js -n 5 $input_file $input_file2 > .usrTail
-#echo "for format -> node ./tail.js -n 5 file1 file2"
-#node scripts/compareTail.js
-#
+tail $input_file $input_file2 > .sysTail
+node ./tail.js $input_file $input_file2 > .usrTail
+echo "for format -> node ./tail.js file1 file2"
+node scripts/compareTail.js
+
+tail -n 5 $input_file $input_file2 > .sysTail
+node ./tail.js -n 5 $input_file $input_file2 > .usrTail
+echo "for format -> node ./tail.js -n 5 file1 file2"
+node scripts/compareTail.js
+
 #
 #tail -n5 $input_file $input_file2 > .sysTail
 #node ./tail.js -n5 $input_file $input_file2 > .usrTail
