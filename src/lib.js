@@ -179,7 +179,6 @@ const arrangeContentsOfHead = function (userInput, fs) {
   let result = [];
 
   result = fileList.map( function(filePath){
-
     if (isFileInvalid(filePath, fs)) {
       return genFileErrorMsgForHead(filePath);
     } 
@@ -265,8 +264,12 @@ const handleTailErrors = function (userInput) {
   return false;
 };
 
+const hasTailErrors = function(userInput) {
+  return handleTailErrors(userInput);
+};
+
 const tail = function (userInput, fs) {
-  if (handleTailErrors(userInput)) {
+  if (hasTailErrors(userInput)) {
     return handleTailErrors(userInput);
   }
   return arrangeContentsOfTail(userInput, fs);
