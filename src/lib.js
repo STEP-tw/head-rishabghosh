@@ -296,5 +296,6 @@ module.exports = {
   readCharFromBottom,
   extractFilenames,
   getContentsOfTail,
+  handleTailErrors,
   tail
 };

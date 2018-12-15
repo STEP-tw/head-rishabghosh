@@ -18,6 +18,7 @@ const {
   readLinesFromBottom,
   readCharFromBottom,
   getContentsOfTail,
+  handleTailErrors,
   tail
 } = require("../src/lib.js");
 
@@ -490,6 +491,31 @@ describe("getContentesOfTail", function() {
     expectedOutput += "I\nJ\nK\nL\nM\n"; 
     expectedOutput += "tail: fileY: No such file or directory";
     assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
+  });
+
+});
+
+describe("handleTailErrors", function() {
+  const illegalOptionMessage = "tail: illegal option -- ";
+  const usageMessage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+  const illegalOffsetMessage = "tail: illegal offset -- ";
+
+  it("should return illegal option message for illegal option", function() {
+    let userInput = ["n", "tail.js", "-a0", "file1"];
+    let expectedOutput = illegalOptionMessage + "a" + "\n" + usageMessage;
+    assert.equal(handleTailErrors(userInput), expectedOutput);
+  });
+
+  it("should return illegal offset message for illegal byte count", function() {
+    let userInput = ["n", "tail.js", "-c10x", "file1"];
+    let expectedOutput = illegalOffsetMessage + "10x";
+    assert.equal(handleTailErrors(userInput), expectedOutput);
+  });
+
+  it("should return illegal offset message for illegal line count", function() {
+    let userInput = ["n", "tail.js", "-n10x", "file1"];
+    let expectedOutput = illegalOffsetMessage + "10x";
+    assert.equal(handleTailErrors(userInput), expectedOutput);
   });
 
 });
