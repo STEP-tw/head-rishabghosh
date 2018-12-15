@@ -229,7 +229,7 @@ const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
   return result;
 };
 
-const getContentsOfTail = function (userInput, fs) {
+const arrangeContentsOfTail = function (userInput, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userInput);
   const noOfFiles = fileList.length;
@@ -269,7 +269,7 @@ const tail = function (userInput, fs) {
   if (handleTailErrors(userInput)) {
     return handleTailErrors(userInput);
   }
-  return getContentsOfTail(userInput, fs);
+  return arrangeContentsOfTail(userInput, fs);
 };
 
 /* ------ EXPORTS ------ */
@@ -290,7 +290,7 @@ module.exports = {
   readLinesFromBottom,
   readCharFromBottom,
   extractFilenames,
-  getContentsOfTail,
+  arrangeContentsOfTail,
   handleTailErrors,
   tail
 };

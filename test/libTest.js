@@ -17,7 +17,7 @@ const {
   head,
   readLinesFromBottom,
   readCharFromBottom,
-  getContentsOfTail,
+  arrangeContentsOfTail,
   handleTailErrors,
   tail
 } = require("../src/lib.js");
@@ -467,21 +467,21 @@ describe("getContentesOfTail", function() {
   it("should return invalidFileMsg if the file doesnot exist", function() {
     let userInput = ["n", "tail.js", "fileY"];
     let expectedOutput = "tail: fileY: No such file or directory";
-    assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
+    assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
   });
 
   it("should return fileContent if File exists", function() {
     let userInput = ["n", "tail.js", "file1"];
     let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
-    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+    assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
 
     userInput = ["n", "tail.js", "-n5", "file1"];
     expectedOutput = "I\nJ\nK\nL\nM\n"; 
-    assert.equal(getContentsOfTail(userInput, fs), expectedOutput);
+    assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
 
     userInput = ["n", "tail.js", "-c5", "file1"];
     expectedOutput = "K\nL\nM";
-    assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
+    assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
 
   });
 
@@ -490,7 +490,7 @@ describe("getContentesOfTail", function() {
     let expectedOutput = "==> file1 <==\n";
     expectedOutput += "I\nJ\nK\nL\nM\n"; 
     expectedOutput += "tail: fileY: No such file or directory";
-    assert.equal(getContentsOfTail(userInput, fs).trim(), expectedOutput);
+    assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
   });
 
 });
