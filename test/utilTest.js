@@ -6,6 +6,7 @@ const {
   isOptionChar,
   splitByLine,
   splitByChar,
+  isFileInvalid,
 } = require("../src/util.js");
 
 const dummyReader = (content) => content;
@@ -104,4 +105,19 @@ describe("splitByChar", function() {
     });
   });
   
+});
+
+describe("isFileInvalid", function() {
+  let input = ["file1", "file2", "filex"];
+  let fileChecker = { existsSync: (filePath) => input.includes(filePath) };
+
+  it("should return false for valid files", function() {
+    assert.equal(isFileInvalid("file1", fileChecker), false);
+    assert.equal(isFileInvalid("filex", fileChecker), false);
+  });
+
+  it("should return true for invalid files", function() {
+    assert.equal(isFileInvalid("fileY", fileChecker), true);
+  });
+
 });

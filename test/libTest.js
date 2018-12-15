@@ -3,7 +3,6 @@
 const assert = require("assert");
 
 const {
-  isFileInvalid,
   extractCountAndStartingIndex,
   readLinesFromTop,
   extractFilenames,
@@ -107,21 +106,6 @@ describe("readLinesFromTop", function() {
     expectedOutput += "This is line 10";
 
     assert.deepEqual(readLinesFromTop(fileContents, dummyReader, 10), expectedOutput);
-  });
-
-});
-
-describe("isFileInvalid", function() {
-  let input = ["file1", "file2", "filex"];
-  let fileChecker = { existsSync: (filePath) => input.includes(filePath) };
-
-  it("should return false for valid files", function() {
-    assert.equal(isFileInvalid("file1", fileChecker), false);
-    assert.equal(isFileInvalid("filex", fileChecker), false);
-  });
-
-  it("should return true for invalid files", function() {
-    assert.equal(isFileInvalid("fileY", fileChecker), true);
   });
 
 });
