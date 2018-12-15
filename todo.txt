@@ -7,3 +7,22 @@ remove switch case
 remove prototype functions
 put illegal count /  offset messages in a function
 remove dublication
+
+common functions 
+- isDefaultChoice
+- extractCountAndStartingIndex
+- extractFilenames
+
+head functions
+ - readLinesFromTop
+ - readCharFromTop
+ - isCountInvalid
+ - handleHeadErrors
+ - fetchContentsOfHead
+ - hasHeadErrors
+ - arrangeContentsOfHead
+ - head 
+
+slice user inputs from top most function to bottom ones
+
+
