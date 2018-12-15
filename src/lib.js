@@ -12,6 +12,8 @@ const errorMsgForTail = "tail: illegal option -- ";
 const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
 const illegaloffsetMsg = "tail: illegal offset -- "; 
 
+/* ========== PRIMARY FUNCTIONS ============ */
+
 const genIllegalOptionMsgForHead = function (option) {
   return errorMsgForHead + option + "\n" + usageMsgForHead;
 };
@@ -48,6 +50,12 @@ const splitSource = function (source, reader) {
 
 const splitByLine = splitSource.bind("\n");
 const splitByChar = splitSource.bind("");
+
+const isFileInvalid = function (filePath, fs) {
+  return !fs.existsSync(filePath);
+};
+
+/* ========== HEAD =========== */
 
 const readLinesFromTop = function (filePath, reader, noOfLines) {
   const totalContent = splitByLine(filePath, reader);
@@ -110,6 +118,16 @@ const extractCountAndStartingIndex = function (userInput) {
   return { lineCount, charCount, startingIndex };
 };
 
+const extractFilenames = function(userInput) {
+  const { startingIndex } = extractCountAndStartingIndex(userInput);
+  let result = [];
+  for (let index = startingIndex; index < userInput.length; index++) {
+    let filePath = userInput[index];
+    result.push(filePath);
+  }
+  return result;
+};
+
 const isCountInvalid = function (count) {
   return count < 1 || !Number.isInteger(+count);
 };
@@ -133,20 +151,6 @@ const handleHeadErrors = function (userInput) {
 
   }
   return false;
-};
-
-const extractFilenames = function(userInput) {
-  const { startingIndex } = extractCountAndStartingIndex(userInput);
-  let result = [];
-  for (let index = startingIndex; index < userInput.length; index++) {
-    let filePath = userInput[index];
-    result.push(filePath);
-  }
-  return result;
-};
-
-const isFileInvalid = function (filePath, fs) {
-  return !fs.existsSync(filePath);
 };
 
 //change name - starting index 
@@ -194,6 +198,8 @@ const head = function (userInput, fs) {
   }
   return arrangeContentsOfHead(userInput, fs);
 };
+
+/* ========= TAIL ========= */
 
 const readLinesFromBottom = function (filePath, reader, noOfLines) {
   const totalContent = splitByLine(filePath, reader);
