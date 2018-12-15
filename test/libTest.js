@@ -387,7 +387,7 @@ describe("readLinesFromBottom", function() {
     assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 10), expectedOutput);
   });
 
-  it("should list contents of entire file if noOfLines is greater than 11", function() {
+  it("should return contents of entire file if noOfLines is greater than 11", function() {
 
     let expectedOutput = "";
     expectedOutput += "This is line 1\n";
@@ -418,6 +418,11 @@ describe("readCharFromBottom", function() {
   it("should return last 10 characters for noOfChar:10", function() {
     let expectedOutput = "H\nI\nJ\nK\nL\n";
     assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 10), expectedOutput);
+  });
+
+  it("should return contents of entire file if noOfChar is greater than 24",function(){
+    let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
+    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 25), expectedOutput);
   });
 
 });
