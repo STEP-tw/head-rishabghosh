@@ -25,4 +25,9 @@ head functions
 
 slice user inputs from top most function to bottom ones
 
-
+where the function extractCountAndStartingIndex is called
+ - line 75 : primary functions > extractFilenames
+ - line 101 : head functions > handleHeadErrors
+ - line 123 : head functions > fetchContentsOfHead
+ - line 184 : tail functions > fetchContentsOfTail
+ - line 220 : tail functions > handleTailErrors
