@@ -171,8 +171,8 @@ const hasHeadError = function(userInput) {
   return handleHeadErrors(userInput);
 };
 
-//getContentsOfHead should be the head function
-const getContentsOfHead = function (userInput, fs) {
+//arrangeContentsOfHead should be the head function
+const arrangeContentsOfHead = function (userInput, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userInput);
   const noOfFiles = fileList.length;
@@ -193,7 +193,7 @@ const head = function (userInput, fs) {
   if (hasHeadError(userInput)) {
     return handleHeadErrors(userInput);
   }
-  return getContentsOfHead(userInput, fs);
+  return arrangeContentsOfHead(userInput, fs);
 };
 
 const readLinesFromBottom = function (filePath, reader, noOfLines) {
@@ -276,7 +276,7 @@ const tail = function (userInput, fs) {
 
 module.exports = {
   head,
-  getContentsOfHead,
+  arrangeContentsOfHead,
   fetchContentsForHead,
   isFileInvalid,
   isOptionLine,
