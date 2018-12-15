@@ -122,7 +122,7 @@ describe("splitByChar", function() {
 describe("extractCountAndStartingIndex", function() {
 
   describe("for no count value given", function() {
-    it("should return a object containing lineCount: 10, startingIndex: 2", function() {
+    it("should return line count of 10 & starting index of 2 in a object", function() {
       let input = ["n", "h.js", "file1"];
       let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 2 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
@@ -130,7 +130,7 @@ describe("extractCountAndStartingIndex", function() {
   });
 
   describe("for multiple files and no count value given", function() {
-    it("should return a object containing lineCount: 10, startingIndex: 2", function() {
+    it("should return line count of 10 & starting index of 2 in a object", function() {
       let input = ["n", "h.js", "file1", "file2"];
       let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 2 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
@@ -139,7 +139,7 @@ describe("extractCountAndStartingIndex", function() {
 
 
   describe("for input ['n', 'head.js', \"-n5\", \"file1\"]", function() {
-    it("should return a object containing lineCount: 5, startingIndex: 3", function() {
+    it("should return line count of 5 & starting index of 3 in a object", function() {
       let input = ["n", "h.js", "-n5", "file1"];
       let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
@@ -148,7 +148,7 @@ describe("extractCountAndStartingIndex", function() {
   });
 
   describe("for input [,, \"-n4\", \"file1\"]", function() {
-    it("should return a object containing lineCount: 4, startingIndex: 3", function() {
+    it("should return line count of 4 & starting index of 3 in a object", function() {
       let input = ["n", "h.js", "-n4", "file1"];
       let expectedOutput = { lineCount: 4, charCount: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
@@ -156,7 +156,7 @@ describe("extractCountAndStartingIndex", function() {
   });
 
   describe("for count 7  provied in 3rd index", function() {
-    it("should return a object containing lineCount: 7, startingIndex: 4", function() {
+    it("should return line count of 7 & starting index of 4 in a object", function() {
       let input = ["n", "h.js", "-n", "7", "file1"];
       let expectedOutput = { lineCount: 7, charCount: 0, startingIndex: 4 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
@@ -164,7 +164,7 @@ describe("extractCountAndStartingIndex", function() {
   });
 
   describe("for count provided as firstArg", function() {
-    it("should return a object where lineCount is the count provided", function() {
+    it("should return line count of 5 & starting index of 3 in a object", function() {
       let input = ["n", "h.js", "-5", "file1"];
       let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 3 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
