@@ -93,14 +93,14 @@ const extractCountAndStartingIndex = function (userInput) {
     return { lineCount, charCount, startingIndex };
   }
    
-  if (Number(firstArg)) {
+  if (!isNaN(firstArg)) {
     startingIndex = 3;
     lineCount = Math.abs(firstArg); 
     return { lineCount, charCount, startingIndex };
   }
 
   /*
-   * should use better logic to get rid of this switch-case blog
+   * should use better logic to get rid of this switch-case
    */
 
   switch (firstArg.slice(2).length) { //length of count value if present
@@ -135,7 +135,7 @@ const isCountInvalid = function (count) {
 const handleHeadErrors = function (userInput) {
   const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
 
-  if (userInput[2][0] === "-") {
+  if (!isDefaultChoice(userInput[2])) {//name it better
 
     if (isOptionInvalid(userInput)) {
       return genIllegalOptionMsgForHead(userInput[2][1]);
