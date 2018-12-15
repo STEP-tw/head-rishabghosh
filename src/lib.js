@@ -28,7 +28,8 @@ const isDefaultChoice = function (firstArg) {
 };
 
 const extractCountAndStartingIndex = function (userInput) {
-  let firstArg = userInput[2];
+  const parsedArgs = userInput.slice(2);
+  let firstArg = parsedArgs[0];
   let lineCount = 0;
   let charCount = 0;
   let startingIndex = 0;
@@ -58,8 +59,8 @@ const extractCountAndStartingIndex = function (userInput) {
   switch (firstArg.slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 4;
-      if (firstArg[1] === "n") { lineCount = userInput[3]; }
-      if (firstArg[1] === "c") { charCount = userInput[3]; }
+      if (firstArg[1] === "n") { lineCount = parsedArgs[1]; }
+      if (firstArg[1] === "c") { charCount = parsedArgs[1]; }
       break;
     default:
       startingIndex = 3;
