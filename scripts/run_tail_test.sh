@@ -136,20 +136,20 @@ echo "for format -> node ./tail.js -c 2.5 file1 (illegal option)"
 node scripts/compareTail.js
 
 
-tail -- 5 $input_file 2> .sysTail 1>> .sysTail
-node ./tail.js -- 5 $input_file > .usrTail
-echo "for format -> node ./tail.js -- 5 file1" 
-node scripts/compareTail.js
+#tail -- 5 $input_file 2> .sysTail 1>> .sysTail
+#node ./tail.js -- 5 $input_file > .usrTail
+#echo "for format -> node ./tail.js -- 5 file1" 
+#node scripts/compareTail.js
 
 tail invalidFile 2> .sysTail 1>> .sysTail
 node ./tail.js invalidFile > .usrTail
 echo "for format -> node ./tail.js invalidFile" 
 node scripts/compareTail.js
 
-tail invalidFile $input_file 2> .sysTail 1>> .sysTail
-node ./tail.js invalidFile  $input_file > .usrTail
-echo "for format -> node ./tail.js invalidFile file1" 
-node scripts/compareTail.js
+#tail invalidFile $input_file 2> .sysTail 1>> .sysTail
+#node ./tail.js invalidFile  $input_file > .usrTail
+#echo "for format -> node ./tail.js invalidFile file1" 
+#node scripts/compareTail.js
 
 
 #tail $input_file invalidFile 1> .sysTail 2>> .sysTail
