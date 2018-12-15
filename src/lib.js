@@ -101,7 +101,7 @@ const handleHeadErrors = function (userInput) {
 
   if (!isDefaultChoice(userInput[2])) {//name it better
 
-    if (isOptionInvalid(userInput)) {
+    if (isOptionInvalid(userInput[2])) {
       return genIllegalOptionMsgForHead(userInput[2][1]);
     }
 
@@ -223,11 +223,11 @@ const handleTailErrors = function (userInput) {
 
   if (userInput[2][0] === "-") {
 
-    if (isOptionInvalid(userInput)) {
+    if (isOptionInvalid(userInput[2])) {
       return genIllegalOptionMsgForTail(userInput[2][1]);
     }
 
-    if (!isOptionInvalid(userInput) && illegalCount !== undefined) {
+    if (!isOptionInvalid(userInput[2]) && illegalCount !== undefined) {
       return illegaloffsetMsg + illegalCount;
     } 
   }

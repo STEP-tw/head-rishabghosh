@@ -11,8 +11,8 @@ const isOptionChar = function (firstArg) {
   return (firstArg[1] === "c");
 };
   
-const isOptionInvalid = function (userInput) {
-  return !isOptionLine(userInput[2]) && !isOptionChar(userInput[2]);
+const isOptionInvalid = function (firstArg) {
+  return !isOptionLine(firstArg) && !isOptionChar(firstArg);
 };
   
 const splitSource = function (source, reader) {
