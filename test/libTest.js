@@ -458,19 +458,21 @@ describe("extractFilenames", function() {
 describe("getContentesOfTail", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
-  const listOfFiles = ["file1", "file2", "filex"];
+  const file2 = "a\nb\n";
+  const filex = "x";
+  const listOfFiles = { file1, file2, filex };
   const fs = {
-    readFileSync: (filePath) => eval(filePath),
-    existsSync: (filePath) => listOfFiles.includes(filePath)
+    readFileSync: (filePath) => listOfFiles[filePath],
+    existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
   };
 
-  it("should return invalidFileMsg if the file doesnot exist", function() {
+  it("should return invalid file message if the file doesnot exist", function() {
     let userInput = ["n", "tail.js", "fileY"];
     let expectedOutput = "tail: fileY: No such file or directory";
     assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
   });
 
-  it("should return fileContent if File exists", function() {
+  it("should return content of file if File exists", function() {
     let userInput = ["n", "tail.js", "file1"];
     let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
     assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
@@ -484,13 +486,14 @@ describe("getContentesOfTail", function() {
     assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
 
   });
-
-  it("should return invalidFileMsg and fileContent if one file exists but other doesnot", () => {
-    let userInput = ["n", "tail.js", "-n5", "file1", "fileY"];
-    let expectedOutput = "==> file1 <==\n";
-    expectedOutput += "I\nJ\nK\nL\nM\n"; 
-    expectedOutput += "tail: fileY: No such file or directory";
-    assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
+  describe("if one file exists but other doesnot", function () {
+    it("should return invalid file message and content of file", function() {
+      let userInput = ["n", "tail.js", "-n5", "file1", "fileY"];
+      let expectedOutput = "==> file1 <==\n";
+      expectedOutput += "I\nJ\nK\nL\nM\n"; 
+      expectedOutput += "tail: fileY: No such file or directory";
+      assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
+    });
   });
 
 });
