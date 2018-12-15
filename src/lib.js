@@ -87,7 +87,7 @@ const extractCountAndStartingIndex = function (userInput) {
    
   if (Number(firstArg)) {
     startingIndex = 3;
-    lineCount = firstArg.slice(1);
+    lineCount = Math.abs(firstArg); 
     return { lineCount, charCount, startingIndex };
   }
 
@@ -156,9 +156,8 @@ const extractFilenames = function(userInput) {
 const isFileInvalid = function (filePath, fs) {
   return !fs.existsSync(filePath);
 };
-//filePaths instead of filePaths
-//change name - starting index 
 
+//change name - starting index 
 const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
   const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
   let result = [];
@@ -176,11 +175,12 @@ const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
   return result;
 };
 
+const hasHeadError = function(userInput) {
+  return handleHeadErrors(userInput);
+};
+
 //getContentsOfHead should be the head function
 const getContentsOfHead = function (userInput, fs) {
-  if (handleHeadErrors(userInput)) {
-    return handleHeadErrors(userInput);
-  }
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userInput);
   const noOfFiles = fileList.length;
@@ -198,7 +198,7 @@ const getContentsOfHead = function (userInput, fs) {
 };
 
 const head = function (userInput, fs) {
-  if (handleHeadErrors(userInput)) {
+  if (hasHeadError(userInput)) {
     return handleHeadErrors(userInput);
   }
   return getContentsOfHead(userInput, fs);

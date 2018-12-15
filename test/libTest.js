@@ -387,6 +387,24 @@ describe("readLinesFromBottom", function() {
     assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 10), expectedOutput);
   });
 
+  it("should list contents of entire file if noOfLines is greater than 11", function() {
+
+    let expectedOutput = "";
+    expectedOutput += "This is line 1\n";
+    expectedOutput += "This is line 2\n";
+    expectedOutput += "This is line 3\n";
+    expectedOutput += "This is line 4\n";
+    expectedOutput += "This is line 5\n";
+    expectedOutput += "This is line 6\n";
+    expectedOutput += "This is line 7\n";
+    expectedOutput += "This is line 8\n";
+    expectedOutput += "This is line 9\n";
+    expectedOutput += "This is line 10\n";
+    expectedOutput += "This is line 11";
+
+    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 15), expectedOutput);
+  }); 
+
 });
 
 describe("readCharFromBottom", function() {
