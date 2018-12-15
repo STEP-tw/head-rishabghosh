@@ -5,7 +5,7 @@ const fs = require("fs");
 const { tail } = require("./src/lib.js");
 
 const main = function() {
-  console.log(tail(process.argv, fs));
+  process.stdout.write(tail(process.argv, fs));
 };
 
 main();
