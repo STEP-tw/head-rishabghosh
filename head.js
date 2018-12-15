@@ -4,9 +4,8 @@ const fs = require("fs");
 
 const { head } = require("./src/lib.js");
 
-const main = function(userInput) {
-  return head(userInput, fs);
+const main = function() {
+  process.stdout.write(head(process.argv, fs));
 };
 
-console.log(main(process.argv));
-
+main();
