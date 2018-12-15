@@ -2,18 +2,19 @@
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
 const { flat } = require("./protoLib.js");
+const {
+  genIllegalOptionMsgForHead,
+  genIllegalOptionMsgForTail,
+  genFileErrorMsgForHead,
+  invalidLineCount,
+  invalidByteCount,
+  illegaloffsetMsg,
+}=require("./error.js");
 
-const errorMsgForHead = "head: illegal option -- ";
-const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
-const invalidLineCount = "head: illegal line count -- ";
-const invalidByteCount = "head: illegal byte count -- ";
 
-const errorMsgForTail = "tail: illegal option -- "; 
-const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
-const illegaloffsetMsg = "tail: illegal offset -- "; 
 
 /* ========== PRIMARY FUNCTIONS ============ */
-
+/*
 const genIllegalOptionMsgForHead = function (option) {
   return errorMsgForHead + option + "\n" + usageMsgForHead;
 };
@@ -25,7 +26,7 @@ const genIllegalOptionMsgForTail = function(option) {
 const genFileErrorMsgForHead = function (filePath) {
   return "head: " + filePath + ": No such file or directory\n";
 };
-
+*/
 const generateHeader = function (filePath) {
   return "==> " + filePath + " <==" + "\n";
 };
