@@ -34,19 +34,19 @@ const extractCountAndStartingIndex = function (parsedArgs) {
   let startingIndex = 0;
 
   if (isDefaultChoice(firstArg)) {
-    startingIndex = 2;
+    startingIndex = 0;
     lineCount = 10;
     return { lineCount, charCount, startingIndex };
   }
 
   if (firstArg === "--") {
-    startingIndex = 3;
+    startingIndex = 1;
     lineCount = 10;
     return { lineCount, charCount, startingIndex };
   }
    
   if (!isNaN(firstArg)) {
-    startingIndex = 3;
+    startingIndex = 1;
     lineCount = Math.abs(firstArg); 
     return { lineCount, charCount, startingIndex };
   }
@@ -57,12 +57,12 @@ const extractCountAndStartingIndex = function (parsedArgs) {
 
   switch (firstArg.slice(2).length) { //length of count value if present
     case 0:
-      startingIndex = 4;
+      startingIndex = 2;
       if (firstArg[1] === "n") { lineCount = parsedArgs[1]; }
       if (firstArg[1] === "c") { charCount = parsedArgs[1]; }
       break;
     default:
-      startingIndex = 3;
+      startingIndex = 1;
       if (firstArg[1] === "n") { lineCount = firstArg.slice(2); }
       if (firstArg[1] === "c") { charCount = firstArg.slice(2); }
   }
@@ -71,7 +71,8 @@ const extractCountAndStartingIndex = function (parsedArgs) {
 };
 
 const extractFilenames = function(userInput) {
-  const parsedArgs = userInput.slice(2);
+ // const parsedArgs = userInput.slice(2);
+ const parsedArgs = userInput;
   const { startingIndex } = extractCountAndStartingIndex(parsedArgs);
   let result = [];
   for (let index = startingIndex; index < userInput.length; index++) {
@@ -145,7 +146,7 @@ const hasHeadError = function(userInput) {
 //arrangeContentsOfHead should be the head function
 const arrangeContentsOfHead = function (userInput, fs) {
   const reader = fs.readFileSync;
-  const fileList = extractFilenames(userInput);
+  const fileList = extractFilenames(userInput.slice(2));
   const noOfFiles = fileList.length;
   let result = [];
 
@@ -204,7 +205,7 @@ const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
 
 const arrangeContentsOfTail = function (userInput, fs) {
   const reader = fs.readFileSync;
-  const fileList = extractFilenames(userInput);
+  const fileList = extractFilenames(userInput.slice(2));
   const noOfFiles = fileList.length;
   let result = [];
 
