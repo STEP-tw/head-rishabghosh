@@ -27,8 +27,8 @@ const isDefaultChoice = function (firstArg) {
   return firstArg[0] !== "-";
 };
 
-const extractCountAndStartingIndex = function (userInput) {
-  const parsedArgs = userInput.slice(2);
+const extractCountAndStartingIndex = function (parsedArgs) {
+  // const parsedArgs = userInput.slice(2);
   let firstArg = parsedArgs[0];
   let lineCount = 0;
   let charCount = 0;
@@ -72,7 +72,7 @@ const extractCountAndStartingIndex = function (userInput) {
 };
 
 const extractFilenames = function(userInput) {
-  const { startingIndex } = extractCountAndStartingIndex(userInput);
+  const { startingIndex } = extractCountAndStartingIndex(userInput.slice(2));
   let result = [];
   for (let index = startingIndex; index < userInput.length; index++) {
     let filePath = userInput[index];
@@ -98,7 +98,7 @@ const isCountInvalid = function (count) {
 };
 
 const handleHeadErrors = function (userInput) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput.slice(2));
 
   if (!isDefaultChoice(userInput[2])) {//name it better
 
@@ -120,7 +120,7 @@ const handleHeadErrors = function (userInput) {
 
 //change name - starting index 
 const fetchContentsForHead = function(userInput, noOfFiles, filePath, reader) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput.slice(2));
   let result = [];
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
@@ -181,7 +181,7 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
 };
 
 const fetchContentsForTail = function(userInput, noOfFiles, filePath, reader) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput.slice(2));
   let result = [];
 
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
@@ -217,7 +217,7 @@ const arrangeContentsOfTail = function (userInput, fs) {
 
 const handleTailErrors = function (userInput) {
   let illegalCount;
-  const { lineCount, charCount } = extractCountAndStartingIndex(userInput);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userInput.slice(2));
 
   if(!Number.isInteger(+lineCount)) { illegalCount = lineCount; }
   if(!Number.isInteger(+charCount)) { illegalCount = charCount; }
