@@ -220,23 +220,23 @@ describe("head", function() {
   const invalidByteCount = "head: illegal byte count -- "; 
 
   it("should return error message if illegal option is given", function() {
-    let userInput = ["n", "head.js", "-a", "file1"];
+    let userInput = ["-a", "file1"];
     let expectedOutput = errorMessage + "a" + "\n" + usageMessage;
     assert.equal(head(userInput, fs), expectedOutput);
   });
 
   it("should return illegal count message for invalid count given", function() {
-    let userInput = ["n", "head.js", "-n0", "file1"];
+    let userInput = ["-n0", "file1"];
     let expectedOutput = invalidLineCount + "0";
     assert.equal(head(userInput, fs), expectedOutput);
 
-    userInput = ["n", "head.js", "-c0", "file1"];
+    userInput = ["-c0", "file1"];
     expectedOutput = invalidByteCount + "0";
     assert.equal(head(userInput, fs), expectedOutput);
   });
 
   it("should return contents of file if correct input is given", function() {
-    let userInput = ["n", "head.js", "-n5", "file1"];
+    let userInput = ["-n5", "file1"];
     let expectedOutput = "A\nB\nC\nD\nE";
     assert.equal(head(userInput, fs).trim(), expectedOutput);
   });

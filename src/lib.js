@@ -157,8 +157,7 @@ const arrangeContentsOfHead = function (parsedArgs, fs) {
   return result.flat().join("");
 };
 
-const head = function (userInput, fs) {
-  const parsedArgs = userInput.slice(2);
+const head = function (parsedArgs, fs) {
   if (hasHeadError(parsedArgs)) {
     return handleHeadErrors(parsedArgs);
   }
