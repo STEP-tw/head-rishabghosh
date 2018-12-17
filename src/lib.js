@@ -112,8 +112,6 @@ const readingMethods = {
 
 const getContents = function(parsedArgs, filePath, reader, operation) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
- // const noOfFiles = extractFilenames(parsedArgs).length;
-  let result = [];
   let option = "n";
   let count = lineCount;
   
@@ -122,12 +120,8 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
     option = "c";
   }
   //read name can be better
-  const read = readingMethods[operation][option];
-
-  //if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
-
-  result.push(read(filePath, reader, count));
-  return result.join("\n");
+  const chosenMethod = readingMethods[operation][option];
+  return chosenMethod(filePath, reader, count);
 };
 
 const isCountInvalid = function (count) {
