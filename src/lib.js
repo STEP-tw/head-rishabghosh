@@ -1,4 +1,3 @@
-/*eslint-env node*/
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
 const { flat } = require("./protoLib.js");
@@ -33,7 +32,7 @@ const extractCountAndStartingIndex = function (parsedArgs) {
   let charCount = 0;
   let startingIndex = 0;
 
-  if (isDefaultChoice(firstArg)) {
+  if (isDefaultChoice(firstArg)) {//can use !startsWith
     startingIndex = 0;
     lineCount = 10;
     return { lineCount, charCount, startingIndex };
@@ -47,7 +46,7 @@ const extractCountAndStartingIndex = function (parsedArgs) {
    
   if (!isNaN(firstArg)) {
     startingIndex = 1;
-    lineCount = Math.abs(firstArg); 
+    lineCount = firstArg.slice(1); 
     return { lineCount, charCount, startingIndex };
   }
 
@@ -80,16 +79,56 @@ const extractFilenames = function(parsedArgs) {
   return result;
 };
 
-/* ========== HEAD =========== */
+/* ===================== */
 
 const readLinesFromTop = function (filePath, reader, noOfLines) {
-  const totalContent = splitByLine(filePath, reader);
+  let totalContent = splitByLine(filePath, reader);
+  totalContent.push("\n\n");
   return totalContent.slice(0, noOfLines).join("\n");
 };
 
 const readCharFromTop = function (filePath, reader, noOfChar) {
   const totalContent = splitByChar(filePath, reader);
   return totalContent.slice(0, noOfChar).join("");
+};
+
+const readLinesFromBottom = function (filePath, reader, noOfLines) {
+  let totalContent = splitByLine(filePath, reader);
+  let sliceFrom = totalContent.length - noOfLines;
+  if (sliceFrom < 0) { sliceFrom = 0; }
+  return totalContent.slice(sliceFrom).join("\n");
+};
+
+const readCharFromBottom = function (filePath, reader, noOfChar) {
+  let totalContent = splitByChar(filePath, reader);
+  let sliceFrom = totalContent.length - noOfChar;
+  if (sliceFrom < 0) { sliceFrom = 0; }
+  return totalContent.slice(sliceFrom).join(""); 
+};
+
+const readingMethods = {
+  head: { n: readLinesFromTop, c: readCharFromTop},
+  tail: { n: readCharFromBottom, c: readCharFromBottom}
+};
+
+const getContents = function(parsedArgs, filePath, reader, operation) {
+  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
+  const noOfFiles = extractFilenames(parsedArgs).length;
+  let result = [];
+  let option = "n";
+  let count = lineCount;
+  
+  if (isOptionChar(parsedArgs[0])) { 
+    count = charCount;
+    option = "c";
+  }
+  //read name can be better
+  const read = readingMethods[operation][option];
+
+  if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
+
+  result.push(read(filePath, reader, count));
+  return result;
 };
 
 const isCountInvalid = function (count) {
@@ -143,18 +182,18 @@ const hasHeadError = function(parsedArgs) {
 const arrangeContentsOfHead = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
-  const noOfFiles = fileList.length;
-  
+  //const noOfFiles = fileList.length;
   let result = [];
 
   result = fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
       return genFileErrorMsgForHead(filePath);
     } 
-    return fetchContentsForHead(parsedArgs, noOfFiles, filePath, reader);
+    //return fetchContentsForHead(parsedArgs, noOfFiles, filePath, reader);
+    return getContents(parsedArgs, filePath, reader, "head");
   });
 
-  return result.flat().join("");
+  return result.flat().join("\n");
 };
 
 const head = function (parsedArgs, fs) {
@@ -164,27 +203,13 @@ const head = function (parsedArgs, fs) {
   return arrangeContentsOfHead(parsedArgs, fs);
 };
 
-/* ========= TAIL ========= */
 
-const readLinesFromBottom = function (filePath, reader, noOfLines) {
-  const totalContent = splitByLine(filePath, reader);
-  let sliceFrom = totalContent.length - noOfLines;
-  if (sliceFrom < 0) { sliceFrom = 0; }
-  return totalContent.slice(sliceFrom).join("\n");
-};
-
-const readCharFromBottom = function (filePath, reader, noOfChar) {
-  const totalContent = splitByChar(filePath, reader);
-  let sliceFrom = totalContent.length - noOfChar;
-  if (sliceFrom < 0) { sliceFrom = 0; }
-  return totalContent.slice(sliceFrom).join(""); 
-};
 
 const fetchContentsForTail = function(parsedArgs, noOfFiles, filePath, reader) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
   let result = [];
 
-  if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
+  if (noOfFiles > 1) { result.push(generateHeader(filePath), "\n"); }
 
   if (isOptionLine(parsedArgs[0])) {
     result.push(readLinesFromBottom(filePath, reader, lineCount));
@@ -250,6 +275,7 @@ const tail = function (parsedArgs, fs) {
 
 module.exports = {
   head,
+  getContents,
   arrangeContentsOfHead,
   fetchContentsForHead,
   extractCountAndStartingIndex,

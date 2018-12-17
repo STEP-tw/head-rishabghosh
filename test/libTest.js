@@ -6,6 +6,7 @@ const {
   extractCountAndStartingIndex,
   readLinesFromTop,
   extractFilenames,
+  getContents,
   arrangeContentsOfHead,
   handleHeadErrors,
   head,
@@ -110,6 +111,30 @@ describe("readLinesFromTop", function() {
 
 });
 
+describe("getContents", function() {
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+  const file2 = "a\nb\n";
+  const listOfFiles = { file1, file2 };
+  const reader = (filePath)=> listOfFiles[filePath];
+
+  it("should return 10 lines from top for default head operation", function() {
+    let parsedArgs = ["file1"];
+    let operation = "head";
+    let filePath = "file1";
+    let expectedOutput =  "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
+    assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+  });
+
+  it("should return 10 char from top for head operation", function() {
+    let parsedArgs = ["-c5", "file1"];
+    let operation = "head";
+    let filePath = "file1";
+    let expectedOutput = "A\nB\nC";
+    assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+  });
+
+});
+
 describe("arrangeContentsOfHead", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
@@ -145,7 +170,7 @@ describe("arrangeContentsOfHead", function() {
     it("should return invalid file message and file content", () => {
       let userInput = ["-n5", "file1", "fileY"];
       let expectedOutput = "==> file1 <==\n";
-      expectedOutput += "A\nB\nC\nD\nE\n\n";
+      expectedOutput += "A\nB\nC\nD\nE\n";
       expectedOutput += "head: fileY: No such file or directory";
       assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
     });
@@ -163,7 +188,7 @@ describe("handleHeadErrors", function() {
     assert.equal(handleHeadErrors(["file1"]), false);
   });
 
-  it("should return false for option \"--\"", function() {
+  it("should return false for option '--' ", function() {
     assert.equal(handleHeadErrors(["--", "file1"]), false);
   });
 

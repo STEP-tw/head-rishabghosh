@@ -1,5 +1,5 @@
 const generateHeader = function (filePath) {
-  return "==> " + filePath + " <==" + "\n";
+  return "==> " + filePath + " <==";
 };
   
 const isOptionLine = function (firstArg) {
