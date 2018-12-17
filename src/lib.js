@@ -4,8 +4,10 @@ const {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
   genFileErrorMsgForHead,
+  genFileErrorMsgForTail,
   invalidLineCount,
   invalidByteCount,
+  getFileErrorMessage,
   illegaloffsetMsg,
 } = require("./error.js");
 
@@ -159,42 +161,27 @@ const hasHeadError = function(parsedArgs) {
   return handleHeadErrors(parsedArgs);
 };
 
-const arrangeContentsOfHead = function (parsedArgs, fs) {
+const arrangeContents = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
-  let result = [];
+  let operation = this;
 
-  result = fileList.map( function(filePath){
+  return fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
-      return genFileErrorMsgForHead(filePath);
+      return getFileErrorMessage(filePath, operation);
     } 
-    return getContents(parsedArgs, filePath, reader, "head");
-  });
-
-  return result.join("\n");
+    return getContents(parsedArgs, filePath, reader, operation);
+  }).join("\n");
 };
+
+const arrangeContentsOfHead = arrangeContents.bind("head");
+const arrangeContentsOfTail = arrangeContents.bind("tail");
 
 const head = function (parsedArgs, fs) {
   if (hasHeadError(parsedArgs)) {
     return handleHeadErrors(parsedArgs);
   }
   return arrangeContentsOfHead(parsedArgs, fs);
-};
-
-const arrangeContentsOfTail = function (parsedArgs, fs) {
-  const reader = fs.readFileSync;
-  const fileList = extractFilenames(parsedArgs);
-  let result = [];
-  let operation = "tail";
-
-  result = fileList.map( function(filePath) {
-    if (isFileInvalid(filePath, fs)) {
-      return "tail: " + filePath + ": No such file or directory\n";
-    }
-    return getContents(parsedArgs, filePath, reader, operation);
-  });
-
-  return result.join("\n");
 };
 
 const handleTailErrors = function (parsedArgs) {
