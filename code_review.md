@@ -1,3 +1,5 @@
+  ### code review:
+  ```
 ----- lib.js -----
 line 30-71 function too long.
 line 58 unnecessary switch statement.
