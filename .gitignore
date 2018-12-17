@@ -11,3 +11,10 @@ package.*
 .sysTail
 .sysHead
 .vscode
+.ask
+.nyc_output/*
+coverage/*
+node_modules/*
+numbers.txt
+
+
