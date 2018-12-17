@@ -3,8 +3,6 @@
 const {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
-  genFileErrorMsgForHead,
-  genFileErrorMsgForTail,
   invalidLineCount,
   invalidByteCount,
   getFileErrorMessage,

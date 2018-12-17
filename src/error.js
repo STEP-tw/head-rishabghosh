@@ -15,14 +15,6 @@ const genIllegalOptionMsgForTail = function(option) {
   return errorMsgForTail + option + "\n" + usageMsgForTail;
 };
 
-const genFileErrorMsgForHead = function (filePath) {
-  return "head: " + filePath + ": No such file or directory\n";
-};
-
-const genFileErrorMsgForTail = function (filePath) {
-  return "tail: " + filePath + ": No such file or directory\n";
-};
-
 const getFileErrorMessage = function(filePath, utility) {
   return utility + ": " + filePath + ": No such file or directory\n";
 };
@@ -30,8 +22,6 @@ const getFileErrorMessage = function(filePath, utility) {
 module.exports = {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
-  genFileErrorMsgForHead,
-  genFileErrorMsgForTail,
   getFileErrorMessage,
   invalidLineCount,
   invalidByteCount,
