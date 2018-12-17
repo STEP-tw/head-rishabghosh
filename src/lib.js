@@ -156,24 +156,6 @@ const handleHeadErrors = function (parsedArgs) {
   return false;
 };
 
-//change name - starting index 
-const fetchContentsForHead = function(parsedArgs, noOfFiles, filePath, reader) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
-  let result = [];
-  if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
-
-  if (isOptionLine(parsedArgs[0])) {
-    result.push(readLinesFromTop(filePath, reader, lineCount));
-    result.push("\n\n");
-  }
-
-  if (isOptionChar(parsedArgs[0])) {
-    result.push(readCharFromTop(filePath, reader, charCount));
-    result.push("\n");
-  }
-  return result;
-};
-
 const hasHeadError = function(parsedArgs) {
   return handleHeadErrors(parsedArgs);
 };
@@ -277,7 +259,6 @@ module.exports = {
   head,
   getContents,
   arrangeContentsOfHead,
-  fetchContentsForHead,
   extractCountAndStartingIndex,
   readLinesFromTop,
   readCharFromTop,
