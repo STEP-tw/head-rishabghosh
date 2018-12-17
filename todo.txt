@@ -1,53 +1,7 @@
-update readme
-parse arguments
-  -slice from main 
-  -or call a parser from util.js
-
 remove switch case
 remove prototype functions
 put illegal count /  offset messages in a function
 remove dublication
 
-common functions 
-- isDefaultChoice
-- extractCountAndStartingIndex
-- extractFilenames
-
-head functions
- - readLinesFromTop
- - readCharFromTop
- - isCountInvalid
- - handleHeadErrors
- - fetchContentsOfHead
- - hasHeadErrors
- - arrangeContentsOfHead
- - head 
-
-slice user inputs from top most function to bottom ones
-
-where the function extractCountAndStartingIndex is called
- - line 75 : primary functions > extractFilenames
- - line 101 : head functions > handleHeadErrors
- - line 123 : head functions > fetchContentsOfHead
- - line 184 : tail functions > fetchContentsOfTail
- - line 220 : tail functions > handleTailErrors
-
-parsed arguments should be provided in each of those functions
-
-where the function extractFilenames is called - 
- - line 184: arrangeContentsOfHead
- - line 207: arrangeContentsOfTail
-
-where the function handleHeadErrors is called -
- - line 142: hasHeadError
- - line 164: head
-
-where the function fetchContentsForHead is called - 
- - line 156: arrangeContentsOfHead
-
-where the function fetchContentsOfTail is called - 
-- line 215: arrangeContentsOfTail
-
-where the function handleTailErrors is called - 
- - line 243: hasTailError
- - line 248: tail
+try to pass "head" to head function from head.js
+modify arrangeContents function remove result array
