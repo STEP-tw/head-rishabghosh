@@ -3,8 +3,7 @@
 const {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
-  invalidLineCount,
-  invalidByteCount,
+  getInvalidCountMessage,
   getFileErrorMessage,
   illegaloffsetMsg,
 } = require("./error.js");
@@ -138,11 +137,11 @@ const handleHeadErrors = function (parsedArgs) {
     }
 
     if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
-      return invalidLineCount + lineCount;
+      return getInvalidCountMessage(lineCount, "line");
     }
 
     if (isOptionChar(parsedArgs[0]) && isCountInvalid(charCount)) {
-      return invalidByteCount + charCount;
+      return getInvalidCountMessage(charCount, "byte");
     }
 
   }

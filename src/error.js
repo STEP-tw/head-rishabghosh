@@ -1,7 +1,5 @@
 const errorMsgForHead = "head: illegal option -- ";
 const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
-const invalidLineCount = "head: illegal line count -- ";
-const invalidByteCount = "head: illegal byte count -- ";
 const illegaloffsetMsg = "tail: illegal offset -- "; 
 
 const errorMsgForTail = "tail: illegal option -- "; 
@@ -19,11 +17,14 @@ const getFileErrorMessage = function(filePath, utility) {
   return utility + ": " + filePath + ": No such file or directory\n";
 };
 
+const getInvalidCountMessage = function(count, option) {
+  return "head: illegal " + option + " count -- " + count;
+};
+
 module.exports = {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
   getFileErrorMessage,
-  invalidLineCount,
-  invalidByteCount,
+  getInvalidCountMessage,
   illegaloffsetMsg,
 };
