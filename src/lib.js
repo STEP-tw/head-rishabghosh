@@ -106,13 +106,13 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
 };
 
 const readingMethods = {
-  head: { n: readLinesFromTop, c: readCharFromTop},
-  tail: { n: readLinesFromBottom, c: readCharFromBottom}
+  head: { n: readLinesFromTop, c: readCharFromTop },
+  tail: { n: readLinesFromBottom, c: readCharFromBottom }
 };
 
 const getContents = function(parsedArgs, filePath, reader, operation) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
-  const noOfFiles = extractFilenames(parsedArgs).length;
+ // const noOfFiles = extractFilenames(parsedArgs).length;
   let result = [];
   let option = "n";
   let count = lineCount;
@@ -124,7 +124,7 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
   //read name can be better
   const read = readingMethods[operation][option];
 
-  if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
+  //if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
   result.push(read(filePath, reader, count));
   return result.join("\n");
@@ -162,13 +162,18 @@ const hasHeadError = function(parsedArgs) {
 const arrangeContents = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
+  const noOfFiles = fileList.length;
   let operation = this;
 
   return fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
       return getFileErrorMessage(filePath, operation);
-    } 
-    return getContents(parsedArgs, filePath, reader, operation);
+    }
+    if (noOfFiles === 1) {
+      return getContents(parsedArgs, filePath, reader, operation);
+    }
+    return generateHeader(filePath) + "\n" + 
+    getContents(parsedArgs, filePath, reader, operation);
   }).join("\n");
 };
 
