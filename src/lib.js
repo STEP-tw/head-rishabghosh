@@ -160,18 +160,15 @@ const hasHeadError = function(parsedArgs) {
   return handleHeadErrors(parsedArgs);
 };
 
-//arrangeContentsOfHead should be the head function
 const arrangeContentsOfHead = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
-  //const noOfFiles = fileList.length;
   let result = [];
 
   result = fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
       return genFileErrorMsgForHead(filePath);
     } 
-    //return fetchContentsForHead(parsedArgs, noOfFiles, filePath, reader);
     return getContents(parsedArgs, filePath, reader, "head");
   });
 
@@ -209,17 +206,17 @@ const fetchContentsForTail = function(parsedArgs, noOfFiles, filePath, reader) {
 const arrangeContentsOfTail = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
-  const noOfFiles = fileList.length;
   let result = [];
+  let operation = "tail";
 
   result = fileList.map( function(filePath) {
     if (isFileInvalid(filePath, fs)) {
       return "tail: " + filePath + ": No such file or directory\n";
     }
-    return fetchContentsForTail(parsedArgs, noOfFiles, filePath, reader);
+    return getContents(parsedArgs, filePath, reader, operation);
   });
 
-  return result.flat().join("");
+  return result.flat().join("\n");
 };
 
 const handleTailErrors = function (parsedArgs) {

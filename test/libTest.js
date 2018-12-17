@@ -421,11 +421,11 @@ describe("arrangeContentsOfTail", function() {
 
   it("should return content of file if File exists", function() {
     let userInput = ["file1"];
-    let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM\n";
+    let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
     assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
 
     userInput = ["-n5", "file1"];
-    expectedOutput = "I\nJ\nK\nL\nM\n"; 
+    expectedOutput = "I\nJ\nK\nL\nM"; 
     assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
 
     userInput = ["-c5", "file1"];
@@ -503,7 +503,7 @@ describe("tail", function() {
 
   it("should return contents of file if correct input is given", function() {
     let userInput = ["-n5", "file1"];
-    let expectedOutput = "I\nJ\nK\nL\nM\n";
+    let expectedOutput = "I\nJ\nK\nL\nM";
     assert.equal(tail(userInput, fs), expectedOutput);
   });
 
