@@ -182,27 +182,6 @@ const head = function (parsedArgs, fs) {
   return arrangeContentsOfHead(parsedArgs, fs);
 };
 
-
-
-const fetchContentsForTail = function(parsedArgs, noOfFiles, filePath, reader) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
-  let result = [];
-
-  if (noOfFiles > 1) { result.push(generateHeader(filePath), "\n"); }
-
-  if (isOptionLine(parsedArgs[0])) {
-    result.push(readLinesFromBottom(filePath, reader, lineCount));
-    result.push("\n");
-  }
-
-  if (isOptionChar(parsedArgs[0])) {
-    result.push(readCharFromBottom(filePath, reader, charCount));
-    result.push("\n");
-  }
-
-  return result;
-};
-
 const arrangeContentsOfTail = function (parsedArgs, fs) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
