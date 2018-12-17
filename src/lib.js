@@ -172,7 +172,7 @@ const arrangeContentsOfHead = function (parsedArgs, fs) {
     return getContents(parsedArgs, filePath, reader, "head");
   });
 
-  return result.flat().join("\n");
+  return result.join("\n");
 };
 
 const head = function (parsedArgs, fs) {
@@ -195,7 +195,7 @@ const arrangeContentsOfTail = function (parsedArgs, fs) {
     return getContents(parsedArgs, filePath, reader, operation);
   });
 
-  return result.flat().join("\n");
+  return result.join("\n");
 };
 
 const handleTailErrors = function (parsedArgs) {
