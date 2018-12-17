@@ -1,6 +1,5 @@
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
-const { flat } = require("./protoLib.js");
 const {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
