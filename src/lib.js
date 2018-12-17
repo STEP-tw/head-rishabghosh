@@ -108,7 +108,7 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
 
 const readingMethods = {
   head: { n: readLinesFromTop, c: readCharFromTop},
-  tail: { n: readCharFromBottom, c: readCharFromBottom}
+  tail: { n: readLinesFromBottom, c: readCharFromBottom}
 };
 
 const getContents = function(parsedArgs, filePath, reader, operation) {
@@ -128,7 +128,7 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
   if (noOfFiles > 1) { result.push(generateHeader(filePath)); }
 
   result.push(read(filePath, reader, count));
-  return result;
+  return result.join("\n");
 };
 
 const isCountInvalid = function (count) {

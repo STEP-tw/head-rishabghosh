@@ -117,20 +117,52 @@ describe("getContents", function() {
   const listOfFiles = { file1, file2 };
   const reader = (filePath)=> listOfFiles[filePath];
 
-  it("should return 10 lines from top for default head operation", function() {
-    let parsedArgs = ["file1"];
-    let operation = "head";
+  describe("for head operation", function() { 
+    const operation = "head";
     let filePath = "file1";
-    let expectedOutput =  "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
-    assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+
+    it("should return 10 lines from top if no option provided", function() {
+      let parsedArgs = ["file1"];
+      let expectedOutput =  "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
+      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+    });
+
+    it("should return 5 chars from top if option is character and count is 5", function() {
+      let parsedArgs = ["-c5", "file1"];
+      let expectedOutput = "A\nB\nC";
+      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+    });
+    
+    it("should return 5 lines from top if option is line and count is 5", ()=>{
+      let parsedArgs = ["-n5", "file1"];
+      let expectedOutput = "A\nB\nC\nD\nE";
+      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+    });
+
   });
 
-  it("should return 10 char from top for head operation", function() {
-    let parsedArgs = ["-c5", "file1"];
-    let operation = "head";
+  describe("for tail operation", function() {
+    const operation = "tail";
     let filePath = "file1";
-    let expectedOutput = "A\nB\nC";
-    assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+
+    it("should return 10 lines from top if no option provided", function() {
+      let parsedArgs = ["file1"];
+      let expectedOutput =  "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+    });
+
+    it("should return 5 chars from top if option is character and count is 5", function() {
+      let parsedArgs = ["-c5", "file1"];
+      let expectedOutput = "K\nL\nM";
+      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+    });
+  
+    it("should return 5 lines from top if option is line and count is 5", ()=>{
+      let parsedArgs = ["-n5", "file1"];
+      let expectedOutput = "I\nJ\nK\nL\nM";
+      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+    });
+
   });
 
 });
