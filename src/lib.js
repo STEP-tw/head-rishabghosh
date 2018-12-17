@@ -3,9 +3,9 @@
 const {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
-  getInvalidCountMessage,
+  getIllegalCountMessage,
   getFileErrorMessage,
-  illegaloffsetMsg,
+  getIllegalOffsetMessage,
 } = require("./error.js");
 
 const {
@@ -77,7 +77,7 @@ const extractFilenames = function(parsedArgs) {
   return result;
 };
 
-/* ===================== */
+/* ========== READ ========== */
 
 const readLinesFromTop = function (filePath, reader, noOfLines) {
   let totalContent = splitByLine(filePath, reader);
@@ -109,6 +109,8 @@ const readingMethods = {
   tail: { n: readLinesFromBottom, c: readCharFromBottom }
 };
 
+/* =========== ARRANGE ============ */
+
 const getContents = function(parsedArgs, filePath, reader, operation) {
   const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
   let option = "n";
@@ -121,35 +123,6 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
   //read name can be better
   const chosenMethod = readingMethods[operation][option];
   return chosenMethod(filePath, reader, count);
-};
-
-const isCountInvalid = function (count) {
-  return count < 1 || !Number.isInteger(+count);
-};
-
-const handleHeadErrors = function (parsedArgs) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
-
-  if (!isDefaultChoice(parsedArgs[0])) {//name it better
-
-    if (isOptionInvalid(parsedArgs[0])) {
-      return genIllegalOptionMsgForHead(parsedArgs[0][1]);
-    }
-
-    if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
-      return getInvalidCountMessage(lineCount, "line");
-    }
-
-    if (isOptionChar(parsedArgs[0]) && isCountInvalid(charCount)) {
-      return getInvalidCountMessage(charCount, "byte");
-    }
-
-  }
-  return false;
-};
-
-const hasHeadError = function(parsedArgs) {
-  return handleHeadErrors(parsedArgs);
 };
 
 const arrangeContents = function (parsedArgs, fs) {
@@ -173,11 +146,31 @@ const arrangeContents = function (parsedArgs, fs) {
 const arrangeContentsOfHead = arrangeContents.bind("head");
 const arrangeContentsOfTail = arrangeContents.bind("tail");
 
-const head = function (parsedArgs, fs) {
-  if (hasHeadError(parsedArgs)) {
-    return handleHeadErrors(parsedArgs);
+/* ====== CREATE ERROR MESSAGE ====== */
+
+const isCountInvalid = function (count) {
+  return count < 1 || !Number.isInteger(+count);
+};
+
+const handleHeadErrors = function (parsedArgs) {
+  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
+
+  if (!isDefaultChoice(parsedArgs[0])) {//name it better
+
+    if (isOptionInvalid(parsedArgs[0])) {
+      return genIllegalOptionMsgForHead(parsedArgs[0][1]);
+    }
+
+    if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
+      return getIllegalCountMessage(lineCount, "line");
+    }
+
+    if (isOptionChar(parsedArgs[0]) && isCountInvalid(charCount)) {
+      return getIllegalCountMessage(charCount, "byte");
+    }
+
   }
-  return arrangeContentsOfHead(parsedArgs, fs);
+  return false;
 };
 
 const handleTailErrors = function (parsedArgs) {
@@ -194,11 +187,25 @@ const handleTailErrors = function (parsedArgs) {
     }
 
     if (!isOptionInvalid(parsedArgs[0]) && illegalCount !== undefined) {
-      return illegaloffsetMsg + illegalCount;
+      return getIllegalOffsetMessage(illegalCount);
     } 
   }
   return false;
 };
+
+/* ========= HEAD & TAIL ========= */
+
+const hasHeadError = function(parsedArgs) {
+  return handleHeadErrors(parsedArgs);
+};
+
+const head = function (parsedArgs, fs) {
+  if (hasHeadError(parsedArgs)) {
+    return handleHeadErrors(parsedArgs);
+  }
+  return arrangeContentsOfHead(parsedArgs, fs);
+};
+
 
 const hasTailErrors = function(parsedArgs) {
   return handleTailErrors(parsedArgs);

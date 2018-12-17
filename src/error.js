@@ -17,14 +17,19 @@ const getFileErrorMessage = function(filePath, utility) {
   return utility + ": " + filePath + ": No such file or directory\n";
 };
 
-const getInvalidCountMessage = function(count, option) {
+const getIllegalCountMessage = function(count, option) {
   return "head: illegal " + option + " count -- " + count;
+};
+
+const getIllegalOffsetMessage = function(count) {
+  return "tail: illegal offset -- " + count;
 };
 
 module.exports = {
   genIllegalOptionMsgForHead,
   genIllegalOptionMsgForTail,
   getFileErrorMessage,
-  getInvalidCountMessage,
+  getIllegalCountMessage,
+  getIllegalOffsetMessage,
   illegaloffsetMsg,
 };
