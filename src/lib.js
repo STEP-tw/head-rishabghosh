@@ -1,8 +1,8 @@
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
 const {
-  genIllegalOptionMsgForHead,
-  genIllegalOptionMsgForTail,
+  getllegalOptionMsgForHead,
+  getllegalOptionMsgForTail,
   getIllegalCountMessage,
   getFileErrorMessage,
   getIllegalOffsetMessage,
@@ -158,7 +158,7 @@ const handleHeadErrors = function (parsedArgs) {
   if (!isDefaultChoice(parsedArgs[0])) {//name it better
 
     if (isOptionInvalid(parsedArgs[0])) {
-      return genIllegalOptionMsgForHead(parsedArgs[0][1]);
+      return getllegalOptionMsgForHead(parsedArgs[0][1]);
     }
 
     if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
@@ -183,7 +183,7 @@ const handleTailErrors = function (parsedArgs) {
   if (parsedArgs[0][0] === "-") {
 
     if (isOptionInvalid(parsedArgs[0])) {
-      return genIllegalOptionMsgForTail(parsedArgs[0][1]);
+      return getllegalOptionMsgForTail(parsedArgs[0][1]);
     }
 
     if (!isOptionInvalid(parsedArgs[0]) && illegalCount !== undefined) {
@@ -218,7 +218,7 @@ const tail = function (parsedArgs, fs) {
   return arrangeContentsOfTail(parsedArgs, fs);
 };
 
-/* ------ EXPORTS ------ */
+/* ======== EXPORTS ========= */
 
 module.exports = {
   head,
