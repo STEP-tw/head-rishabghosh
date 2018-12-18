@@ -11,9 +11,6 @@ const isOptionChar = function (firstArg) {
   return (firstArg[1] === "c");
 };
   
-const isOptionInvalid = function (firstArg) {
-  return !isOptionLine(firstArg[1]) && !isOptionChar(firstArg[1]);
-};
 
   const isOptionValid = function (option) {
     return option === "n" || option === "c";
@@ -34,7 +31,6 @@ module.exports = {
   generateHeader,
   isOptionLine,
   isOptionChar,
-  isOptionInvalid,
   isOptionValid,
   splitByLine,
   splitByChar,

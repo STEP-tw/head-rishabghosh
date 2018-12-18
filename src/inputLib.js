@@ -1,11 +1,6 @@
 const {
-  isOptionInvalid,
   isOptionValid,
 } = require("../src/util.js");
-
-//const isOptionVaild = function(firstArg) {
-  //return !isOptionInvalid(firstArg);
-//};
 
 //better name
 const ifOptionNotDefault = function(userArgs) {
