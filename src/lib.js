@@ -1,5 +1,7 @@
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
+const { parser } = require("./inputLib.js");
+
 const {
   getIllegalOptionMsgForHead,
   getIllegalOptionMsgForTail,
@@ -113,7 +115,10 @@ const readingMethods = {
 /* =========== ARRANGE ============ */
 
 const getContents = function(userArgs, filePath, reader, operation) {
+  const { option, count } = parser(userArgs);
+/*
   const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
+  
   let option = "n";
   let count = lineCount;
   
@@ -121,7 +126,7 @@ const getContents = function(userArgs, filePath, reader, operation) {
     count = charCount;
     option = "c";
   }
-
+*/
   const chosenMethod = readingMethods[operation][option];
   return chosenMethod(filePath, reader, count);
 };
