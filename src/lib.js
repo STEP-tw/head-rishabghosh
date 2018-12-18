@@ -98,26 +98,22 @@ const isCountInvalid = function (count) {
 
 const handleHeadErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
-  const firstArg = userArgs[0];
   
-  if (firstArg.startsWith("-")) {
-
-    if (!isOptionValid(option)) {
-      return getIllegalOptionMsgForHead(option);
-    }
-
-    //if isCountInvalid then getIllegalMsg(count, option)
-    //made a object there which will have n: illegalLineMsg, c: illegalCharMsg
-
-    if (isOptionLine(option) && isCountInvalid(count)) {
-      return getIllegalCountMessage(count, "line");
-    }
-
-    if (isOptionChar(option) && isCountInvalid(count)) {
-      return getIllegalCountMessage(count, "byte");
-    }
-
+  if (!isOptionValid(option)) {
+    return getIllegalOptionMsgForHead(option);
   }
+
+  //if isCountInvalid then getIllegalMsg(count, option)
+  //made a object there which will have n: illegalLineMsg, c: illegalCharMsg
+
+  if (isOptionLine(option) && isCountInvalid(count)) {
+    return getIllegalCountMessage(count, "line");
+  }
+
+  if (isOptionChar(option) && isCountInvalid(count)) {
+    return getIllegalCountMessage(count, "byte");
+  }
+
   return false;
 };
 
