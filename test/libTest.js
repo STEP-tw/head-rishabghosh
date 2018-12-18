@@ -125,19 +125,19 @@ describe("getContents", function() {
     it("should return 10 lines from top if no option provided", function() {
       let parsedArgs = ["file1"];
       let expectedOutput =  "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
-      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+      assert.strictEqual(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
     });
 
     it("should return 5 chars from top if option is character and count is 5", function() {
       let parsedArgs = ["-c5", "file1"];
       let expectedOutput = "A\nB\nC";
-      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+      assert.strictEqual(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
     });
     
     it("should return 5 lines from top if option is line and count is 5", ()=>{
       let parsedArgs = ["-n5", "file1"];
       let expectedOutput = "A\nB\nC\nD\nE";
-      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+      assert.strictEqual(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
     });
 
   });
@@ -149,19 +149,19 @@ describe("getContents", function() {
     it("should return 10 lines from top if no option provided", function() {
       let parsedArgs = ["file1"];
       let expectedOutput =  "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
-      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+      assert.strictEqual(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
     });
 
     it("should return 5 chars from top if option is character and count is 5", function() {
       let parsedArgs = ["-c5", "file1"];
       let expectedOutput = "K\nL\nM";
-      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+      assert.strictEqual(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
     });
   
     it("should return 5 lines from top if option is line and count is 5", ()=>{
       let parsedArgs = ["-n5", "file1"];
       let expectedOutput = "I\nJ\nK\nL\nM";
-      assert.equal(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
+      assert.strictEqual(getContents(parsedArgs, filePath, reader, operation), expectedOutput);
     });
 
   });
@@ -185,21 +185,21 @@ describe("arrangeContents", function() {
     it("should return invalid file message if the file doesnot exists", function() {
       let userInput = ["fileY"];
       let expectedOutput = "head: fileY: No such file or directory\n";
-      assert.equal(arrangeContents(userInput, fs, operation), expectedOutput);
+      assert.strictEqual(arrangeContents(userInput, fs, operation), expectedOutput);
     });
 
     it("should return file content if File exists", function() {
       let userInput = ["file1"];
       let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
-      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
 
       userInput = ["-n5", "file1"];
       expectedOutput = "A\nB\nC\nD\nE";
-      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
 
       userInput = ["-c5", "file1"];
       expectedOutput = "A\nB\nC";
-      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
     });
 
     it("should return invalid file message and file content if one file exists but other doesnot", () => {
@@ -207,7 +207,7 @@ describe("arrangeContents", function() {
       let expectedOutput = "==> file1 <==\n";
       expectedOutput += "A\nB\nC\nD\nE\n";
       expectedOutput += "head: fileY: No such file or directory";
-      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
     });
 
   });
@@ -221,45 +221,45 @@ describe("handleHeadErrors", function() {
   const invalidByteCount = "head: illegal byte count -- ";
 
   it("should return false for default option(no option)", function() {
-    assert.equal(handleHeadErrors(["file1"]), false);
+    assert.strictEqual(handleHeadErrors(["file1"]), false);
   });
 
   it("should return false for option '--' ", function() {
-    assert.equal(handleHeadErrors(["--", "file1"]), false);
+    assert.strictEqual(handleHeadErrors(["--", "file1"]), false);
   });
 
   it("should return false for option \"-n5\"", function() {
-    assert.equal(handleHeadErrors(["-n5", "file1"]), false);
+    assert.strictEqual(handleHeadErrors(["-n5", "file1"]), false);
   });
 
   it("should return false for first option \"-n\", 2nd- \"5\"", function() {
-    assert.equal(handleHeadErrors(["5", "file1"]), false);
+    assert.strictEqual(handleHeadErrors(["5", "file1"]), false);
   });
 
   it("should return false for option \"-c5\"", function() {
-    assert.equal(handleHeadErrors(["-c5", "file1"]), false);
+    assert.strictEqual(handleHeadErrors(["-c5", "file1"]), false);
   });
 
   it("should return false for first option \"-c\", 2nd- \"5\"", function() {
-    assert.equal(handleHeadErrors(["-c", "5", "file1"]), false);
+    assert.strictEqual(handleHeadErrors(["-c", "5", "file1"]), false);
   });
 
   it("should return error & usage message for given invalid option", function() {
     let input = ["-x5", "file1"];
     let expectedOutput = errorMessage + "x" + "\n" + usageMessage;
-    assert.equal(handleHeadErrors(input), expectedOutput);
+    assert.strictEqual(handleHeadErrors(input), expectedOutput);
   });
 
   it("should return invalid line message for given invalid line count", function() {
     let input = ["-n0", "file1"];
     let expectedOutput = invalidLineCount + "0";
-    assert.equal(handleHeadErrors(input), expectedOutput);
+    assert.strictEqual(handleHeadErrors(input), expectedOutput);
   });
 
   it("should return invalid byte message for given invalid byte count", function() {
     let input = ["-c0", "file1"];
     let expectedOutput = invalidByteCount + "0";
-    assert.equal(handleHeadErrors(input), expectedOutput);
+    assert.strictEqual(handleHeadErrors(input), expectedOutput);
   });
 
 });
@@ -283,23 +283,23 @@ describe("head", function() {
   it("should return error message if illegal option is given", function() {
     let userInput = ["-a", "file1"];
     let expectedOutput = errorMessage + "a" + "\n" + usageMessage;
-    assert.equal(head(userInput, fs), expectedOutput);
+    assert.strictEqual(head(userInput, fs), expectedOutput);
   });
 
   it("should return illegal count message for invalid count given", function() {
     let userInput = ["-n0", "file1"];
     let expectedOutput = invalidLineCount + "0";
-    assert.equal(head(userInput, fs), expectedOutput);
+    assert.strictEqual(head(userInput, fs), expectedOutput);
 
     userInput = ["-c0", "file1"];
     expectedOutput = invalidByteCount + "0";
-    assert.equal(head(userInput, fs), expectedOutput);
+    assert.strictEqual(head(userInput, fs), expectedOutput);
   });
 
   it("should return contents of file if correct input is given", function() {
     let userInput = ["-n5", "file1"];
     let expectedOutput = "A\nB\nC\nD\nE";
-    assert.equal(head(userInput, fs).trim(), expectedOutput);
+    assert.strictEqual(head(userInput, fs).trim(), expectedOutput);
   });
 });
 
@@ -414,24 +414,24 @@ describe("handleTailErrors", function() {
   it("should return illegal option message for illegal option", function() {
     let userInput = ["-a0", "file1"];
     let expectedOutput = illegalOptionMessage + "a" + "\n" + usageMessage;
-    assert.equal(handleTailErrors(userInput), expectedOutput);
+    assert.strictEqual(handleTailErrors(userInput), expectedOutput);
   });
 
   it("should return illegal offset message for illegal byte count", function() {
     let userInput = ["-c10x", "file1"];
     let expectedOutput = illegalOffsetMessage + "10x";
-    assert.equal(handleTailErrors(userInput), expectedOutput);
+    assert.strictEqual(handleTailErrors(userInput), expectedOutput);
   });
 
   it("should return illegal offset message for illegal line count", function() {
     let userInput = ["-n10x", "file1"];
     let expectedOutput = illegalOffsetMessage + "10x";
-    assert.equal(handleTailErrors(userInput), expectedOutput);
+    assert.strictEqual(handleTailErrors(userInput), expectedOutput);
   });
 
   it("should return false if first option doesnt start with '-'", function() {
     let userInput = ["file1"];
-    assert.equal(handleTailErrors(userInput), false);
+    assert.strictEqual(handleTailErrors(userInput), false);
   });
 
 });
@@ -454,28 +454,28 @@ describe("tail", function() {
   it("should return error message if illegal option is given", function() {
     let userInput = ["-a", "file1"];
     let expectedOutput = errorMessage + "a" + "\n" + usageMessage;
-    assert.equal(tail(userInput, fs), expectedOutput);
+    assert.strictEqual(tail(userInput, fs), expectedOutput);
   });
 
   it("should return empty string if count is 0", function() {
     let userInput = ["-n0", "file1"];
-    assert.equal(tail(userInput, fs).trim(), "");
+    assert.strictEqual(tail(userInput, fs).trim(), "");
   });
 
   it("should return contents of file if correct input is given", function() {
     let userInput = ["-n5", "file1"];
     let expectedOutput = "I\nJ\nK\nL\nM";
-    assert.equal(tail(userInput, fs), expectedOutput);
+    assert.strictEqual(tail(userInput, fs), expectedOutput);
   });
 
   it("should return invalid offset if invalid count is given", function() {
     let userInput =["-n10x", "file1"];
     let expectedOutput = invalidOffsetMsg + "10x";
-    assert.equal(tail(userInput, fs), expectedOutput) ;
+    assert.strictEqual(tail(userInput, fs), expectedOutput) ;
 
     userInput =["-n2.5", "file1"];
     expectedOutput = invalidOffsetMsg + "2.5";
-    assert.equal(tail(userInput, fs), expectedOutput) ;
+    assert.strictEqual(tail(userInput, fs), expectedOutput) ;
   });
 
 });
