@@ -21,7 +21,7 @@ const dummyReader = (content) => content;
 describe("extractCountAndStartingIndex", function() {
 
   describe("for no count value given", function() {
-    it("should return line count of 10 & starting index of 0 in a object", function() {
+    it("should return line count 10 & starting index 0 in a object", function() {
       let input = ["file1"];
       let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 0 };
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
@@ -44,14 +44,6 @@ describe("extractCountAndStartingIndex", function() {
       assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
     });
 
-  });
-
-  describe("for given line count 4 in 0th index", function() {
-    it("should return line count of 4 & starting index of 1 in a object", function() {
-      let input = ["-n4", "file1"];
-      let expectedOutput = { lineCount: 4, charCount: 0, startingIndex: 1 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
   });
 
   describe("for line count 7  provied in 1st index", function() {
@@ -87,11 +79,11 @@ describe("readLinesFromTop", function() {
   fileContents += "This is line 10\n";
   fileContents += "This is line 11";
 
-  it("should return an empty array for no of lines is 0", function() {
+  it("should return an empty array for number of lines provided is 0", function() {
     assert.deepEqual(readLinesFromTop(fileContents, dummyReader, 0), "");
   });
 
-  it("should return 10 lines in array for no of lines is 10 ", function() {
+  it("should return 10 lines in array for number of lines provided is 10 ", function() {
 
     let expectedOutput = "";
     expectedOutput += "This is line 1\n";
