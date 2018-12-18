@@ -1,10 +1,11 @@
 const {
   isOptionInvalid,
+  isOptionValid,
 } = require("../src/util.js");
 
-const isOptionVaild = function(firstArg) {
-  return !isOptionInvalid(firstArg);
-};
+//const isOptionVaild = function(firstArg) {
+  //return !isOptionInvalid(firstArg);
+//};
 
 //better name
 const ifOptionNotDefault = function(userArgs) {
@@ -21,7 +22,7 @@ const ifOptionNotDefault = function(userArgs) {
   }
   
   // for -n 5 file1, -c 7 file1
-  if (isOptionVaild(firstArg) && firstArg.length === 2) {
+  if (isOptionValid(firstArg[1]) && firstArg.length === 2) {
     return { option: firstArg[1], count: userArgs[1], startingIndex: 2 };
   }
   
