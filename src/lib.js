@@ -124,11 +124,11 @@ const handleTailErrors = function (userArgs) {
   
   if (userArgs[0][0] === "-") {
 
-    if (option !== "n" && option !== "c") {
+    if (!isOptionValid(option)) {
       return getIllegalOptionMsgForTail(option);
     }
 
-    if ( (option === "n" || option === "c") && !Number.isInteger(+count)) {
+    if (isOptionValid(option) && !Number.isInteger(+count)) {
       return getIllegalOffsetMessage(count);
     } 
   }
