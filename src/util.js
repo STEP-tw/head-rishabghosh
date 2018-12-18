@@ -12,8 +12,12 @@ const isOptionChar = function (firstArg) {
 };
   
 const isOptionInvalid = function (firstArg) {
-  return !isOptionLine(firstArg) && !isOptionChar(firstArg);
+  return !isOptionLine(firstArg[1]) && !isOptionChar(firstArg[1]);
 };
+
+  const isOptionValid = function (option) {
+    return option === "n" || option === "c";
+  };
   
 const splitSource = function (source, reader) {
   return reader(source, "utf8").split(this);
@@ -31,6 +35,7 @@ module.exports = {
   isOptionLine,
   isOptionChar,
   isOptionInvalid,
+  isOptionValid,
   splitByLine,
   splitByChar,
   isFileInvalid,

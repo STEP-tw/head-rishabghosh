@@ -12,9 +12,7 @@ const {
 
 const {
   generateHeader,
-  isOptionLine,
-  isOptionChar,
-  isOptionInvalid,
+  isOptionValid,
   splitByLine,
   splitByChar,
   isFileInvalid,  
@@ -105,7 +103,7 @@ const handleHeadErrors = function (userArgs) {
   
   if (!isDefaultChoice(userArgs[0])) {//name it better
 
-    if (option !== "n" && option !== "c") {
+    if (!isOptionValid(option)) {
       return getIllegalOptionMsgForHead(option);
     }
 
