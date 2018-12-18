@@ -62,6 +62,22 @@ describe("extractCountAndStartingIndex", function() {
     });
   });
 
+  describe("for char count provided as firstArg", function() {
+    it("should return char count 5 & starting Index 1 in a object", function() {
+      let input = ["-c5", "file1"];
+      let expectedOutput = { lineCount: 0, charCount: 5, startingIndex: 1 };
+      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput); 
+    });
+  });
+
+  describe("for invalid line count provided", function() {
+    it("should return that line count & starting index", function() {
+      let input = ["-n10x", "file1"];
+      let expectedOutput = { lineCount: "10x", charCount: 0, startingIndex: 1 };
+      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
+    });
+  });
+
 });
 
 describe("readLinesFromTop", function() {
