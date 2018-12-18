@@ -93,7 +93,7 @@ const arrangeContents = function (userArgs, fs, operation) {
 /* ====== CREATE ERROR MESSAGE ====== */
 
 const isCountInvalid = function (count) {
-  return count < 1 || !Number.isInteger(+count);
+  return count == 0 || !Number.isInteger(+count); //could be a string match
 };
 
 const handleHeadErrors = function (userArgs) {
@@ -106,11 +106,7 @@ const handleHeadErrors = function (userArgs) {
   //if isCountInvalid then getIllegalMsg(count, option)
   //made a object there which will have n: illegalLineMsg, c: illegalCharMsg
 
-  if (isOptionLine(option) && isCountInvalid(count)) {
-    return getIllegalCountMessage(count, option);
-  }
-
-  if (isOptionChar(option) && isCountInvalid(count)) {
+  if (isOptionValid(option) && isCountInvalid(count)) {
     return getIllegalCountMessage(count, option);
   }
 
