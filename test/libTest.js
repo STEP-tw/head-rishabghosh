@@ -8,12 +8,10 @@ const {
   extractFilenames,
   getContents,
   arrangeContents,
-  arrangeContentsOfHead,
   handleHeadErrors,
   head,
   readLinesFromBottom,
   readCharFromBottom,
-  arrangeContentsOfTail,
   handleTailErrors,
   tail
 } = require("../src/lib.js");
