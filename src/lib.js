@@ -70,7 +70,7 @@ const extractCountAndStartingIndex = function (userArgs) {
 };
 
 const extractFilenames = function(userArgs) {
-  const { startingIndex } = extractCountAndStartingIndex(userArgs);
+  const { startingIndex } = parser(userArgs);
   let result = [];
   for (let index = startingIndex; index < userArgs.length; index++) {
     let filePath = userArgs[index];
