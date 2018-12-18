@@ -144,20 +144,20 @@ const isCountInvalid = function (count) {
 };
 
 const handleHeadErrors = function (userArgs) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
-
+  const { option, count } = parser(userArgs);
+  
   if (!isDefaultChoice(userArgs[0])) {//name it better
 
-    if (isOptionInvalid(userArgs[0])) {
-      return getIllegalOptionMsgForHead(userArgs[0][1]);
+    if (option !== "n" && option !== "c") {
+      return getIllegalOptionMsgForHead(option);
     }
 
-    if (isOptionLine(userArgs[0]) && isCountInvalid(lineCount)) {
-      return getIllegalCountMessage(lineCount, "line");
+    if (option === "n" && isCountInvalid(count)) {
+      return getIllegalCountMessage(count, "line");
     }
 
-    if (isOptionChar(userArgs[0]) && isCountInvalid(charCount)) {
-      return getIllegalCountMessage(charCount, "byte");
+    if (option === "c" && isCountInvalid(count)) {
+      return getIllegalCountMessage(count, "byte");
     }
 
   }
