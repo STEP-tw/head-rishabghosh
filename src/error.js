@@ -15,8 +15,11 @@ const getFileErrorMessage = function(filePath, utility) {
   return utility + ": " + filePath + ": No such file or directory\n";
 };
 
+//put it in a function or closure
+const illegalMessages = { n: "line", c: "byte" };
+
 const getIllegalCountMessage = function(count, option) {
-  return "head: illegal " + option + " count -- " + count;
+  return "head: illegal " + illegalMessages[option] + " count -- " + count;
 };
 
 const getIllegalOffsetMessage = function(count) {

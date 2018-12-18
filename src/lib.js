@@ -107,11 +107,11 @@ const handleHeadErrors = function (userArgs) {
   //made a object there which will have n: illegalLineMsg, c: illegalCharMsg
 
   if (isOptionLine(option) && isCountInvalid(count)) {
-    return getIllegalCountMessage(count, "line");
+    return getIllegalCountMessage(count, option);
   }
 
   if (isOptionChar(option) && isCountInvalid(count)) {
-    return getIllegalCountMessage(count, "byte");
+    return getIllegalCountMessage(count, option);
   }
 
   return false;

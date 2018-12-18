@@ -154,7 +154,6 @@ describe("arrangeContents", function() {
     });
 
   });
-
 });
 
 describe("handleHeadErrors", function() {
