@@ -126,7 +126,6 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
   return chosenMethod(filePath, reader, count);
 };
 
-//use operation as a arg
 const arrangeContents = function (parsedArgs, fs, operation) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
@@ -143,9 +142,6 @@ const arrangeContents = function (parsedArgs, fs, operation) {
     getContents(parsedArgs, filePath, reader, operation);
   }).join("\n");
 };
-
-//const arrangeContentsOfHead = arrangeContents.bind("head");
-//const arrangeContentsOfTail = arrangeContents.bind("tail");
 
 /* ====== CREATE ERROR MESSAGE ====== */
 
@@ -205,7 +201,6 @@ const head = function (parsedArgs, fs) {
     return handleHeadErrors(parsedArgs);
   }
   return arrangeContents(parsedArgs, fs, "head");
-  //  return arrangeContentsOfHead(parsedArgs, fs);
 };
 
 const hasTailErrors = function(parsedArgs) {
@@ -217,7 +212,6 @@ const tail = function (parsedArgs, fs) {
     return handleTailErrors(parsedArgs);
   }
   return arrangeContents(parsedArgs, fs, "tail");
-  //return arrangeContentsOfTail(parsedArgs, fs);
 };
 
 /* ======== EXPORTS ========= */
@@ -226,7 +220,6 @@ module.exports = {
   head,
   getContents,
   arrangeContents,
- // arrangeContentsOfHead,
   extractCountAndStartingIndex,
   readLinesFromTop,
   readCharFromTop,
@@ -234,7 +227,6 @@ module.exports = {
   readLinesFromBottom,
   readCharFromBottom,
   extractFilenames,
- // arrangeContentsOfTail,
   handleTailErrors,
   tail
 };

@@ -214,49 +214,6 @@ describe("arrangeContents", function() {
 
 });
 
-describe.skip("arrangeContentsOfHead", function() {
-
-  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
-  const file2 = "a\nb\n";
-  const filex = "x";
-  const listOfFiles = { file1, file2, filex };
-  const fs = {
-    readFileSync: (filePath) => listOfFiles[filePath],
-    existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
-  };
-
-  it("should return invalid file message if the file doesnot exists", function() {
-    let userInput = ["fileY"];
-    let expectedOutput = "head: fileY: No such file or directory\n";
-    assert.equal(arrangeContentsOfHead(userInput, fs), expectedOutput);
-  });
-
-  it("should return file content if File exists", function() {
-    let userInput = ["file1"];
-    let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
-    assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
-
-    userInput = ["-n5", "file1"];
-    expectedOutput = "A\nB\nC\nD\nE";
-    assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
-
-    userInput = ["-c5", "file1"];
-    expectedOutput = "A\nB\nC";
-    assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
-  });
-
-  describe("if one file exists but other doesnot", function() {
-    it("should return invalid file message and file content", () => {
-      let userInput = ["-n5", "file1", "fileY"];
-      let expectedOutput = "==> file1 <==\n";
-      expectedOutput += "A\nB\nC\nD\nE\n";
-      expectedOutput += "head: fileY: No such file or directory";
-      assert.equal(arrangeContentsOfHead(userInput, fs).trim(), expectedOutput);
-    });
-  });
-
-});
-
 describe("handleHeadErrors", function() {
   const errorMessage = "head: illegal option -- ";
   const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
@@ -445,49 +402,6 @@ describe("extractFilenames", function() {
 
     userInput = ["-n", "5", "file1", "file2"];
     assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
-  });
-
-});
-
-describe.skip("arrangeContentsOfTail", function() {
-
-  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
-  const file2 = "a\nb\n";
-  const filex = "x";
-  const listOfFiles = { file1, file2, filex };
-  const fs = {
-    readFileSync: (filePath) => listOfFiles[filePath],
-    existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
-  };
-
-  it("should return invalid file message if the file doesnot exist", function() {
-    let userInput = ["fileY"];
-    let expectedOutput = "tail: fileY: No such file or directory";
-    assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
-  });
-
-  it("should return content of file if File exists", function() {
-    let userInput = ["file1"];
-    let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
-    assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
-
-    userInput = ["-n5", "file1"];
-    expectedOutput = "I\nJ\nK\nL\nM"; 
-    assert.equal(arrangeContentsOfTail(userInput, fs), expectedOutput);
-
-    userInput = ["-c5", "file1"];
-    expectedOutput = "K\nL\nM";
-    assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
-  });
-  
-  describe("if one file exists but other doesnot", function () {
-    it("should return invalid file message and content of file", function() {
-      let userInput = ["-n5", "file1", "fileY"];
-      let expectedOutput = "==> file1 <==\n";
-      expectedOutput += "I\nJ\nK\nL\nM\n"; 
-      expectedOutput += "tail: fileY: No such file or directory";
-      assert.equal(arrangeContentsOfTail(userInput, fs).trim(), expectedOutput);
-    });
   });
 
 });
