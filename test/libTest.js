@@ -7,6 +7,7 @@ const {
   readLinesFromTop,
   extractFilenames,
   getContents,
+  arrangeContents,
   arrangeContentsOfHead,
   handleHeadErrors,
   head,
@@ -167,7 +168,53 @@ describe("getContents", function() {
 
 });
 
-describe("arrangeContentsOfHead", function() {
+describe("arrangeContents", function() {
+
+  const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+  const file2 = "a\nb\n";
+  const filex = "x";
+  const listOfFiles = { file1, file2, filex };
+  const fs = {
+    readFileSync: (filePath) => listOfFiles[filePath],
+    existsSync: (filePath) => Object.keys(listOfFiles).includes(filePath) 
+  };
+
+  describe("for head", function() {
+    const operation = "head";
+
+    it("should return invalid file message if the file doesnot exists", function() {
+      let userInput = ["fileY"];
+      let expectedOutput = "head: fileY: No such file or directory\n";
+      assert.equal(arrangeContents(userInput, fs, operation), expectedOutput);
+    });
+
+    it("should return file content if File exists", function() {
+      let userInput = ["file1"];
+      let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ";
+      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+
+      userInput = ["-n5", "file1"];
+      expectedOutput = "A\nB\nC\nD\nE";
+      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+
+      userInput = ["-c5", "file1"];
+      expectedOutput = "A\nB\nC";
+      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+    });
+
+    it("should return invalid file message and file content if one file exists but other doesnot", () => {
+      let userInput = ["-n5", "file1", "fileY"];
+      let expectedOutput = "==> file1 <==\n";
+      expectedOutput += "A\nB\nC\nD\nE\n";
+      expectedOutput += "head: fileY: No such file or directory";
+      assert.equal(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+    });
+
+  });
+
+});
+
+describe.skip("arrangeContentsOfHead", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
   const file2 = "a\nb\n";
@@ -402,7 +449,7 @@ describe("extractFilenames", function() {
 
 });
 
-describe("arrangeContentsOfTail", function() {
+describe.skip("arrangeContentsOfTail", function() {
 
   const file1 = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
   const file2 = "a\nb\n";

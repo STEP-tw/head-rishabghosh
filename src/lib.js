@@ -1,8 +1,8 @@
 /*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
 
 const {
-  getllegalOptionMsgForHead,
-  getllegalOptionMsgForTail,
+  getIllegalOptionMsgForHead,
+  getIllegalOptionMsgForTail,
   getIllegalCountMessage,
   getFileErrorMessage,
   getIllegalOffsetMessage,
@@ -104,6 +104,7 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
   return totalContent.slice(sliceFrom).join(""); 
 };
 
+//put it in a function 
 const readingMethods = {
   head: { n: readLinesFromTop, c: readCharFromTop },
   tail: { n: readLinesFromBottom, c: readCharFromBottom }
@@ -120,16 +121,16 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
     count = charCount;
     option = "c";
   }
-  //read name can be better
+
   const chosenMethod = readingMethods[operation][option];
   return chosenMethod(filePath, reader, count);
 };
 
-const arrangeContents = function (parsedArgs, fs) {
+//use operation as a arg
+const arrangeContents = function (parsedArgs, fs, operation) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(parsedArgs);
   const noOfFiles = fileList.length;
-  let operation = this;
 
   return fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
@@ -143,8 +144,8 @@ const arrangeContents = function (parsedArgs, fs) {
   }).join("\n");
 };
 
-const arrangeContentsOfHead = arrangeContents.bind("head");
-const arrangeContentsOfTail = arrangeContents.bind("tail");
+//const arrangeContentsOfHead = arrangeContents.bind("head");
+//const arrangeContentsOfTail = arrangeContents.bind("tail");
 
 /* ====== CREATE ERROR MESSAGE ====== */
 
@@ -158,7 +159,7 @@ const handleHeadErrors = function (parsedArgs) {
   if (!isDefaultChoice(parsedArgs[0])) {//name it better
 
     if (isOptionInvalid(parsedArgs[0])) {
-      return getllegalOptionMsgForHead(parsedArgs[0][1]);
+      return getIllegalOptionMsgForHead(parsedArgs[0][1]);
     }
 
     if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
@@ -183,7 +184,7 @@ const handleTailErrors = function (parsedArgs) {
   if (parsedArgs[0][0] === "-") {
 
     if (isOptionInvalid(parsedArgs[0])) {
-      return getllegalOptionMsgForTail(parsedArgs[0][1]);
+      return getIllegalOptionMsgForTail(parsedArgs[0][1]);
     }
 
     if (!isOptionInvalid(parsedArgs[0]) && illegalCount !== undefined) {
@@ -203,9 +204,9 @@ const head = function (parsedArgs, fs) {
   if (hasHeadError(parsedArgs)) {
     return handleHeadErrors(parsedArgs);
   }
-  return arrangeContentsOfHead(parsedArgs, fs);
+  return arrangeContents(parsedArgs, fs, "head");
+  //  return arrangeContentsOfHead(parsedArgs, fs);
 };
-
 
 const hasTailErrors = function(parsedArgs) {
   return handleTailErrors(parsedArgs);
@@ -215,7 +216,8 @@ const tail = function (parsedArgs, fs) {
   if (hasTailErrors(parsedArgs)) { 
     return handleTailErrors(parsedArgs);
   }
-  return arrangeContentsOfTail(parsedArgs, fs);
+  return arrangeContents(parsedArgs, fs, "tail");
+  //return arrangeContentsOfTail(parsedArgs, fs);
 };
 
 /* ======== EXPORTS ========= */
@@ -223,7 +225,8 @@ const tail = function (parsedArgs, fs) {
 module.exports = {
   head,
   getContents,
-  arrangeContentsOfHead,
+  arrangeContents,
+ // arrangeContentsOfHead,
   extractCountAndStartingIndex,
   readLinesFromTop,
   readCharFromTop,
@@ -231,7 +234,7 @@ module.exports = {
   readLinesFromBottom,
   readCharFromBottom,
   extractFilenames,
-  arrangeContentsOfTail,
+ // arrangeContentsOfTail,
   handleTailErrors,
   tail
 };

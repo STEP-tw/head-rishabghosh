@@ -3,11 +3,11 @@ const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
 const errorMsgForTail = "tail: illegal option -- "; 
 const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
 
-const getllegalOptionMsgForHead = function (option) {
+const getIllegalOptionMsgForHead = function (option) {
   return errorMsgForHead + option + "\n" + usageMsgForHead;
 };
 
-const getllegalOptionMsgForTail = function(option) {
+const getIllegalOptionMsgForTail = function(option) {
   return errorMsgForTail + option + "\n" + usageMsgForTail;
 };
 
@@ -24,8 +24,8 @@ const getIllegalOffsetMessage = function(count) {
 };
 
 module.exports = {
-  getllegalOptionMsgForHead,
-  getllegalOptionMsgForTail,
+  getIllegalOptionMsgForHead,
+  getIllegalOptionMsgForTail,
   getFileErrorMessage,
   getIllegalCountMessage,
   getIllegalOffsetMessage,
