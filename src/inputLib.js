@@ -1,16 +1,44 @@
+const {
+  isOptionInvalid,
+} = require("../src/util.js");
+
+const isOptionVaild = function(firstArg) {
+  return !isOptionInvalid(firstArg);
+};
+
+//better name
+const ifOptionNotDefault = function(userArgs) {
+  let firstArg = userArgs[0];
+  
+  // for -- file1
+  if (firstArg === "--") { 
+    return { option: "n", count: 10, startingIndex: 1 };
+  }
+  
+  // for -5 file1
+  if (!isNaN(firstArg)) {
+    return { option: "n", count: Math.abs(firstArg), startingIndex: 1 };
+  }
+  
+  // for -n 5 file1, -c 7 file1
+  if (isOptionVaild(firstArg) && firstArg.length === 2) {
+    return { option: firstArg[1], count: userArgs[1], startingIndex: 2 };
+  }
+  
+  //default return  for -n5 file1, -a5 file1
+  return { option: firstArg[1], count: firstArg.slice(2), startingIndex: 1 };
+};
+
+
+
 const parser = function(userArgs) {
   const firstArg = userArgs[0];
-  let option = "n";
-  let count =  10;
-  let startingIndex = 0;
   
-  //if(isOptionLine(firstArg) && )
-  
-  
-  
-  
+  if (firstArg.startsWith("-")) {
+    return ifOptionNotDefault(userArgs);
+  }
     
-  return { option, count, startingIndex }; 
+  return { option: "n", count: 10, startingIndex: 0 }; 
 };
 
 module.exports = { parser };
