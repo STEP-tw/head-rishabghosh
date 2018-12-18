@@ -11,44 +11,20 @@ const {
 
 const dummyReader = (content) => content;
 
-describe.skip("isOptionLine", function() {
+describe("isOptionLine", function() {
 
-  it("should return true for \"-n\" given as first argument", function() {
-    let userInput = "-n";
-    assert.equal(isOptionLine(userInput), true);
-  
-    userInput = "-n5";
+  it("should return true for \"n\" given as first argument", function() {
+    let userInput = "n";
     assert.equal(isOptionLine(userInput), true);
   });
   
-  it("should return true for \"--\" given as first argument", function() {
-    let userInput = "--";
-    assert.equal(isOptionLine(userInput), true);
-  });
-  
-  it("should return true if first argument is a integer", function() {
-    let userInput = "-5";
-    assert.equal(isOptionLine(userInput), true);
-  });
-  
-  it("should reutrn true if first argument is a possible filePath", function() {
-    let userInput = "5";
-    assert.equal(isOptionLine(userInput), true);
-  
-    userInput = "file1";
-    assert.equal(isOptionLine(userInput), true);
-  });
-  
-  it("should return false if first  argument is invalid", function() {
-    let userInput = "-a";
-    assert.equal(isOptionLine(userInput), false);
-  
-    userInput = "-r";
+  it("should return false if option is invalid", function() {
+    let userInput = "a";
     assert.equal(isOptionLine(userInput), false);
   });
   
-  it("should return false for \"-c\" given as first argument", function() {
-    let userInput = "-c";
+  it("should return false for \"c\" given as option", function() {
+    let userInput = "c";
     assert.equal(isOptionLine(userInput), false);
   });
   

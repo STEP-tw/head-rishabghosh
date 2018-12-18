@@ -1,12 +1,11 @@
 const generateHeader = function (filePath) {
   return "==> " + filePath + " <==";
 };
-/*  
-const isOptionLine = function (firstArg) {
-  return (firstArg[1] === "n" || firstArg[0] !== "-" ||
-      Number.isInteger(+firstArg) || firstArg === "--");
+ 
+const isOptionLine = function (option) {
+  return option === "n";
 };
-*/  
+  
 const isOptionChar = function (option) {
   return (option === "c");
 };
@@ -28,7 +27,7 @@ const isFileInvalid = function (filePath, fs) {
 
 module.exports = {
   generateHeader,
-  //isOptionLine,
+  isOptionLine,
   isOptionChar,
   isOptionValid,
   splitByLine,
