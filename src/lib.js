@@ -24,8 +24,8 @@ const isDefaultChoice = function (firstArg) {
   return firstArg[0] !== "-";
 };
 
-const extractCountAndStartingIndex = function (parsedArgs) {
-  let firstArg = parsedArgs[0];
+const extractCountAndStartingIndex = function (userArgs) {
+  let firstArg = userArgs[0];
   let lineCount = 0;
   let charCount = 0;
   let startingIndex = 0;
@@ -55,8 +55,8 @@ const extractCountAndStartingIndex = function (parsedArgs) {
   switch (firstArg.slice(2).length) { //length of count value if present
     case 0:
       startingIndex = 2;
-      if (firstArg[1] === "n") { lineCount = parsedArgs[1]; }
-      if (firstArg[1] === "c") { charCount = parsedArgs[1]; }
+      if (firstArg[1] === "n") { lineCount = userArgs[1]; }
+      if (firstArg[1] === "c") { charCount = userArgs[1]; }
       break;
     default:
       startingIndex = 1;
@@ -67,11 +67,11 @@ const extractCountAndStartingIndex = function (parsedArgs) {
   return { lineCount, charCount, startingIndex };
 };
 
-const extractFilenames = function(parsedArgs) {
-  const { startingIndex } = extractCountAndStartingIndex(parsedArgs);
+const extractFilenames = function(userArgs) {
+  const { startingIndex } = extractCountAndStartingIndex(userArgs);
   let result = [];
-  for (let index = startingIndex; index < parsedArgs.length; index++) {
-    let filePath = parsedArgs[index];
+  for (let index = startingIndex; index < userArgs.length; index++) {
+    let filePath = userArgs[index];
     result.push(filePath);
   }
   return result;
@@ -112,12 +112,12 @@ const readingMethods = {
 
 /* =========== ARRANGE ============ */
 
-const getContents = function(parsedArgs, filePath, reader, operation) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
+const getContents = function(userArgs, filePath, reader, operation) {
+  const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
   let option = "n";
   let count = lineCount;
   
-  if (isOptionChar(parsedArgs[0])) { 
+  if (isOptionChar(userArgs[0])) { 
     count = charCount;
     option = "c";
   }
@@ -126,9 +126,9 @@ const getContents = function(parsedArgs, filePath, reader, operation) {
   return chosenMethod(filePath, reader, count);
 };
 
-const arrangeContents = function (parsedArgs, fs, operation) {
+const arrangeContents = function (userArgs, fs, operation) {
   const reader = fs.readFileSync;
-  const fileList = extractFilenames(parsedArgs);
+  const fileList = extractFilenames(userArgs);
   const noOfFiles = fileList.length;
 
   return fileList.map( function(filePath){
@@ -136,10 +136,10 @@ const arrangeContents = function (parsedArgs, fs, operation) {
       return getFileErrorMessage(filePath, operation);
     }
     if (noOfFiles === 1) {
-      return getContents(parsedArgs, filePath, reader, operation);
+      return getContents(userArgs, filePath, reader, operation);
     }
     return generateHeader(filePath) + "\n" + 
-    getContents(parsedArgs, filePath, reader, operation);
+    getContents(userArgs, filePath, reader, operation);
   }).join("\n");
 };
 
@@ -149,20 +149,20 @@ const isCountInvalid = function (count) {
   return count < 1 || !Number.isInteger(+count);
 };
 
-const handleHeadErrors = function (parsedArgs) {
-  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
+const handleHeadErrors = function (userArgs) {
+  const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
 
-  if (!isDefaultChoice(parsedArgs[0])) {//name it better
+  if (!isDefaultChoice(userArgs[0])) {//name it better
 
-    if (isOptionInvalid(parsedArgs[0])) {
-      return getIllegalOptionMsgForHead(parsedArgs[0][1]);
+    if (isOptionInvalid(userArgs[0])) {
+      return getIllegalOptionMsgForHead(userArgs[0][1]);
     }
 
-    if (isOptionLine(parsedArgs[0]) && isCountInvalid(lineCount)) {
+    if (isOptionLine(userArgs[0]) && isCountInvalid(lineCount)) {
       return getIllegalCountMessage(lineCount, "line");
     }
 
-    if (isOptionChar(parsedArgs[0]) && isCountInvalid(charCount)) {
+    if (isOptionChar(userArgs[0]) && isCountInvalid(charCount)) {
       return getIllegalCountMessage(charCount, "byte");
     }
 
@@ -170,20 +170,20 @@ const handleHeadErrors = function (parsedArgs) {
   return false;
 };
 
-const handleTailErrors = function (parsedArgs) {
+const handleTailErrors = function (userArgs) {
   let illegalCount;
-  const { lineCount, charCount } = extractCountAndStartingIndex(parsedArgs);
+  const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
 
   if(!Number.isInteger(+lineCount)) { illegalCount = lineCount; }
   if(!Number.isInteger(+charCount)) { illegalCount = charCount; }
 
-  if (parsedArgs[0][0] === "-") {
+  if (userArgs[0][0] === "-") {
 
-    if (isOptionInvalid(parsedArgs[0])) {
-      return getIllegalOptionMsgForTail(parsedArgs[0][1]);
+    if (isOptionInvalid(userArgs[0])) {
+      return getIllegalOptionMsgForTail(userArgs[0][1]);
     }
 
-    if (!isOptionInvalid(parsedArgs[0]) && illegalCount !== undefined) {
+    if (!isOptionInvalid(userArgs[0]) && illegalCount !== undefined) {
       return getIllegalOffsetMessage(illegalCount);
     } 
   }
@@ -192,26 +192,26 @@ const handleTailErrors = function (parsedArgs) {
 
 /* ========= HEAD & TAIL ========= */
 
-const hasHeadError = function(parsedArgs) {
-  return handleHeadErrors(parsedArgs);
+const hasHeadError = function(userArgs) {
+  return handleHeadErrors(userArgs);
 };
 
-const head = function (parsedArgs, fs) {
-  if (hasHeadError(parsedArgs)) {
-    return handleHeadErrors(parsedArgs);
+const head = function (userArgs, fs) {
+  if (hasHeadError(userArgs)) {
+    return handleHeadErrors(userArgs);
   }
-  return arrangeContents(parsedArgs, fs, "head");
+  return arrangeContents(userArgs, fs, "head");
 };
 
-const hasTailErrors = function(parsedArgs) {
-  return handleTailErrors(parsedArgs);
+const hasTailErrors = function(userArgs) {
+  return handleTailErrors(userArgs);
 };
 
-const tail = function (parsedArgs, fs) {
-  if (hasTailErrors(parsedArgs)) { 
-    return handleTailErrors(parsedArgs);
+const tail = function (userArgs, fs) {
+  if (hasTailErrors(userArgs)) { 
+    return handleTailErrors(userArgs);
   }
-  return arrangeContents(parsedArgs, fs, "tail");
+  return arrangeContents(userArgs, fs, "tail");
 };
 
 /* ======== EXPORTS ========= */
