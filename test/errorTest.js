@@ -19,3 +19,4 @@ describe("for getIllegalCountMessage", function() {
   });
 
 });
+
