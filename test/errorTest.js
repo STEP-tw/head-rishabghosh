@@ -13,4 +13,9 @@ describe("for getIllegalCountMessage", function() {
     assert.strictEqual(getIllegalCountMessage(0, "n"), expectedOutput);
   });
 
+  it("should return byte count error for given count and option: 'c' ", ()=>{
+    let expectedOutput = "head: illegal byte count -- 0";
+    assert.strictEqual(getIllegalCountMessage(0, "c"), expectedOutput);
+  });
+
 });
