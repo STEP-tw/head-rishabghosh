@@ -119,18 +119,15 @@ const handleHeadErrors = function (userArgs) {
 
 const handleTailErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
-  const firstArg = userArgs[0];
   
-  if (firstArg.startsWith("-")) {
-
-    if (!isOptionValid(option)) {
-      return getIllegalOptionMsgForTail(option);
-    }
-
-    if (isOptionValid(option) && !Number.isInteger(+count)) {
-      return getIllegalOffsetMessage(count);
-    } 
+  if (!isOptionValid(option)) {
+    return getIllegalOptionMsgForTail(option);
   }
+
+  if (isOptionValid(option) && !Number.isInteger(+count)) {
+    return getIllegalOffsetMessage(count);
+  }
+
   return false;
 };
 
