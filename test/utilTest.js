@@ -11,7 +11,7 @@ const {
 
 const dummyReader = (content) => content;
 
-describe("isOptionLine", function() {
+describe.skip("isOptionLine", function() {
 
   it("should return true for \"-n\" given as first argument", function() {
     let userInput = "-n";
@@ -56,21 +56,21 @@ describe("isOptionLine", function() {
   
 describe("isOptionChar", function() {
   
-  it("should return true for \"-c\" as first argument", function() {
-    let userInput = "-c";
+  it("should return true for \"c\" as first argument", function() {
+    let userInput = "c";
     assert.equal(isOptionChar(userInput), true);
   });
   
-  it("should return false for \"-n\" as first argument", function() {
-    let userInput = "-n";
+  it("should return false for \"n\" as first argument", function() {
+    let userInput = "n";
     assert.equal(isOptionChar(userInput), false);
   });
   
-  it("should return false for every other input than \"-c\"", function() {
-    let userInput = "-a";
+  it("should return false for every other input than \"c\"", function() {
+    let userInput = "a";
     assert.equal(isOptionChar(userInput), false);
   
-    userInput = "-5";
+    userInput = "5";
     assert.equal(isOptionChar(userInput), false);
   
     userInput = "head.js";
