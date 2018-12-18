@@ -26,49 +26,6 @@ const isDefaultChoice = function (firstArg) {
   return firstArg[0] !== "-";
 };
 
-const extractCountAndStartingIndex = function (userArgs) {
-  let firstArg = userArgs[0];
-  let lineCount = 0;
-  let charCount = 0;
-  let startingIndex = 0;
-
-  if (isDefaultChoice(firstArg)) {//can use !startsWith
-    startingIndex = 0;
-    lineCount = 10;
-    return { lineCount, charCount, startingIndex };
-  }
-
-  if (firstArg === "--") {
-    startingIndex = 1;
-    lineCount = 10;
-    return { lineCount, charCount, startingIndex };
-  }
-   
-  if (!isNaN(firstArg)) {
-    startingIndex = 1;
-    lineCount = firstArg.slice(1); 
-    return { lineCount, charCount, startingIndex };
-  }
-
-  /*
-   * should use better logic to get rid of this switch-case
-   */
-
-  switch (firstArg.slice(2).length) { //length of count value if present
-    case 0:
-      startingIndex = 2;
-      if (firstArg[1] === "n") { lineCount = userArgs[1]; }
-      if (firstArg[1] === "c") { charCount = userArgs[1]; }
-      break;
-    default:
-      startingIndex = 1;
-      if (firstArg[1] === "n") { lineCount = firstArg.slice(2); }
-      if (firstArg[1] === "c") { charCount = firstArg.slice(2); }
-  }
-
-  return { lineCount, charCount, startingIndex };
-};
-
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
   let result = [];
@@ -210,7 +167,6 @@ module.exports = {
   head,
   getContents,
   arrangeContents,
-  extractCountAndStartingIndex,
   readLinesFromTop,
   readCharFromTop,
   handleHeadErrors,

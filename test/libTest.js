@@ -18,68 +18,6 @@ const {
 
 const dummyReader = (content) => content;
 
-describe("extractCountAndStartingIndex", function() {
-
-  describe("for no count value given", function() {
-    it("should return line count 10 & starting index 0 in a object", function() {
-      let input = ["file1"];
-      let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 0 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
-  });
-
-  describe("for multiple files and no count value given", function() {
-    it("should return line count of 10 & starting index of 0 in a object", function() {
-      let input = ["file1", "file2"];
-      let expectedOutput = { lineCount: 10, charCount: 0, startingIndex: 0 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
-  });
-
-
-  describe("for given line count 5 in  0th index", function() {
-    it("should return line count of 5 & starting index of 1 in a object", function() {
-      let input = ["-n5", "file1"];
-      let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 1 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
-
-  });
-
-  describe("for line count 7  provied in 1st index", function() {
-    it("should return line count of 7 & starting index of 2 in a object", function() {
-      let input = ["-n", "7", "file1"];
-      let expectedOutput = { lineCount: 7, charCount: 0, startingIndex: 2 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
-  });
-
-  describe("for count provided as firstArg", function() {
-    it("should return line count of 5 & starting index of 1 in a object", function() {
-      let input = ["-5", "file1"];
-      let expectedOutput = { lineCount: 5, charCount: 0, startingIndex: 1 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
-  });
-
-  describe("for char count provided as firstArg", function() {
-    it("should return char count 5 & starting Index 1 in a object", function() {
-      let input = ["-c5", "file1"];
-      let expectedOutput = { lineCount: 0, charCount: 5, startingIndex: 1 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput); 
-    });
-  });
-
-  describe("for invalid line count provided", function() {
-    it("should return that line count & starting index", function() {
-      let input = ["-n10x", "file1"];
-      let expectedOutput = { lineCount: "10x", charCount: 0, startingIndex: 1 };
-      assert.deepEqual(extractCountAndStartingIndex(input), expectedOutput);
-    });
-  });
-
-});
-
 describe("readLinesFromTop", function() {
 
   let fileContents = "";
