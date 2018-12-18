@@ -116,17 +116,6 @@ const readingMethods = {
 
 const getContents = function(userArgs, filePath, reader, operation) {
   const { option, count } = parser(userArgs);
-/*
-  const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
-  
-  let option = "n";
-  let count = lineCount;
-  
-  if (isOptionChar(userArgs[0])) { 
-    count = charCount;
-    option = "c";
-  }
-*/
   const chosenMethod = readingMethods[operation][option];
   return chosenMethod(filePath, reader, count);
 };
