@@ -165,20 +165,16 @@ const handleHeadErrors = function (userArgs) {
 };
 
 const handleTailErrors = function (userArgs) {
-  let illegalCount;
-  const { lineCount, charCount } = extractCountAndStartingIndex(userArgs);
-
-  if(!Number.isInteger(+lineCount)) { illegalCount = lineCount; }
-  if(!Number.isInteger(+charCount)) { illegalCount = charCount; }
-
+  const { option, count } = parser(userArgs);
+  
   if (userArgs[0][0] === "-") {
 
-    if (isOptionInvalid(userArgs[0])) {
-      return getIllegalOptionMsgForTail(userArgs[0][1]);
+    if (option !== "n" && option !== "c") {
+      return getIllegalOptionMsgForTail(option);
     }
 
-    if (!isOptionInvalid(userArgs[0]) && illegalCount !== undefined) {
-      return getIllegalOffsetMessage(illegalCount);
+    if ( (option === "n" || option === "c") && !Number.isInteger(+count)) {
+      return getIllegalOffsetMessage(count);
     } 
   }
   return false;
