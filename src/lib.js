@@ -22,10 +22,6 @@ const {
 
 /* ======= PRIMARY FUNCTIONS ======= */
 
-const isDefaultChoice = function (firstArg) {
-  return firstArg[0] !== "-";
-};
-
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
   let result = [];
@@ -102,8 +98,9 @@ const isCountInvalid = function (count) {
 
 const handleHeadErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
+  const firstArg = userArgs[0];
   
-  if (!isDefaultChoice(userArgs[0])) {//name it better
+  if (firstArg.startsWith("-")) {
 
     if (!isOptionValid(option)) {
       return getIllegalOptionMsgForHead(option);
@@ -115,7 +112,7 @@ const handleHeadErrors = function (userArgs) {
     if (isOptionLine(option) && isCountInvalid(count)) {
       return getIllegalCountMessage(count, "line");
     }
-    
+
     if (isOptionChar(option) && isCountInvalid(count)) {
       return getIllegalCountMessage(count, "byte");
     }
@@ -126,8 +123,9 @@ const handleHeadErrors = function (userArgs) {
 
 const handleTailErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
+  const firstArg = userArgs[0];
   
-  if (userArgs[0][0] === "-") {
+  if (firstArg.startsWith("-")) {
 
     if (!isOptionValid(option)) {
       return getIllegalOptionMsgForTail(option);
