@@ -93,14 +93,15 @@ const isCountInvalid = function (count) {
 };
 
 const handleHeadErrors = function (userArgs) {
+  const operation = "head";
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
-    return getIllegalOptionMessage("head", option);
+    return getIllegalOptionMessage(operation, option);
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
-    return getIllegalCountOffsetMessage("head", option, count);
+    return getIllegalCountOffsetMessage(operation, option, count);
   }
 
   return false;
@@ -108,14 +109,15 @@ const handleHeadErrors = function (userArgs) {
 
 //add operation as a arg, if head 
 const handleTailErrors = function (userArgs) {
+  const operation = "tail";
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
-    return getIllegalOptionMessage("tail", option);
+    return getIllegalOptionMessage(operation, option);
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
-    return getIllegalCountOffsetMessage("tail", option, count);
+    return getIllegalCountOffsetMessage(operation, option, count);
   }
 
   return false;
