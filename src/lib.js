@@ -3,8 +3,6 @@
 const { parser } = require("./inputLib.js");
 
 const {
-  getIllegalOptionMsgForHead,
-  getIllegalOptionMsgForTail,
   getIllegalOptionMessage,
   getIllegalCountMessage,
   getFileErrorMessage,
