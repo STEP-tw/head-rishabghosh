@@ -3,7 +3,7 @@ const { parser } = require("./inputLib.js");
 const {
   getIllegalOptionMessage,
   getFileErrorMessage,
-  getIllegalCountOffsetMessage,
+  getCountError,
 } = require("./error.js");
 
 const {
@@ -98,7 +98,7 @@ const handleErrors = function (userArgs, operation) {
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
-    return getIllegalCountOffsetMessage(operation, option, count);
+    return getCountError(operation, option, count);
   }
 
   return false;
