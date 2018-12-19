@@ -12,8 +12,6 @@ const {
 
 const {
   generateHeader,
-  isOptionLine,
-  isOptionChar,
   isOptionValid,
   splitByLine,
   splitByChar,
@@ -103,9 +101,6 @@ const handleHeadErrors = function (userArgs) {
     return getIllegalOptionMsgForHead(option);
   }
 
-  //if isCountInvalid then getIllegalMsg(count, option)
-  //made a object there which will have n: illegalLineMsg, c: illegalCharMsg
-
   if (isOptionValid(option) && isCountInvalid(count)) {
     return getIllegalCountMessage(count, option);
   }
@@ -113,6 +108,7 @@ const handleHeadErrors = function (userArgs) {
   return false;
 };
 
+//add operation as a arg, if head 
 const handleTailErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
   
@@ -120,7 +116,7 @@ const handleTailErrors = function (userArgs) {
     return getIllegalOptionMsgForTail(option);
   }
 
-  if (isOptionValid(option) && !Number.isInteger(+count)) {
+  if (isOptionValid(option) && isCountInvalid(count)) {
     return getIllegalOffsetMessage(count);
   }
 

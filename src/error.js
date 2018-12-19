@@ -23,7 +23,18 @@ const getIllegalCountMessage = function(count, option) {
 };
 
 const getIllegalOffsetMessage = function(count) {
+  if (count == 0) { return ""; }
   return "tail: illegal offset -- " + count;
+};
+
+const illegalOptionMessages = {
+  head: getIllegalOptionMsgForHead,
+  tail: getIllegalOptionMsgForTail
+};
+
+const getIllegalOptionMessage = function(operation, option) {
+  const chosenMethod = illegalOptionMessages[operation];
+  return chosenMethod(option);
 };
 
 module.exports = {
@@ -32,4 +43,5 @@ module.exports = {
   getFileErrorMessage,
   getIllegalCountMessage,
   getIllegalOffsetMessage,
+  getIllegalOptionMessage
 };
