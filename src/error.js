@@ -25,6 +25,16 @@ const getIllegalOffsetMessage = function(count) {
   return "tail: illegal offset -- " + count;
 };
 
+const illegalCountMessage = {
+  head: getIllegalCountMessage,
+  tail: getIllegalOffsetMessage
+};
+//temporary name
+const getIllegalCountOffsetMessage = function(operaton, option, count) {
+  const chosenMethod = illegalCountMessage[operaton];
+  return chosenMethod(count, option);
+};
+
 const getFileErrorMessage = function(filePath, utility) {
   return utility + ": " + filePath + ": No such file or directory\n";
 };
@@ -35,4 +45,5 @@ module.exports = {
   getIllegalCountMessage,
   getIllegalOffsetMessage,
   getFileErrorMessage,
+  getIllegalCountOffsetMessage
 };
