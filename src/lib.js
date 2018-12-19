@@ -5,6 +5,7 @@ const {
   getIllegalCountMessage,
   getFileErrorMessage,
   getIllegalOffsetMessage,
+  getIllegalCountOffsetMessage,
 } = require("./error.js");
 
 const {
@@ -99,7 +100,7 @@ const handleHeadErrors = function (userArgs) {
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
-    return getIllegalCountMessage(count, option);
+    return getIllegalCountOffsetMessage("head", option, count);
   }
 
   return false;
@@ -114,7 +115,7 @@ const handleTailErrors = function (userArgs) {
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
-    return getIllegalOffsetMessage(count);
+    return getIllegalCountOffsetMessage("tail", option, count);
   }
 
   return false;

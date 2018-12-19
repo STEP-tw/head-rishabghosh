@@ -2,6 +2,7 @@
 line 169-181 seperate function could be made for slicing
 line 99 function name could be better
 * remove dublication for handleHeadErrors and handleTailErrors
+* currently doesnot work for -n-5 filename and -n -5 filename
 
 ==== error.js =====
 consts should be declared inside functions.
