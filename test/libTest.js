@@ -7,11 +7,10 @@ const {
   extractFilenames,
   getContents,
   arrangeContents,
-  handleHeadErrors,
+  handleErrors,
   head,
   readLinesFromBottom,
   readCharFromBottom,
-  handleTailErrors,
   tail
 } = require("../src/lib.js");
 
@@ -156,52 +155,72 @@ describe("arrangeContents", function() {
   });
 });
 
-describe.skip("handleHeadErrors", function() {
-  const errorMessage = "head: illegal option -- ";
-  const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
-  const invalidLineCount = "head: illegal line count -- ";
-  const invalidByteCount = "head: illegal byte count -- ";
+describe("handleErrors", function() {
 
-  it("should return false for default option(no option)", function() {
-    assert.strictEqual(handleHeadErrors(["file1"]), false);
+  describe("for head", function() {
+    const errorMessage = "head: illegal option -- ";
+    const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
+    const invalidLineCount = "head: illegal line count -- ";
+    const invalidByteCount = "head: illegal byte count -- ";
+
+    it("should return false for valid options", function() {
+      assert.strictEqual(handleErrors(["file1"], "head"), false);
+      assert.strictEqual(handleErrors(["--", "file1"], "head"), false);
+      assert.strictEqual(handleErrors(["-5", "file1"], "head"), false);
+      assert.strictEqual(handleErrors(["-n5", "file1"], "head"), false);
+      assert.strictEqual(handleErrors(["-c5", "file1"], "head"), false);
+    });
+
+    it("should return error & usage message for given invalid option", function() {
+      let userArgs = ["-x5", "file1"];
+      let expectedOutput = errorMessage + "x" + "\n" + usageMessage;
+      assert.strictEqual(handleErrors(userArgs, "head"), expectedOutput);
+    });
+
+    it("should return invalid line message for given invalid line count", function() {
+      let userArgs = ["-n0", "file1"];
+      let expectedOutput = invalidLineCount + "0";
+      assert.strictEqual(handleErrors(userArgs, "head"), expectedOutput);
+    });
+
+    it("should return invalid byte message for given invalid byte count", function() {
+      let userArgs = ["-c0", "file1"];
+      let expectedOutput = invalidByteCount + "0";
+      assert.strictEqual(handleErrors(userArgs, "head"), expectedOutput);
+    });
+
   });
 
-  it("should return false for option '--' ", function() {
-    assert.strictEqual(handleHeadErrors(["--", "file1"]), false);
-  });
+  describe("for tail", function() {
+    const errorMessage = "tail: illegal option -- ";
+    const usageMessage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
+    const invalidOffsetMsg = "tail: illegal offset -- ";
 
-  it("should return false for option \"-n5\"", function() {
-    assert.strictEqual(handleHeadErrors(["-n5", "file1"]), false);
-  });
+    it("should return false for valid options", function() {
+      assert.strictEqual(handleErrors(["file1"], "tail"), false);
+      assert.strictEqual(handleErrors(["--", "file1"], "tail"), false);
+      assert.strictEqual(handleErrors(["-5", "file1"], "tail"), false);
+      assert.strictEqual(handleErrors(["-n5", "file1"], "tail"), false);
+      assert.strictEqual(handleErrors(["-c5", "file1"], "tail"), false);
+    });
 
-  it("should return false for first option \"-n\", 2nd- \"5\"", function() {
-    assert.strictEqual(handleHeadErrors(["5", "file1"]), false);
-  });
+    it("should return error & usage message for invalid option", function() {
+      let userArgs = ["-x5", "file1"];
+      let expectedOutput = errorMessage + "x" + "\n" + usageMessage;
+      assert.strictEqual(handleErrors(userArgs, "tail"), expectedOutput);
+    });
 
-  it("should return false for option \"-c5\"", function() {
-    assert.strictEqual(handleHeadErrors(["-c5", "file1"]), false);
-  });
+    it("should return invalid offset message for count 0", function() {
+      let userArgs = ["-n0", "file1"];
+      assert.strictEqual(handleErrors(userArgs, "tail"), "");
+    });
 
-  it("should return false for first option \"-c\", 2nd- \"5\"", function() {
-    assert.strictEqual(handleHeadErrors(["-c", "5", "file1"]), false);
-  });
+    it("should return invalid offset message for invalid count", function() {
+      let userArgs = ["-c10x", "file1"];
+      let expectedOutput = invalidOffsetMsg + "10x";
+      assert.strictEqual(handleErrors(userArgs, "tail"), expectedOutput);
+    });
 
-  it("should return error & usage message for given invalid option", function() {
-    let input = ["-x5", "file1"];
-    let expectedOutput = errorMessage + "x" + "\n" + usageMessage;
-    assert.strictEqual(handleHeadErrors(input), expectedOutput);
-  });
-
-  it("should return invalid line message for given invalid line count", function() {
-    let input = ["-n0", "file1"];
-    let expectedOutput = invalidLineCount + "0";
-    assert.strictEqual(handleHeadErrors(input), expectedOutput);
-  });
-
-  it("should return invalid byte message for given invalid byte count", function() {
-    let input = ["-c0", "file1"];
-    let expectedOutput = invalidByteCount + "0";
-    assert.strictEqual(handleHeadErrors(input), expectedOutput);
   });
 
 });
@@ -344,36 +363,6 @@ describe("extractFilenames", function() {
 
     userInput = ["-n", "5", "file1", "file2"];
     assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
-  });
-
-});
-
-describe("handleTailErrors", function() {
-  const illegalOptionMessage = "tail: illegal option -- ";
-  const usageMessage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
-  const illegalOffsetMessage = "tail: illegal offset -- ";
-
-  it("should return illegal option message for illegal option", function() {
-    let userInput = ["-a0", "file1"];
-    let expectedOutput = illegalOptionMessage + "a" + "\n" + usageMessage;
-    assert.strictEqual(handleTailErrors(userInput), expectedOutput);
-  });
-
-  it("should return illegal offset message for illegal byte count", function() {
-    let userInput = ["-c10x", "file1"];
-    let expectedOutput = illegalOffsetMessage + "10x";
-    assert.strictEqual(handleTailErrors(userInput), expectedOutput);
-  });
-
-  it("should return illegal offset message for illegal line count", function() {
-    let userInput = ["-n10x", "file1"];
-    let expectedOutput = illegalOffsetMessage + "10x";
-    assert.strictEqual(handleTailErrors(userInput), expectedOutput);
-  });
-
-  it("should return false if first option doesnt start with '-'", function() {
-    let userInput = ["file1"];
-    assert.strictEqual(handleTailErrors(userInput), false);
   });
 
 });

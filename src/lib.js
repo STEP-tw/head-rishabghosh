@@ -2,9 +2,7 @@ const { parser } = require("./inputLib.js");
 
 const {
   getIllegalOptionMessage,
-  getIllegalCountMessage,
   getFileErrorMessage,
-  getIllegalOffsetMessage,
   getIllegalCountOffsetMessage,
 } = require("./error.js");
 
@@ -92,23 +90,7 @@ const isCountInvalid = function (count) {
   return count == 0 || !Number.isInteger(+count); //could be a string match
 };
 
-const handleHeadErrors = function (userArgs, operation) {
-  const { option, count } = parser(userArgs);
-  
-  if (!isOptionValid(option)) {
-    return getIllegalOptionMessage(operation, option);
-  }
-
-  if (isOptionValid(option) && isCountInvalid(count)) {
-    return getIllegalCountOffsetMessage(operation, option, count);
-  }
-
-  return false;
-};
-
-//add operation as a arg, if head 
-const handleTailErrors = function (userArgs) {
-  const operation = "tail";
+const handleErrors = function (userArgs, operation) {
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
@@ -124,27 +106,24 @@ const handleTailErrors = function (userArgs) {
 
 /* ========= HEAD & TAIL ========= */
 
-const hasHeadError = function(userArgs, operation) {
-  return handleHeadErrors(userArgs, operation);
+const hasError = function(userArgs, operation) {
+  return handleErrors(userArgs, operation);
 };
 
 const head = function (userArgs, fs) {
   const operation = "head";
-  if (hasHeadError(userArgs, operation)) {
-    return handleHeadErrors(userArgs, operation);
+  if (hasError(userArgs, operation)) {
+    return handleErrors(userArgs, operation);
   }
   return arrangeContents(userArgs, fs, operation);
 };
 
-const hasTailErrors = function(userArgs) {
-  return handleTailErrors(userArgs);
-};
-
 const tail = function (userArgs, fs) {
-  if (hasTailErrors(userArgs)) { 
-    return handleTailErrors(userArgs);
+  const operation = "tail";
+  if (hasError(userArgs, operation)) { 
+    return handleErrors(userArgs, operation);
   }
-  return arrangeContents(userArgs, fs, "tail");
+  return arrangeContents(userArgs, fs, operation);
 };
 
 /* ======== EXPORTS ========= */
@@ -155,10 +134,9 @@ module.exports = {
   arrangeContents,
   readLinesFromTop,
   readCharFromTop,
-  handleHeadErrors,
+  handleErrors,
   readLinesFromBottom,
   readCharFromBottom,
   extractFilenames,
-  handleTailErrors,
   tail
 };
