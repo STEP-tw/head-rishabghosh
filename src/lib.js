@@ -92,8 +92,7 @@ const isCountInvalid = function (count) {
   return count == 0 || !Number.isInteger(+count); //could be a string match
 };
 
-const handleHeadErrors = function (userArgs) {
-  const operation = "head";
+const handleHeadErrors = function (userArgs, operation) {
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
@@ -125,15 +124,16 @@ const handleTailErrors = function (userArgs) {
 
 /* ========= HEAD & TAIL ========= */
 
-const hasHeadError = function(userArgs) {
-  return handleHeadErrors(userArgs);
+const hasHeadError = function(userArgs, operation) {
+  return handleHeadErrors(userArgs, operation);
 };
 
 const head = function (userArgs, fs) {
-  if (hasHeadError(userArgs)) {
-    return handleHeadErrors(userArgs);
+  const operation = "head";
+  if (hasHeadError(userArgs, operation)) {
+    return handleHeadErrors(userArgs, operation);
   }
-  return arrangeContents(userArgs, fs, "head");
+  return arrangeContents(userArgs, fs, operation);
 };
 
 const hasTailErrors = function(userArgs) {

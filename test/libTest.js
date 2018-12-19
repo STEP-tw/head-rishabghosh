@@ -156,7 +156,7 @@ describe("arrangeContents", function() {
   });
 });
 
-describe("handleHeadErrors", function() {
+describe.skip("handleHeadErrors", function() {
   const errorMessage = "head: illegal option -- ";
   const usageMessage = "usage: head [-n lines | -c bytes] [file ...]";
   const invalidLineCount = "head: illegal line count -- ";
