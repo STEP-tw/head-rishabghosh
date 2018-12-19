@@ -3,8 +3,14 @@ const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
 const errorMsgForTail = "tail: illegal option -- "; 
 const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
 
-const getFileErrorMessage = function(filePath, utility) {
-  return utility + ": " + filePath + ": No such file or directory\n";
+const illegalOptionMessages = {
+  head: (option)=> errorMsgForHead + option + "\n" + usageMsgForHead,
+  tail: (option)=> errorMsgForTail + option + "\n" + usageMsgForTail,
+};
+
+const getIllegalOptionMessage = function(operation, option) {
+  const chosenMethod = illegalOptionMessages[operation];
+  return chosenMethod(option);
 };
 
 //put it in a function or closure
@@ -19,19 +25,14 @@ const getIllegalOffsetMessage = function(count) {
   return "tail: illegal offset -- " + count;
 };
 
-const illegalOptionMessages = {
-  head: (option)=> errorMsgForHead + option + "\n" + usageMsgForHead,
-  tail: (option)=> errorMsgForTail + option + "\n" + usageMsgForTail,
+const getFileErrorMessage = function(filePath, utility) {
+  return utility + ": " + filePath + ": No such file or directory\n";
 };
 
-const getIllegalOptionMessage = function(operation, option) {
-  const chosenMethod = illegalOptionMessages[operation];
-  return chosenMethod(option);
-};
 
 module.exports = {
-  getFileErrorMessage,
+  getIllegalOptionMessage,
   getIllegalCountMessage,
   getIllegalOffsetMessage,
-  getIllegalOptionMessage
+  getFileErrorMessage,
 };

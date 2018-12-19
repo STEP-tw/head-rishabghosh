@@ -1,5 +1,3 @@
-/*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
-
 const { parser } = require("./inputLib.js");
 
 const {
