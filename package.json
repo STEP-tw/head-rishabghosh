@@ -1,19 +1,26 @@
 {
+
   "name": "head-rishabghosh",
   "version": "1.0.0",
   "description": "```node ./head.js file1   node ./head.js -n5 file1   node ./head.js -n 5 file1   node ./head.js -5 file1   node ./head.js file1 file2   node ./head.js -n 5 file1 file2   node ./head.js -n5 file1 file2   node ./head.js -5 file1 file2    node ./head.js -c5 file1   node ./head.js -c 5 file1   node ./head.js -c5 file1 file2   node ./head.js -c 5 file1 file2   ```",
   "main": "head.js",
+  
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "appTest": "sh scripts/run_head_test.sh ./numbers.txt ./head.js && sh scripts/run_tail_test.sh tail.js tail.js"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/STEP-tw/head-rishabghosh.git"
   },
+
   "author": "",
   "license": "ISC",
+
   "bugs": {
     "url": "https://github.com/STEP-tw/head-rishabghosh/issues"
   },
+
   "homepage": "https://github.com/STEP-tw/head-rishabghosh#readme"
 }
