@@ -3,18 +3,45 @@
 const assert = require("assert");
 
 const {
-  readLinesFromTop,
   extractFilenames,
+  readLinesFromTop,
+  readLinesFromBottom,
+  readCharFromBottom,
   getContents,
   arrangeContents,
   handleErrors,
   head,
-  readLinesFromBottom,
-  readCharFromBottom,
   tail
 } = require("../src/lib.js");
 
 const dummyReader = (content) => content;
+
+describe("extractFilenames", function() {
+
+  it("should return a blank array if no filePath is provided", function() {
+    assert.deepEqual(extractFilenames(["-n", "5"]), []);
+  });
+
+  it("should return an array of one filePath for one file provided", function() {
+    let userInput = ["file1"];
+    assert.deepEqual(extractFilenames(userInput), ["file1"]);
+    
+    userInput = ["-n5", "file1"];
+    assert.deepEqual(extractFilenames(userInput), ["file1"]);
+
+    userInput = ["-n", "5", "file1"];
+    assert.deepEqual(extractFilenames(userInput), ["file1"]);
+  });
+
+  it("should return an array of two filePaths for two file provided", function() {
+    let userInput = ["file1", "file2"];
+    assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
+
+    userInput = ["-n", "5", "file1", "file2"];
+    assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
+  });
+
+});
 
 describe("readLinesFromTop", function() {
 
@@ -50,6 +77,82 @@ describe("readLinesFromTop", function() {
     expectedOutput += "This is line 10";
 
     assert.deepEqual(readLinesFromTop(fileContents, dummyReader, 10), expectedOutput);
+  });
+
+});
+
+describe("readLinesFromBottom", function() {
+
+  let fileContents = "";
+  fileContents += "This is line 1\n";
+  fileContents += "This is line 2\n";
+  fileContents += "This is line 3\n";
+  fileContents += "This is line 4\n";
+  fileContents += "This is line 5\n";
+  fileContents += "This is line 6\n";
+  fileContents += "This is line 7\n";
+  fileContents += "This is line 8\n";
+  fileContents += "This is line 9\n";
+  fileContents += "This is line 10\n";
+  fileContents += "This is line 11";
+
+  it("should return an empty array for noOfLines:0", function() {
+    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 0), "");
+  });
+
+  it("should return 10 lines in array for noOfLines:10 ", function() {
+
+    let expectedOutput = "";
+    expectedOutput += "This is line 2\n";
+    expectedOutput += "This is line 3\n";
+    expectedOutput += "This is line 4\n";
+    expectedOutput += "This is line 5\n";
+    expectedOutput += "This is line 6\n";
+    expectedOutput += "This is line 7\n";
+    expectedOutput += "This is line 8\n";
+    expectedOutput += "This is line 9\n";
+    expectedOutput += "This is line 10\n";
+    expectedOutput += "This is line 11";
+
+    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 10), expectedOutput);
+  });
+
+  it("should return contents of entire file if noOfLines is greater than 11", function() {
+
+    let expectedOutput = "";
+    expectedOutput += "This is line 1\n";
+    expectedOutput += "This is line 2\n";
+    expectedOutput += "This is line 3\n";
+    expectedOutput += "This is line 4\n";
+    expectedOutput += "This is line 5\n";
+    expectedOutput += "This is line 6\n";
+    expectedOutput += "This is line 7\n";
+    expectedOutput += "This is line 8\n";
+    expectedOutput += "This is line 9\n";
+    expectedOutput += "This is line 10\n";
+    expectedOutput += "This is line 11";
+
+    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 15), expectedOutput);
+  }); 
+
+});
+
+describe("readCharFromBottom", function() {
+
+  let fileContents = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
+
+  it("should return an empty array for noOfchar:0", function() {
+    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 0), "");
+  });
+
+  it("should return last 10 characters for noOfChar:10", function() {
+    let expectedOutput = "H\nI\nJ\nK\nL\n";
+    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 10), expectedOutput);
+  });
+
+  it("should return contents of entire file if noOfChar is greater than 24",function(){
+    let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
+    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 25), expectedOutput);
   });
 
 });
@@ -262,109 +365,6 @@ describe("head", function() {
     let expectedOutput = "A\nB\nC\nD\nE";
     assert.strictEqual(head(userInput, fs).trim(), expectedOutput);
   });
-});
-
-describe("readLinesFromBottom", function() {
-
-  let fileContents = "";
-  fileContents += "This is line 1\n";
-  fileContents += "This is line 2\n";
-  fileContents += "This is line 3\n";
-  fileContents += "This is line 4\n";
-  fileContents += "This is line 5\n";
-  fileContents += "This is line 6\n";
-  fileContents += "This is line 7\n";
-  fileContents += "This is line 8\n";
-  fileContents += "This is line 9\n";
-  fileContents += "This is line 10\n";
-  fileContents += "This is line 11";
-
-  it("should return an empty array for noOfLines:0", function() {
-    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 0), "");
-  });
-
-  it("should return 10 lines in array for noOfLines:10 ", function() {
-
-    let expectedOutput = "";
-    expectedOutput += "This is line 2\n";
-    expectedOutput += "This is line 3\n";
-    expectedOutput += "This is line 4\n";
-    expectedOutput += "This is line 5\n";
-    expectedOutput += "This is line 6\n";
-    expectedOutput += "This is line 7\n";
-    expectedOutput += "This is line 8\n";
-    expectedOutput += "This is line 9\n";
-    expectedOutput += "This is line 10\n";
-    expectedOutput += "This is line 11";
-
-    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 10), expectedOutput);
-  });
-
-  it("should return contents of entire file if noOfLines is greater than 11", function() {
-
-    let expectedOutput = "";
-    expectedOutput += "This is line 1\n";
-    expectedOutput += "This is line 2\n";
-    expectedOutput += "This is line 3\n";
-    expectedOutput += "This is line 4\n";
-    expectedOutput += "This is line 5\n";
-    expectedOutput += "This is line 6\n";
-    expectedOutput += "This is line 7\n";
-    expectedOutput += "This is line 8\n";
-    expectedOutput += "This is line 9\n";
-    expectedOutput += "This is line 10\n";
-    expectedOutput += "This is line 11";
-
-    assert.deepEqual(readLinesFromBottom(fileContents, dummyReader, 15), expectedOutput);
-  }); 
-
-});
-
-describe("readCharFromBottom", function() {
-
-  let fileContents = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
-
-  it("should return an empty array for noOfchar:0", function() {
-    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 0), "");
-  });
-
-  it("should return last 10 characters for noOfChar:10", function() {
-    let expectedOutput = "H\nI\nJ\nK\nL\n";
-    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 10), expectedOutput);
-  });
-
-  it("should return contents of entire file if noOfChar is greater than 24",function(){
-    let expectedOutput = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
-    assert.deepEqual(readCharFromBottom(fileContents, dummyReader, 25), expectedOutput);
-  });
-
-});
-
-describe("extractFilenames", function() {
-
-  it("should return a blank array if no filePath is provided", function() {
-    assert.deepEqual(extractFilenames(["-n", "5"]), []);
-  });
-
-  it("should return an array of one filePath for one file provided", function() {
-    let userInput = ["file1"];
-    assert.deepEqual(extractFilenames(userInput), ["file1"]);
-    
-    userInput = ["-n5", "file1"];
-    assert.deepEqual(extractFilenames(userInput), ["file1"]);
-
-    userInput = ["-n", "5", "file1"];
-    assert.deepEqual(extractFilenames(userInput), ["file1"]);
-  });
-
-  it("should return an array of two filePaths for two file provided", function() {
-    let userInput = ["file1", "file2"];
-    assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
-
-    userInput = ["-n", "5", "file1", "file2"];
-    assert.deepEqual(extractFilenames(userInput), ["file1", "file2"]);
-  });
-
 });
 
 describe("tail", function() {

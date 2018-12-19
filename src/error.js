@@ -42,8 +42,6 @@ const getFileErrorMessage = function(filePath, utility) {
 
 module.exports = {
   getIllegalOptionMessage,
-  getIllegalCountMessage,
-  getIllegalOffsetMessage,
+  getIllegalCountOffsetMessage,
   getFileErrorMessage,
-  getIllegalCountOffsetMessage
 };

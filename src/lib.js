@@ -129,14 +129,14 @@ const tail = function (userArgs, fs) {
 /* ======== EXPORTS ========= */
 
 module.exports = {
-  head,
-  getContents,
-  arrangeContents,
+  extractFilenames,
   readLinesFromTop,
   readCharFromTop,
-  handleErrors,
   readLinesFromBottom,
   readCharFromBottom,
-  extractFilenames,
+  getContents,
+  arrangeContents,
+  handleErrors,
+  head,
   tail
 };
