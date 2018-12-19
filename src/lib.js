@@ -5,6 +5,7 @@ const { parser } = require("./inputLib.js");
 const {
   getIllegalOptionMsgForHead,
   getIllegalOptionMsgForTail,
+  getIllegalOptionMessage,
   getIllegalCountMessage,
   getFileErrorMessage,
   getIllegalOffsetMessage,
@@ -98,7 +99,7 @@ const handleHeadErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
-    return getIllegalOptionMsgForHead(option);
+    return getIllegalOptionMessage("head", option);
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
@@ -113,7 +114,7 @@ const handleTailErrors = function (userArgs) {
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
-    return getIllegalOptionMsgForTail(option);
+    return getIllegalOptionMessage("tail", option);
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
