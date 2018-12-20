@@ -10,6 +10,12 @@
     "appTest": "sh scripts/run_head_test.sh ./numbers.txt ./head.js && sh scripts/run_tail_test.sh tail.js tail.js"
   },
 
+  "dependencies": { },
+
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/STEP-tw/head-rishabghosh.git"
