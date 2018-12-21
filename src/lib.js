@@ -16,15 +16,9 @@ const {
 
 /* ======= PRIMARY FUNCTIONS ======= */
 
-//can use slice
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
-  let result = [];
-  for (let index = startingIndex; index < userArgs.length; index++) {
-    let filePath = userArgs[index];
-    result.push(filePath);
-  }
-  return result;
+  return userArgs.slice(startingIndex);
 };
 
 /* ========== READ ========== */
