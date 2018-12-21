@@ -16,6 +16,7 @@ const {
 
 /* ======= PRIMARY FUNCTIONS ======= */
 
+//can use slice
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
   let result = [];
@@ -76,9 +77,11 @@ const arrangeContents = function (userArgs, fs, operation) {
     if (isFileInvalid(filePath, fs)) {
       return getFileErrorMessage(filePath, operation);
     }
-    if (noOfFiles === 1) {
+    //should return formatWithoutHeader
+    if (noOfFiles < 2) {
       return getContents(userArgs, filePath, reader, operation);
     }
+    //should return formatWithHeader
     return generateHeader(filePath) + "\n" + 
     getContents(userArgs, filePath, reader, operation);
   }).join("\n");
