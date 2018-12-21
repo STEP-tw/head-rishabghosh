@@ -14,7 +14,7 @@ const {
   isFileInvalid,  
 } = require("./util.js");
 
-/* ======= PRIMARY FUNCTIONS ======= */
+/* ======= PRIMARY FUNCTION ======= */
 
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
