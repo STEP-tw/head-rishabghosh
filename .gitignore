@@ -1,9 +1,6 @@
 *.swp
 *.swn
 *.swo
-.jshintrc
-.eslintrc.*
-.jshintignore
 
 .myHead
 .usrTail
