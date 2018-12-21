@@ -1,6 +1,6 @@
 /*eslint-env node*/
 const shelljs = require("shelljs");
-const { testData } = require('./appTestData.js');
+const { testData } = require("./appTestData.js");
 
 const file1 = process.argv[3];
 const file2 = process.argv[4];
@@ -37,14 +37,19 @@ const createUserOut = function(...options) {
 
 const logStatus = function(){
   let message = red + "Not Matched" + reset;
-  const { totalArgs } = createUserOut("");
-  const method = "for " + totalArgs ;
-  const sysOut = createSysOut("").shellOut.trim();
-  const userOut = createUserOut("").shellOut.trim();
-  if(sysOut === userOut) {
-    message = green + "Match Found" + reset;
+
+  for (let index = 0; index < testData.length; index++) {
+    const currentArg = testData[index];
+    
+    const { totalArgs } = createUserOut(currentArg);
+    const method = "for " + totalArgs ;
+    const sysOut = createSysOut(currentArg).shellOut.trim();
+    const userOut = createUserOut(currentArg).shellOut.trim();
+    if(sysOut === userOut) {
+      message = green + "Match Found" + reset;
+    }
+    console.log(method + "\n" + message);
   }
-  return method + "\n" + message;
 };
 
-console.log(logStatus());
+logStatus();
