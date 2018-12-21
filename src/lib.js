@@ -36,15 +36,13 @@ const readCharFromTop = function (filePath, reader, noOfChar) {
 
 const readLinesFromBottom = function (filePath, reader, noOfLines) {
   let totalContent = splitByLine(filePath, reader);
-  let sliceFrom = totalContent.length - noOfLines;
-  if (sliceFrom < 0) { sliceFrom = 0; }
+  let sliceFrom = Math.max(totalContent.length - noOfLines, 0);
   return totalContent.slice(sliceFrom).join("\n");
 };
 
 const readCharFromBottom = function (filePath, reader, noOfChar) {
   let totalContent = splitByChar(filePath, reader);
-  let sliceFrom = totalContent.length - noOfChar;
-  if (sliceFrom < 0) { sliceFrom = 0; }
+  let sliceFrom = Math.max(totalContent.length - noOfChar, 0);
   return totalContent.slice(sliceFrom).join(""); 
 };
 
