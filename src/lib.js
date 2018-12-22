@@ -22,6 +22,11 @@ const extractFilenames = function(userArgs) {
 
 /* ========== READ ========== */
 
+const readFromTop = function (filePath, reader, count, delim) {
+  const totalContent = splitSource(filePath, reader, delim);
+  return totalContent.slice(0, count).join(delim);
+};
+
 const readLinesFromTop = function (filePath, reader, noOfLines) {
   let totalContent = splitSource(filePath, reader, "\n");
   return totalContent.slice(0, noOfLines).join("\n");
@@ -123,6 +128,7 @@ const tail = function (userArgs, fs) {
 
 module.exports = {
   extractFilenames,
+  readFromTop,
   readLinesFromTop,
   readCharFromTop,
   readLinesFromBottom,
