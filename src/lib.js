@@ -13,12 +13,13 @@ const {
   isFileInvalid,  
 } = require("./util.js");
 
-/* ======= PRIMARY FUNCTION ======= */
+/* ======= PRIMARY FUNCTIONS ======= */
 
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
   return userArgs.slice(startingIndex);
 };
+
 
 /* ========== READ ========== */
 
@@ -50,6 +51,11 @@ const getContents = function(userArgs, filePath, reader, operation) {
   return chosenMethod(filePath, reader, count, delim);
 };
 
+const getFormatWithHeader = function(userArgs, filePath, reader, operation) {
+  return generateHeader(filePath) + "\n" + 
+  getContents(userArgs, filePath, reader, operation);
+};
+
 const arrangeContents = function (userArgs, fs, operation) {
   const reader = fs.readFileSync;
   const fileList = extractFilenames(userArgs);
@@ -59,13 +65,11 @@ const arrangeContents = function (userArgs, fs, operation) {
     if (isFileInvalid(filePath, fs)) {
       return getFileErrorMessage(filePath, operation);
     }
-    //should return formatWithoutHeader
+
     if (noOfFiles < 2) {
       return getContents(userArgs, filePath, reader, operation);
     }
-    //should return formatWithHeader
-    return generateHeader(filePath) + "\n" + 
-    getContents(userArgs, filePath, reader, operation);
+    return getFormatWithHeader(userArgs, filePath, reader, operation);
   }).join("\n");
 };
 
