@@ -27,6 +27,12 @@ const readFromTop = function (filePath, reader, count, delim) {
   return totalContent.slice(0, count).join(delim);
 };
 
+const readFromBottom = function (filePath, reader, count, delim) {
+  const totalContent = splitSource(filePath, reader, delim);
+  const sliceFrom = Math.max(totalContent.length - count, 0);
+  return totalContent.slice(sliceFrom).join(delim);
+};
+
 const readLinesFromTop = function (filePath, reader, noOfLines) {
   let totalContent = splitSource(filePath, reader, "\n");
   return totalContent.slice(0, noOfLines).join("\n");
@@ -132,6 +138,7 @@ const tail = function (userArgs, fs) {
 module.exports = {
   extractFilenames,
   readFromTop,
+  readFromBottom,
   readLinesFromTop,
   readCharFromTop,
   readLinesFromBottom,

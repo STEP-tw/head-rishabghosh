@@ -5,6 +5,7 @@ const assert = require("assert");
 const {
   extractFilenames,
   readFromTop,
+  readFromBottom,
   readLinesFromTop,
   readLinesFromBottom,
   readCharFromBottom,
@@ -85,7 +86,7 @@ describe("readFromTop", function() {
   });
 
   describe("for reading each character", () => {
-    
+
     const delim = "";
     const fileContents = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
 
@@ -96,6 +97,63 @@ describe("readFromTop", function() {
     it("should return 10 lines in array for number of lines provided is 10 ", function() {
       let expectedOutput = "A\nB\nC\nD\nE\n";
       assert.deepStrictEqual(readFromTop(fileContents, dummyReader, 10, delim), expectedOutput);
+    });
+  });
+      
+});
+
+describe("readFromBottom", function() {
+
+  describe("for reading each line", () => {
+
+    const delim = "\n";
+    let fileContents = "";
+    fileContents += "This is line 1\n";
+    fileContents += "This is line 2\n";
+    fileContents += "This is line 3\n";
+    fileContents += "This is line 4\n";
+    fileContents += "This is line 5\n";
+    fileContents += "This is line 6\n";
+    fileContents += "This is line 7\n";
+    fileContents += "This is line 8\n";
+    fileContents += "This is line 9\n";
+    fileContents += "This is line 10\n";
+    fileContents += "This is line 11";
+
+    it("should return an empty array for number of lines provided is 0", function() {
+      assert.deepStrictEqual(readFromBottom(fileContents, dummyReader, 0, delim), "");
+    });
+
+    it("should return 10 lines form bottom in array for number of lines provided is 10 ", function() {
+
+      let expectedOutput = "";
+      expectedOutput += "This is line 2\n";
+      expectedOutput += "This is line 3\n";
+      expectedOutput += "This is line 4\n";
+      expectedOutput += "This is line 5\n";
+      expectedOutput += "This is line 6\n";
+      expectedOutput += "This is line 7\n";
+      expectedOutput += "This is line 8\n";
+      expectedOutput += "This is line 9\n";
+      expectedOutput += "This is line 10\n";
+      expectedOutput += "This is line 11";
+
+      assert.deepStrictEqual(readFromBottom(fileContents, dummyReader, 10, delim), expectedOutput);
+    });
+  });
+
+  describe("for reading each character", () => {
+
+    const delim = "";
+    const fileContents = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\n";
+
+    it("should return an empty array for number of lines provided is 0", function() {
+      assert.deepStrictEqual(readFromBottom(fileContents, dummyReader, 0, delim), "");
+    });
+
+    it("should return 10 lines in array for number of lines provided is 10 ", function() {
+      let expectedOutput = "H\nI\nJ\nK\nL\n";
+      assert.deepStrictEqual(readFromBottom(fileContents, dummyReader, 10, delim), expectedOutput);
     });
   });
       
