@@ -14,12 +14,12 @@ const isOptionValid = function (option) {
   return option === "n" || option === "c";
 };
 
-const isFileInvalid = function (filePath, fs) {
-  return !fs.existsSync(filePath);
-};
-
 const splitSource = function(source, reader, delim) {
   return reader(source, "utf8").split(delim);
+};
+
+const isFileInvalid = function (filePath, fs) {
+  return !fs.existsSync(filePath);
 };
 
 module.exports = {

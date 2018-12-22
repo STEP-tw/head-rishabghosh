@@ -24,7 +24,6 @@ const extractFilenames = function(userArgs) {
 
 const readLinesFromTop = function (filePath, reader, noOfLines) {
   let totalContent = splitSource(filePath, reader, "\n");
-  totalContent.push("\n\n");
   return totalContent.slice(0, noOfLines).join("\n");
 };
 
