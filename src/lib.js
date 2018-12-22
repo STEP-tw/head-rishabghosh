@@ -33,32 +33,10 @@ const readFromBottom = function (filePath, reader, count, delim) {
   return totalContent.slice(sliceFrom).join(delim);
 };
 
-const readLinesFromTop = function (filePath, reader, noOfLines) {
-  let totalContent = splitSource(filePath, reader, "\n");
-  return totalContent.slice(0, noOfLines).join("\n");
-};
-
-const readCharFromTop = function (filePath, reader, noOfChar) {
-  const totalContent = splitSource(filePath, reader, "");
-  return totalContent.slice(0, noOfChar).join("");
-};
-
-const readLinesFromBottom = function (filePath, reader, noOfLines) {
-  let totalContent = splitSource(filePath, reader, "\n");
-  let sliceFrom = Math.max(totalContent.length - noOfLines, 0);
-  return totalContent.slice(sliceFrom).join("\n");
-};
-
-const readCharFromBottom = function (filePath, reader, noOfChar) {
-  let totalContent = splitSource(filePath, reader, "");
-  let sliceFrom = Math.max(totalContent.length - noOfChar, 0);
-  return totalContent.slice(sliceFrom).join(""); 
-};
-
 //put it in a function 
 const readingMethods = {
   head: { n: readFromTop, c: readFromTop },
-  tail: { n: readLinesFromBottom, c: readCharFromBottom }
+  tail: { n: readFromBottom, c: readFromBottom }
 };
 
 const delimiters = { n: "\n", c: "" };
@@ -139,10 +117,6 @@ module.exports = {
   extractFilenames,
   readFromTop,
   readFromBottom,
-  readLinesFromTop,
-  readCharFromTop,
-  readLinesFromBottom,
-  readCharFromBottom,
   getContents,
   arrangeContents,
   handleErrors,
