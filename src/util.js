@@ -25,6 +25,10 @@ const isFileInvalid = function (filePath, fs) {
   return !fs.existsSync(filePath);
 };
 
+const splitSource1 = function(source, reader, delim) {
+  return reader(source, "utf8").split(delim);
+};
+
 module.exports = {
   generateHeader,
   isOptionLine,
@@ -32,5 +36,6 @@ module.exports = {
   isOptionValid,
   splitByLine,
   splitByChar,
+  splitSource1,
   isFileInvalid,
 };
