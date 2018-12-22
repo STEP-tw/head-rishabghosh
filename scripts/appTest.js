@@ -3,7 +3,7 @@ const shelljs = require("shelljs");
 const { testData } = require("./appTestData.js");
 
 const file1 = process.argv[3];
-const file2 = process.argv[4];
+//const file2 = process.argv[4];
 const utility = process.argv[2];
 const green = "\x1b[32m";
 const red = "\x1b[31m";
