@@ -1,7 +1,10 @@
  ===== lib.js ===== 
 line 99 function name could be better
 * currently doesnot work for -n-5 filename and -n -5 filename
-* remove dublication for read
+* modify readingMethods
+* arrangeContents - return fileList.map() could be better
+head and tail function can be better
+rename getContets, arrangeContents
 
 ====== util.js ======
 missing tests for generateHeader
