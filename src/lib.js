@@ -51,16 +51,19 @@ const readCharFromBottom = function (filePath, reader, noOfChar) {
 
 //put it in a function 
 const readingMethods = {
-  head: { n: readLinesFromTop, c: readCharFromTop },
+  head: { n: readFromTop, c: readFromTop },
   tail: { n: readLinesFromBottom, c: readCharFromBottom }
 };
+
+const delimiters = { n: "\n", c: "" };
 
 /* =========== ARRANGE ============ */
 
 const getContents = function(userArgs, filePath, reader, operation) {
   const { option, count } = parser(userArgs);
+  const delim = delimiters[option];
   const chosenMethod = readingMethods[operation][option];
-  return chosenMethod(filePath, reader, count);
+  return chosenMethod(filePath, reader, count, delim);
 };
 
 const arrangeContents = function (userArgs, fs, operation) {
