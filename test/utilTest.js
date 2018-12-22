@@ -4,9 +4,7 @@ const assert = require("assert");
 const {
   isOptionLine,
   isOptionChar,
-  splitByLine,
-  splitByChar,
-  splitSource1,
+  splitSource,
   isFileInvalid,
 } = require("../src/util.js");
 
@@ -56,34 +54,6 @@ describe("isOptionChar", function() {
   
 });
   
-describe("splitByLine", function() {
-  
-  describe("for given a source and a reader", function() {
-    it("should return each line of source in an array", function() {
-  
-      let input = "abcdefgh\n";
-      input += "ijklmnop\n";
-      input += "qrstuvwxyz";
-  
-      let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
-      assert.deepEqual(splitByLine(input, dummyReader), expectedOutput);
-    });
-  });
-  
-});
-  
-describe("splitByChar", function() {
-  
-  describe("for given a  source and reader", function() {
-    it("should return each character of source in an array", function() {
-      let input = "ABCD\nEFGH";
-      let expectedOutput = ["A", "B", "C", "D", "\n", "E", "F", "G", "H"];
-      assert.deepEqual(splitByChar(input,dummyReader), expectedOutput);
-    });
-  });
-  
-});
-
 describe("splitSource", function() {
 
   describe("for new line as delimiter", function() {
@@ -94,7 +64,7 @@ describe("splitSource", function() {
       source += "qrstuvwxyz"; 
       let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
 
-      assert.deepStrictEqual(splitSource1(source, dummyReader, delim), expectedOutput);
+      assert.deepStrictEqual(splitSource(source, dummyReader, delim), expectedOutput);
     });
   });
 
@@ -104,7 +74,7 @@ describe("splitSource", function() {
     it("should return each character in array for given source, reader, delim", () => {
       let source = "ABCD\nEFGH";
       let expectedOutput = ["A", "B", "C", "D", "\n", "E", "F", "G", "H"];
-      assert.deepStrictEqual(splitSource1(source, dummyReader, delim), expectedOutput);
+      assert.deepStrictEqual(splitSource(source, dummyReader, delim), expectedOutput);
     });
   });
 

@@ -9,8 +9,7 @@ const {
 const {
   generateHeader,
   isOptionValid,
-  splitByLine,
-  splitByChar,
+  splitSource,
   isFileInvalid,  
 } = require("./util.js");
 
@@ -24,24 +23,24 @@ const extractFilenames = function(userArgs) {
 /* ========== READ ========== */
 
 const readLinesFromTop = function (filePath, reader, noOfLines) {
-  let totalContent = splitByLine(filePath, reader);
+  let totalContent = splitSource(filePath, reader, "\n");
   totalContent.push("\n\n");
   return totalContent.slice(0, noOfLines).join("\n");
 };
 
 const readCharFromTop = function (filePath, reader, noOfChar) {
-  const totalContent = splitByChar(filePath, reader);
+  const totalContent = splitSource(filePath, reader, "");
   return totalContent.slice(0, noOfChar).join("");
 };
 
 const readLinesFromBottom = function (filePath, reader, noOfLines) {
-  let totalContent = splitByLine(filePath, reader);
+  let totalContent = splitSource(filePath, reader, "\n");
   let sliceFrom = Math.max(totalContent.length - noOfLines, 0);
   return totalContent.slice(sliceFrom).join("\n");
 };
 
 const readCharFromBottom = function (filePath, reader, noOfChar) {
-  let totalContent = splitByChar(filePath, reader);
+  let totalContent = splitSource(filePath, reader, "");
   let sliceFrom = Math.max(totalContent.length - noOfChar, 0);
   return totalContent.slice(sliceFrom).join(""); 
 };

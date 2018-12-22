@@ -13,19 +13,12 @@ const isOptionChar = function (option) {
 const isOptionValid = function (option) {
   return option === "n" || option === "c";
 };
-  
-const splitSource = function (source, reader) {
-  return reader(source, "utf8").split(this);
-};
-  
-const splitByLine = splitSource.bind("\n");
-const splitByChar = splitSource.bind("");
-  
+
 const isFileInvalid = function (filePath, fs) {
   return !fs.existsSync(filePath);
 };
 
-const splitSource1 = function(source, reader, delim) {
+const splitSource = function(source, reader, delim) {
   return reader(source, "utf8").split(delim);
 };
 
@@ -34,8 +27,6 @@ module.exports = {
   isOptionLine,
   isOptionChar,
   isOptionValid,
-  splitByLine,
-  splitByChar,
-  splitSource1,
+  splitSource,
   isFileInvalid,
 };
