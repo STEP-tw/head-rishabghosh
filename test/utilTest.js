@@ -4,11 +4,8 @@ const assert = require("assert");
 const {
   isOptionLine,
   isOptionChar,
-  splitSource,
   isFileInvalid,
 } = require("../src/util.js");
-
-const dummyReader = (content) => content;
 
 describe("isOptionLine", function() {
 
@@ -54,32 +51,6 @@ describe("isOptionChar", function() {
   
 });
   
-describe("splitSource", function() {
-
-  describe("for new line as delimiter", function() {
-    const delim = "\n";
-    it("should return each line in array for given source, reader, delim in new line ", () => {
-      let source = "abcdefgh\n";
-      source += "ijklmnop\n";
-      source += "qrstuvwxyz"; 
-      let expectedOutput = ["abcdefgh", "ijklmnop", "qrstuvwxyz"];
-
-      assert.deepStrictEqual(splitSource(source, dummyReader, delim), expectedOutput);
-    });
-  });
-
-  describe("for empty string as delimiter", () => {
-    const delim = "";
-
-    it("should return each character in array for given source, reader, delim", () => {
-      let source = "ABCD\nEFGH";
-      let expectedOutput = ["A", "B", "C", "D", "\n", "E", "F", "G", "H"];
-      assert.deepStrictEqual(splitSource(source, dummyReader, delim), expectedOutput);
-    });
-  });
-
-});
-
 describe("isFileInvalid", function() {
   let input = ["file1", "file2", "filex"];
   let fileChecker = { existsSync: (filePath) => input.includes(filePath) };

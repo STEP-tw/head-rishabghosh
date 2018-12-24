@@ -9,17 +9,19 @@ const {
 const {
   generateHeader,
   isOptionValid,
-  splitSource,
   isFileInvalid,  
 } = require("./util.js");
 
 /* ======= PRIMARY FUNCTIONS ======= */
 
+const splitSource = function(source, reader, delim) {
+  return reader(source, "utf8").split(delim);
+};
+
 const extractFilenames = function(userArgs) {
   const { startingIndex } = parser(userArgs);
   return userArgs.slice(startingIndex);
 };
-
 
 /* ========== READ ========== */
 
@@ -118,6 +120,7 @@ const tail = function (userArgs, fs) {
 /* ======== EXPORTS ========= */
 
 module.exports = {
+  splitSource,
   extractFilenames,
   readFromTop,
   readFromBottom,
