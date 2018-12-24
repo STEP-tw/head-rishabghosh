@@ -36,8 +36,8 @@ const readFromBottom = function (filePath, reader, count, delim) {
 
 //put it in a function 
 const readingMethods = {
-  head: { n: readFromTop, c: readFromTop },
-  tail: { n: readFromBottom, c: readFromBottom }
+  head: readFromTop,
+  tail: readFromBottom,
 };
 
 const delimiters = { n: "\n", c: "" };
@@ -47,7 +47,7 @@ const delimiters = { n: "\n", c: "" };
 const getContents = function(userArgs, filePath, reader, operation) {
   const { option, count } = parser(userArgs);
   const delim = delimiters[option];
-  const chosenMethod = readingMethods[operation][option];
+  const chosenMethod = readingMethods[operation];
   return chosenMethod(filePath, reader, count, delim);
 };
 
