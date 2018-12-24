@@ -4,7 +4,7 @@ const assert = require("assert");
 
 const {
   splitSource,
-  extractFilenames,
+  extractFilePaths,
   readFromTop,
   readFromBottom,
   getContents,
@@ -42,29 +42,29 @@ describe("splitSource", function() {
 
 });
 
-describe("extractFilenames", function() {
+describe("extractFilePaths", function() {
 
   it("should return a blank array if no filePath is provided", function() {
-    assert.deepStrictEqual(extractFilenames(["-n", "5"]), []);
+    assert.deepStrictEqual(extractFilePaths(["-n", "5"]), []);
   });
 
   it("should return an array of one filePath for one file provided", function() {
     let userInput = ["file1"];
-    assert.deepStrictEqual(extractFilenames(userInput), ["file1"]);
+    assert.deepStrictEqual(extractFilePaths(userInput), ["file1"]);
     
     userInput = ["-n5", "file1"];
-    assert.deepStrictEqual(extractFilenames(userInput), ["file1"]);
+    assert.deepStrictEqual(extractFilePaths(userInput), ["file1"]);
 
     userInput = ["-n", "5", "file1"];
-    assert.deepStrictEqual(extractFilenames(userInput), ["file1"]);
+    assert.deepStrictEqual(extractFilePaths(userInput), ["file1"]);
   });
 
   it("should return an array of two filePaths for two file provided", function() {
     let userInput = ["file1", "file2"];
-    assert.deepStrictEqual(extractFilenames(userInput), ["file1", "file2"]);
+    assert.deepStrictEqual(extractFilePaths(userInput), ["file1", "file2"]);
 
     userInput = ["-n", "5", "file1", "file2"];
-    assert.deepStrictEqual(extractFilenames(userInput), ["file1", "file2"]);
+    assert.deepStrictEqual(extractFilePaths(userInput), ["file1", "file2"]);
   });
 
 });

@@ -18,7 +18,7 @@ const splitSource = function(source, reader, delim) {
   return reader(source, "utf8").split(delim);
 };
 
-const extractFilenames = function(userArgs) {
+const extractFilePaths = function(userArgs) {
   const { startingIndex } = parser(userArgs);
   return userArgs.slice(startingIndex);
 };
@@ -60,7 +60,7 @@ const getFormatWithHeader = function(userArgs, filePath, reader, operation) {
 
 const arrangeContents = function (userArgs, fs, operation) {
   const reader = fs.readFileSync;
-  const fileList = extractFilenames(userArgs);
+  const fileList = extractFilePaths(userArgs);
   const noOfFiles = fileList.length;
 
   return fileList.map( function(filePath){
@@ -121,7 +121,7 @@ const tail = function (userArgs, fs) {
 
 module.exports = {
   splitSource,
-  extractFilenames,
+  extractFilePaths,
   readFromTop,
   readFromBottom,
   getContents,

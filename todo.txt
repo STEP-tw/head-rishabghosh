@@ -2,11 +2,12 @@
 line 99 function name could be better
 * currently doesnot work for -n-5 filename and -n -5 filename
 * arrangeContents - return fileList.map() could be better
+
 * for args and inconsistence function
  * read files in head 
     - fs.readFileSync should read files in head and pass list to other function
- * move splitSource function in lib.js
- 
+ * read file in readFromTop, readFromBottom
+
 head and tail function can be better
 rename getContets, arrangeContents
 
