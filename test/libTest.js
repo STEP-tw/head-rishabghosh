@@ -255,6 +255,40 @@ describe("arrangeContents", function() {
     });
 
   });
+
+  describe("for tail", function() {
+    const operation = "tail";
+
+    it("should return invalid file message if the file doesnot exists", function() {
+      let userInput = ["fileY"];
+      let expectedOutput = "tail: fileY: No such file or directory\n";
+      assert.strictEqual(arrangeContents(userInput, fs, operation), expectedOutput);
+    });
+
+    it("should return file content if File exists", function() {
+      let userInput = ["file1"];
+      let expectedOutput = "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM";
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+
+      userInput = ["-n5", "file1"];
+      expectedOutput = "I\nJ\nK\nL\nM";
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+
+      userInput = ["-c5", "file1"];
+      expectedOutput = "K\nL\nM";
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+    });
+
+    it("should return invalid file message and file content if one file exists but other doesnot", () => {
+      let userInput = ["-n5", "file1", "fileY"];
+      let expectedOutput = "==> file1 <==\n";
+      expectedOutput += "I\nJ\nK\nL\nM" + "\n";
+      expectedOutput += "tail: fileY: No such file or directory";
+      assert.strictEqual(arrangeContents(userInput, fs, operation).trim(), expectedOutput);
+    });
+
+  });
+
 });
 
 describe("handleErrors", function() {
