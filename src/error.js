@@ -3,14 +3,12 @@ const usageMsgForHead = "usage: head [-n lines | -c bytes] [file ...]";
 const errorMsgForTail = "tail: illegal option -- "; 
 const usageMsgForTail = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"; 
 
-
-
-const getIllegalOptionMessage = function(operation, option) {
+const getIllegalOptionMessage = function(utility, option) {
   const illegalOptionMessages = {
     head: errorMsgForHead + option + "\n" + usageMsgForHead,
     tail: errorMsgForTail + option + "\n" + usageMsgForTail,
   };
-  return illegalOptionMessages[operation];
+  return illegalOptionMessages[utility];
 };
 
 const getIllegalCountMessage = function(count, option) {

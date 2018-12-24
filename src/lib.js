@@ -46,32 +46,32 @@ const delimiters = { n: "\n", c: "" };
 
 /* =========== ARRANGE ============ */
 
-const getContents = function(userArgs, filePath, reader, operation) {
+const getContents = function(userArgs, filePath, reader, utility) {
   const { option, count } = parser(userArgs);
   const delim = delimiters[option];
-  const chosenMethod = readingMethods[operation];
+  const chosenMethod = readingMethods[utility];
   return chosenMethod(filePath, reader, count, delim);
 };
 
-const getFormatWithHeader = function(userArgs, filePath, reader, operation) {
+const getFormatWithHeader = function(userArgs, filePath, reader, utility) {
   return generateHeader(filePath) + "\n" + 
-  getContents(userArgs, filePath, reader, operation);
+  getContents(userArgs, filePath, reader, utility);
 };
 
-const arrangeContents = function (userArgs, fs, operation) {
+const arrangeContents = function (userArgs, fs, utility) {
   const reader = fs.readFileSync;
   const fileList = extractFilePaths(userArgs);
   const noOfFiles = fileList.length;
 
   return fileList.map( function(filePath){
     if (isFileInvalid(filePath, fs)) {
-      return getFileErrorMessage(filePath, operation);
+      return getFileErrorMessage(filePath, utility);
     }
 
     if (noOfFiles < 2) {
-      return getContents(userArgs, filePath, reader, operation);
+      return getContents(userArgs, filePath, reader, utility);
     }
-    return getFormatWithHeader(userArgs, filePath, reader, operation);
+    return getFormatWithHeader(userArgs, filePath, reader, utility);
   }).join("\n");
 };
 
@@ -81,15 +81,15 @@ const isCountInvalid = function (count) {
   return count == 0 || !Number.isInteger(+count); //could be a string match
 };
 
-const handleErrors = function (userArgs, operation) {
+const handleErrors = function (userArgs, utility) {
   const { option, count } = parser(userArgs);
   
   if (!isOptionValid(option)) {
-    return getIllegalOptionMessage(operation, option);
+    return getIllegalOptionMessage(utility, option);
   }
 
   if (isOptionValid(option) && isCountInvalid(count)) {
-    return getCountError(operation, option, count);
+    return getCountError(utility, option, count);
   }
 
   return false;
@@ -97,24 +97,24 @@ const handleErrors = function (userArgs, operation) {
 
 /* ========= HEAD & TAIL ========= */
 
-const hasError = function(userArgs, operation) {
-  return handleErrors(userArgs, operation);
+const hasError = function(userArgs, utility) {
+  return handleErrors(userArgs, utility);
 };
 
 const head = function (userArgs, fs) {
-  const operation = "head";
-  if (hasError(userArgs, operation)) {
-    return handleErrors(userArgs, operation);
+  const utility = "head";
+  if (hasError(userArgs, utility)) {
+    return handleErrors(userArgs, utility);
   }
-  return arrangeContents(userArgs, fs, operation);
+  return arrangeContents(userArgs, fs, utility);
 };
 
 const tail = function (userArgs, fs) {
-  const operation = "tail";
-  if (hasError(userArgs, operation)) { 
-    return handleErrors(userArgs, operation);
+  const utility = "tail";
+  if (hasError(userArgs, utility)) { 
+    return handleErrors(userArgs, utility);
   }
-  return arrangeContents(userArgs, fs, operation);
+  return arrangeContents(userArgs, fs, utility);
 };
 
 /* ======== EXPORTS ========= */
